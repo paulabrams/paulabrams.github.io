@@ -4,8 +4,9 @@
  *
  *  usage - configure looker vis settings as below
  *
- *  main: https://dl.dropboxusercontent.com/s/50iydrtuwzaml33/nav.js?raw=1
- *  also on github
+ *  hosts
+ *    https://paulabrams.github.io/nav-vis/nav-vis.js
+ *    https://dl.dropboxusercontent.com/s/50iydrtuwzaml33/nav.js?raw=1
  *
  *  javascript dependencies: https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js,https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js
  
@@ -61,9 +62,17 @@ for (var i=0; i<nav_count; i++) {
 }
 
 // Style Section
-options.widget = {
+options.heading = {
     section: "Style",
     order: 1,
+    type: "string",
+    label: "Heading",
+    default: "",
+    placeholder: "Heading"
+  }
+options.widget = {
+    section: "Style",
+    order: 2,
     type: "string",
     label: "Widget",
     values: [
@@ -77,7 +86,7 @@ options.widget = {
   }
 options.size = {
     section: "Style",
-    order: 2,
+    order: 3,
     type: "string",
     label: "Size",
     values: [
@@ -91,7 +100,7 @@ options.size = {
   }
 options.align = {
   section: "Style",
-  order: 3,
+  order: 4,
   type: "string",
   label: "Align",
   values: [
@@ -103,12 +112,24 @@ options.align = {
     {"Justified": "nav-justified"}
   ],
   display: "select",
-    display_size: "third",
+  display_size: "third",
   default: ""
 }
+options.filters = {
+    section: "Style",
+    order: 5,
+    type: "string",
+    label: "Filters",
+    values: [
+      {"None":  ""},
+      {"Timeframe": "timeframe"}
+    ],
+    display: "select",
+    default: ""
+  }
 options.listClass = {
     section: "Style",
-    order: 4,
+    order: 6,
     type: "string",
     label: "Custom List Class",
     default: "",
@@ -117,7 +138,7 @@ options.listClass = {
   }
 options.listItemClass = { 
     section: "Style",
-    order: 5,
+    order: 7,
     type: "string",
     label: "Custom List Item Class",
     default: "",
@@ -215,7 +236,11 @@ looker.plugins.visualizations.add({
       $ul.append(`<li class="${nav.className} ${size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
     })
     $el.css(navjs.visElementStyles)
-    $el.html($(`<div class="container" style="padding: 0px;">`).html($ul))
+    $container = $el.html(`<div class="container" style="padding: 0px;"></div>`)
+    if (config.heading) {
+      $container.append(`<h1>${config.heading}</h1>`)
+    }
+    $container.append($ul)
     console.log("doneRending nav.js")
     doneRendering()
   }
