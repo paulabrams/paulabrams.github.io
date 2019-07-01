@@ -72,7 +72,7 @@ options.header = {
     label: "Header",
     default: ""
   }
-option.widget = {
+options.widget = {
     section: "Style",
     order: 2,
     type: "string",
