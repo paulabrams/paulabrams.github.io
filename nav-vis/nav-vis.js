@@ -72,7 +72,7 @@ options.header = {
     label: "Header",
     default: ""
   }
-option.navbarStyle {
+option.widget = {
     section: "Style",
     order: 2,
     type: "string",
@@ -80,14 +80,13 @@ option.navbarStyle {
     values: [
       {"Standard": "navbar-nav"},
       {"Pills": "nav-pills"},
-      {"Tabs":  "nav-tabs"},
-      {"Links": "nav-links"}
+      {"Tabs":  "nav-tabs"}
     ],
     display: "select",
     display_size: "half",
     default: "navbar-nav"
 }
-options.widget = {
+options.theme = {
     section: "Style",
     order: 3,
     type: "string",
