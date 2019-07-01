@@ -260,7 +260,7 @@ looker.plugins.visualizations.add({
     if (config.header) {
       $container.append(`
         <div class="navbar-header">
-          <div class="navbar-brand" style="padding-bottom: 0px">${config.header}</div>
+          <div class="navbar-brand" style="padding: 8px 15px; height: auto;">${config.header}</div>
         </div>`)
     }
     var $ul = $(`<ul class="nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
