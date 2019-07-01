@@ -1,26 +1,29 @@
 /**
- *  nav.js
- *  this is a custom looker vis for rendering bootstrap nav pills
+ *  nav-vis.js
  *
- *  usage - configure looker vis settings as below
+ *  This is a custom Looker Visualization containing a Bootstrap Navbar
+ *
+ *  Usage: configure custom visualization in Looker using a host and dependencies below
  *
  *  hosts
  *    https://paulabrams.github.io/nav-vis/nav-vis.js
  *    https://dl.dropboxusercontent.com/s/50iydrtuwzaml33/nav.js?raw=1
  *
- *  javascript dependencies: https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js,https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js
+ *  javascript dependencies:
+ *    https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+ *    https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js
  
  *  css: https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css
  */
-var nav_count = 8
 var navjs = {
   loadCss: "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
-  visElementStyles: { "margin": "0px" }
+  visElementStyles: { "margin": "0px" },
+  navCount: 8
 }
 
 var options = {}
 // Nav Links Sections
-for (var i=0; i<nav_count; i++) {
+for (var i=0; i<navjs.navCount; i++) {
   var section = `Nav${i+1}`
   options[`nav_${i+1}_label`] = {
     order: 1,
@@ -76,13 +79,14 @@ options.widget = {
     type: "string",
     label: "Widget",
     values: [
+      {"Navbar": "navbar-nav"},
       {"Pills": "nav-pills"},
       {"Tabs":  "nav-tabs"},
       {"Links": "nav-links"}
     ],
     display: "select",
     display_size: "third",
-    default: "nav-pills"
+    default: "navbar-nav"
   }
 options.size = {
     section: "Style",
@@ -131,10 +135,9 @@ options.listClass = {
     section: "Style",
     order: 6,
     type: "string",
-    label: "Custom List Class",
-    default: "",
-    display_size: "half",
-    placeholder: "CSS classname"
+    label: "Navbar Class",
+    default: "navbar-default",
+    display_size: "half"
   }
 options.listItemClass = { 
     section: "Style",
@@ -149,7 +152,7 @@ options.listItemClass = {
 looker.plugins.visualizations.add({
   options: options,
   create: function(element, config){
-    console.log("nav.js create() v0.1.2")
+    console.log("nav-vis.js create() v0.1.2")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering){
     navjs.data = data
@@ -157,7 +160,7 @@ looker.plugins.visualizations.add({
     navjs.config = config
     navjs.queryResponse = queryResponse
     navjs.details = details
-    console.log("nav.js updateAsync() navjs=", navjs)
+    console.log("nav-vis.js updateAsync() navjs=", navjs)
 
     // Nav Actions -- WIP
     navjs.actions = {}
@@ -188,7 +191,7 @@ looker.plugins.visualizations.add({
 
     // Build nav items from config
     navjs.navs = []
-    for (var i=0; i<nav_count; i++) {
+    for (var i=0; i<navjs.navCount; i++) {
       if (config[`nav_${i+1}_label`]) {
         var nav = { label: config[`nav_${i+1}_label`] || '',
                     filterset: config[`nav_${i+1}_filterset`],
@@ -224,29 +227,31 @@ looker.plugins.visualizations.add({
     config.listClass = config.listClass || ''
     config.listItemClass = config.listItemClass || ''
 
-    // Render the nav ui
     var sizes = {
       large: { list: "", item: ""},
       normal: { list: "small", item: "" },
       small: { list: "small", item: "small" }
     }
     var size = sizes[config.size] || sizes.normal
+
+    // Render the navbar
+    var $navbar = $(`<nav class="navbar navbar-default"></nav`)
+    var $container = $(`<div class="container-fluid" style="padding: 0px;"></div>`).appendTo($navbar)
+    $el.css(navjs.visElementStyles).replaceWith($navbar)
     var $ul = $(`<ul class="nav ${config.widget} ${size.list} ${config.align} ${config.listClass}">`)
     navjs.navs.forEach(function(nav) {
       $ul.append(`<li class="${nav.className} ${size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
     })
-    $el.css(navjs.visElementStyles)
-    $container = $el.html(`<div class="container" style="padding: 0px;"></div>`)
     if (config.heading) {
-      $container.append(`<h1>${config.heading}</h1>`)
+      $container.append(`
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">${config.heading}</a>
+        </div>`)
     }
     $container.append($ul)
-    console.log("doneRending nav.js")
+    console.log("doneRending nav-vis.js")
     doneRendering()
   }
 
 });
-
-
-
 
