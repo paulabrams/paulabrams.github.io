@@ -132,11 +132,11 @@ options.align = {
   display_size: "half",
   default: ""
 }
-options.filters = {
+options.forms = {
     section: "Style",
     order: 6,
     type: "string",
-    label: "Filters",
+    label: "forms",
     values: [
       {"None":  ""},
       {"Timeframe": "timeframe"}
@@ -270,6 +270,19 @@ looker.plugins.visualizations.add({
       $ul.append(`<li class="${nav.classname} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
     })
     $container.append($ul)
+
+    if (config.form === "timeframe") {
+      var $form = $(`
+        <form class="form-inline">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="timeframe">Timeframe</span>
+            </div>
+            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="timeframe">
+          </div>
+        </form>`)
+      $container.append($form)
+    }
 
     // display the navbar
     $el.html($navbar)
