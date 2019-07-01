@@ -233,7 +233,7 @@ looker.plugins.visualizations.add({
       normal: { list: "small", item: "" },
       small: { list: "small", item: "small" }
     }
-    navbar.size = sizes[config.size] || sizes.normal
+    navjs.size = sizes[config.size] || sizes.normal
 
     // build the navbar
     var $navbar = $(`<nav class="navbar navbar-default"></nav`)
@@ -244,9 +244,9 @@ looker.plugins.visualizations.add({
           <a class="navbar-brand" href="#">${config.heading}</a>
         </div>`)
     }
-    var $ul = $(`<ul class="nav ${config.widget} ${navbar.size.list} ${config.align} ${config.listClass}">`)
+    var $ul = $(`<ul class="nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.className} ${navbar.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
+      $ul.append(`<li class="${nav.className} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
     })
     $container.append($ul)
 
