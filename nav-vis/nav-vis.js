@@ -228,7 +228,7 @@ looker.plugins.visualizations.add({
         }
         // The "Active" nav item
         if (nav.href === "#") {
-          nav.className = "active"
+          nav.classname = "active"
         }
         navjs.navs.push(nav)
       }
@@ -265,7 +265,7 @@ looker.plugins.visualizations.add({
     }
     var $ul = $(`<ul class="nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.className} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
+      $ul.append(`<li class="${nav.classname} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
     })
     $container.append($ul)
 
