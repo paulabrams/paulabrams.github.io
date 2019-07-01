@@ -78,13 +78,14 @@ options.widget = {
     type: "string",
     label: "Navbar",
     values: [
-      {"Standard": "navbar-nav"},
+      {"Standard": ""},
       {"Tabs":  "nav-tabs"},
-      {"Pills": "nav-pills"}
+      {"Pills": "nav-pills"},
+      {"Links": "nav-links"}
     ],
     display: "select",
     display_size: "half",
-    default: "navbar-nav"
+    default: ""
 }
 options.theme = {
     section: "Style",
@@ -261,10 +262,10 @@ looker.plugins.visualizations.add({
     if (config.header) {
       $container.append(`
         <div class="navbar-header">
-          <div class="navbar-brand" style="padding: 8px 20px 8px 15px; height: auto;">${config.header}</div>
+          <div class="navbar-brand">${config.header}</div>
         </div>`)
     }
-    var $ul = $(`<ul class="nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
+    var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
     navjs.navs.forEach(function(nav) {
       $ul.append(`<li class="${nav.classname} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
     })
