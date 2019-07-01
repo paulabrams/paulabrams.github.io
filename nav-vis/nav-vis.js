@@ -223,6 +223,7 @@ looker.plugins.visualizations.add({
     }
     console.log("navjs.navs=", navjs.navs)
 
+    config.widget = config.widget || 'navbar-nav'
     config.align = config.align || ''
     config.listClass = config.listClass || ''
     config.listItemClass = config.listItemClass || ''
@@ -232,23 +233,26 @@ looker.plugins.visualizations.add({
       normal: { list: "small", item: "" },
       small: { list: "small", item: "small" }
     }
-    var size = sizes[config.size] || sizes.normal
+    navbar.size = sizes[config.size] || sizes.normal
 
-    // Render the navbar
+    // build the navbar
     var $navbar = $(`<nav class="navbar navbar-default"></nav`)
     var $container = $(`<div class="container-fluid" style="padding: 0px;"></div>`).appendTo($navbar)
-    $el.css(navjs.visElementStyles).replaceWith($navbar)
-    var $ul = $(`<ul class="nav ${config.widget} ${size.list} ${config.align} ${config.listClass}">`)
-    navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.className} ${size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
-    })
     if (config.heading) {
       $container.append(`
         <div class="navbar-header">
           <a class="navbar-brand" href="#">${config.heading}</a>
         </div>`)
     }
+    var $ul = $(`<ul class="nav ${config.widget} ${navbar.size.list} ${config.align} ${config.listClass}">`)
+    navjs.navs.forEach(function(nav) {
+      $ul.append(`<li class="${nav.className} ${navbar.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
+    })
     $container.append($ul)
+
+    // display the navbar
+    $el.html($navbar)
+       .css(navjs.visElementStyles)
     console.log("doneRending nav-vis.js")
     doneRendering()
   }
