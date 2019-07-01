@@ -147,18 +147,19 @@ options.listClass = {
     section: "Style",
     order: 7,
     type: "string",
-    label: "Navbar Class",
+    label: "Custom List Class",
     default: "navbar-default",
-    display_size: "half"
+    display_size: "half",
+    placeholder: "optional"
   }
 options.listItemClass = { 
     section: "Style",
     order: 8,
     type: "string",
-    label: "Custom List Item Class",
+    label: "Custom Item Class",
     default: "",
     display_size: "half",
-    placeholder: "CSS classname"
+    placeholder: "optional"
   }
 
 looker.plugins.visualizations.add({
