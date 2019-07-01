@@ -132,6 +132,7 @@ options.align = {
   display_size: "half",
   default: ""
 }
+/*
 options.form = {
     section: "Style",
     order: 6,
@@ -144,6 +145,7 @@ options.form = {
     display: "select",
     default: ""
   }
+  */
 options.listClass = {
     section: "Style",
     order: 7,
@@ -257,11 +259,9 @@ looker.plugins.visualizations.add({
     navjs.size = sizes[config.size] || sizes.normal
 
     // build the navbar
-    var $navbar = $(`<nav class="navbar ${navjs.theme.navbar} justify-content-between" style="margin-bottom: 0px"></nav`)
-    //var $container = $(`<div class="container-fluid" style="padding: 0px;"></div>`).appendTo($navbar)
-    var $container = $navbar
+    var $navbar = $(`<nav class="navbar ${navjs.theme.navbar}" style="margin-bottom: 0px"></nav`)
     if (config.header) {
-      $container.append(`
+      $navbar.append(`
         <div class="navbar-header">
           <div class="navbar-brand">${config.header}</div>
         </div>`)
@@ -270,7 +270,7 @@ looker.plugins.visualizations.add({
     navjs.navs.forEach(function(nav) {
       $ul.append(`<li class="${nav.classname} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label}</a></li>`)
     })
-    $container.append($ul)
+    $navbar.append($ul)
 
     if (config.form === "timeframe") {
       var $form = $(`
@@ -282,7 +282,7 @@ looker.plugins.visualizations.add({
             <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="timeframe">
           </div>
         </form>`)
-      $container.append($form)
+      $navbar.append($form)
     }
 
     // display the navbar
