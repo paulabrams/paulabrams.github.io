@@ -79,8 +79,8 @@ options.widget = {
     label: "Navbar",
     values: [
       {"Standard": "navbar-nav"},
-      {"Pills": "nav-pills"},
-      {"Tabs":  "nav-tabs"}
+      {"Tabs":  "nav-tabs"},
+      {"Pills": "nav-pills"}
     ],
     display: "select",
     display_size: "half",
@@ -255,7 +255,7 @@ looker.plugins.visualizations.add({
     navjs.size = sizes[config.size] || sizes.normal
 
     // build the navbar
-    var $navbar = $(`<nav class="navbar navbar-default"></nav`)
+    var $navbar = $(`<nav class="navbar ${navjs.theme}"></nav`)
     var $container = $(`<div class="container-fluid" style="padding: 0px;"></div>`).appendTo($navbar)
     if (config.header) {
       $container.append(`
