@@ -132,11 +132,11 @@ options.align = {
   display_size: "half",
   default: ""
 }
-options.forms = {
+options.form = {
     section: "Style",
     order: 6,
     type: "string",
-    label: "forms",
+    label: "Form",
     values: [
       {"None":  ""},
       {"Timeframe": "timeframe"}
