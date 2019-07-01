@@ -17,7 +17,7 @@
  */
 var navjs = {
   loadCss: "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
-  visElementStyles: { "margin": "0px" },
+  visElementStyles: { "font-family": "roboto, open sans, sans-serif", "margin": "0px" },
   navCount: 8
 }
 
@@ -260,7 +260,7 @@ looker.plugins.visualizations.add({
     if (config.header) {
       $container.append(`
         <div class="navbar-header">
-          <div class="navbar-brand" style="padding: 8px 15px; height: auto;">${config.header}</div>
+          <div class="navbar-brand" style="padding: 8px 20px 8px 15px; height: auto;">${config.header}</div>
         </div>`)
     }
     var $ul = $(`<ul class="nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
