@@ -259,8 +259,8 @@ looker.plugins.visualizations.add({
     var $container = $(`<div class="container-fluid" style="padding: 0px;"></div>`).appendTo($navbar)
     if (config.header) {
       $container.append(`
-        <div class="navbar-header" style="padding-bottom: 0px">
-          <div class="navbar-brand" href="#">${config.header}</div>
+        <div class="navbar-header">
+          <div class="navbar-brand" style="padding-bottom: 0px">${config.header}</div>
         </div>`)
     }
     var $ul = $(`<ul class="nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
