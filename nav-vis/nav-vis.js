@@ -5,6 +5,7 @@
  *  usage - configure looker vis settings as below
  *
  *  main: https://dl.dropboxusercontent.com/s/50iydrtuwzaml33/nav.js?raw=1
+ *  also on github
  *
  *  javascript dependencies: https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js,https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js
  
