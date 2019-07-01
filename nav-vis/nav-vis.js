@@ -256,7 +256,7 @@ looker.plugins.visualizations.add({
     navjs.size = sizes[config.size] || sizes.normal
 
     // build the navbar
-    var $navbar = $(`<nav class="navbar ${navjs.theme.navbar}"></nav`)
+    var $navbar = $(`<nav class="navbar ${navjs.theme.navbar}" style="margin-bottom: 0px"></nav`)
     var $container = $(`<div class="container-fluid" style="padding: 0px;"></div>`).appendTo($navbar)
     if (config.header) {
       $container.append(`
