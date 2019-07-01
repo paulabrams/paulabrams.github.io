@@ -65,32 +65,45 @@ for (var i=0; i<navjs.navCount; i++) {
 }
 
 // Style Section
-options.heading = {
+options.header = {
     section: "Style",
     order: 1,
     type: "string",
-    label: "Heading",
-    default: "",
-    placeholder: "Heading"
+    label: "Header",
+    default: ""
   }
-options.widget = {
+option.navbarStyle {
     section: "Style",
     order: 2,
     type: "string",
-    label: "Widget",
+    label: "Navbar",
     values: [
-      {"Navbar": "navbar-nav"},
+      {"Standard": "navbar-nav"},
       {"Pills": "nav-pills"},
       {"Tabs":  "nav-tabs"},
       {"Links": "nav-links"}
     ],
     display: "select",
-    display_size: "third",
+    display_size: "half",
     default: "navbar-nav"
+}
+options.widget = {
+    section: "Style",
+    order: 3,
+    type: "string",
+    label: "Style",
+    values: [
+      {"Light": "light"},
+      {"Dark": "dark"},
+      {"Normal": "normal"}
+    ],
+    display: "select",
+    display_size: "half",
+    default: "light"
   }
 options.size = {
     section: "Style",
-    order: 3,
+    order: 4,
     type: "string",
     label: "Size",
     values: [
@@ -99,12 +112,12 @@ options.size = {
       {"Small":  "small"}
     ],
     display: "select",
-    display_size: "third",
+    display_size: "half",
     default: "normal"
   }
 options.align = {
   section: "Style",
-  order: 4,
+  order: 5,
   type: "string",
   label: "Align",
   values: [
@@ -116,12 +129,12 @@ options.align = {
     {"Justified": "nav-justified"}
   ],
   display: "select",
-  display_size: "third",
+  display_size: "half",
   default: ""
 }
 options.filters = {
     section: "Style",
-    order: 5,
+    order: 6,
     type: "string",
     label: "Filters",
     values: [
@@ -133,7 +146,7 @@ options.filters = {
   }
 options.listClass = {
     section: "Style",
-    order: 6,
+    order: 7,
     type: "string",
     label: "Navbar Class",
     default: "navbar-default",
@@ -141,7 +154,7 @@ options.listClass = {
   }
 options.listItemClass = { 
     section: "Style",
-    order: 7,
+    order: 8,
     type: "string",
     label: "Custom List Item Class",
     default: "",
@@ -228,6 +241,13 @@ looker.plugins.visualizations.add({
     config.listClass = config.listClass || ''
     config.listItemClass = config.listItemClass || ''
 
+    var themes = {
+      light: { navbar: "navbar-light bg-light" },
+      dark: { navbar: "navbar-dark bg-dark" },
+      normal: { navbar: "navbar-default" },
+    }
+    navjs.theme = themes[config.theme] || themes.normal 
+
     var sizes = {
       large: { list: "", item: ""},
       normal: { list: "small", item: "" },
@@ -238,10 +258,10 @@ looker.plugins.visualizations.add({
     // build the navbar
     var $navbar = $(`<nav class="navbar navbar-default"></nav`)
     var $container = $(`<div class="container-fluid" style="padding: 0px;"></div>`).appendTo($navbar)
-    if (config.heading) {
+    if (config.header) {
       $container.append(`
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">${config.heading}</a>
+          <div class="navbar-brand" href="#">${config.header}</div>
         </div>`)
     }
     var $ul = $(`<ul class="nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
