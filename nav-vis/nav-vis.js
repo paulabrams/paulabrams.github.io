@@ -48,8 +48,9 @@ for (var i=0; i<navjs.navCount; i++) {
     type: "string",
     values: [
       {"None": ""},
-      {"MS Campaign, KPI, Date":    "nav_filterset_ms_campaign_kpi_date"},
-      {"MS KPI, Date ID":           "nav_filterset_ms_kpi_date"}
+      {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
+      {"MS KPI, Date ID": "nav_filterset_ms_kpi_date"},
+      {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"}
     ],
     display: "select",
     display_size: "half",
@@ -57,6 +58,13 @@ for (var i=0; i<navjs.navCount; i++) {
   }
   options[`nav_${i+1}_url`] = {
     order: 4,
+    section: section,
+    label: "Dashboard Params",
+    type: "string",
+    placeholder: "&myparm1=myvalue1&myparam2=myvalue2"
+  }
+  options[`nav_${i+1}_url`] = {
+    order: 5,
     section: section,
     label: "Custom URL",
     type: "string",
