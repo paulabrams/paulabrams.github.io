@@ -38,7 +38,6 @@ for (var i=0; i<navjs.navCount; i++) {
     section: section,
     label: "Dashboard ID",
     type: "string",
-    display_size: "half",
     placeholder: "55 or mymodel::mylookml"
   }
   options[`nav_${i+1}_filterset`] = {
@@ -50,11 +49,10 @@ for (var i=0; i<navjs.navCount; i++) {
       {"None": ""},
       {"MS Campaign": "nav_filterset_ms_campaign"},
       {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
-      {"MS KPI, Date ID": "nav_filterset_ms_kpi_date"},
+      {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
       {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"}
     ],
     display: "select",
-    display_size: "half",
     default: ""
   }
   options[`nav_${i+1}_filterset_custom`] = {
