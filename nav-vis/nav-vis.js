@@ -230,9 +230,15 @@ looker.plugins.visualizations.add({
           nav.querystring = '?nav=1'
           if (navjs.data && navjs.data[0]) {
             nav.filtersetParameter = "_parameters."+(nav.filterset_custom || nav.filterset_choice)
-            nav.filterLink = navjs.data[0][nav.filtersetParameter]
-            if (nav.filterLink && nav.filterLink.html) {
-              nav.querystring += $('<div/>').html(nav.filterLink.html).text()
+            if (navjs.data[0][nav.filtersetParameter]) {
+              nav.filterLink = navjs.data[0][nav.filtersetParameter]
+              if (nav.filterLink && nav.filterLink.html) {
+                nav.querystring += $('<div/>').html(nav.filterLink.html).text()
+              }
+            }
+            else {
+              nav.querystring += "&err=1"
+              console.log("ERROR - filterset parameter not found:", nav.filtersetParameter)
             }
           }
           nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
