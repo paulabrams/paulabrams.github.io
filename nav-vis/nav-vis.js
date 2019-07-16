@@ -222,7 +222,7 @@ looker.plugins.visualizations.add({
                     filterset_choice: config[`nav_${i+1}_filterset`],
                     filterset_custom: config[`nav_${i+1}_filterset_custom`],
                     dashboard_id: config[`nav_${i+1}_dashboard_id`],
-                    url: config[`nav_${i+1}_url`] || '#',
+                    url: config[`nav_${i+1}_url`] || '',
                     classname: '',
                     href: '#'}
         // Build href based on type
