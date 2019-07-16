@@ -229,8 +229,8 @@ looker.plugins.visualizations.add({
         if (nav.dashboard_id) {
           nav.querystring = '?nav=1'
           if (navjs.data && navjs.data[0]) {
-            nav.filterset_active = (nav.filterset_custom || nav.filterset_choice)
-            nav.filterLink = navjs.data[0][] || navjs.data[0]["_parameters."+nav.filterset_active]
+            nav.filtersetParameter = "_parameters."+(nav.filterset_custom || nav.filterset_choice)
+            nav.filterLink = navjs.data[0][nav.filtersetParameter]
             if (nav.filterLink && nav.filterLink.html) {
               nav.querystring += $('<div/>').html(nav.filterLink.html).text()
             }
