@@ -48,6 +48,7 @@ for (var i=0; i<navjs.navCount; i++) {
     type: "string",
     values: [
       {"None": ""},
+      {"MS Campaign": "nav_filterset_ms_campaign"},
       {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
       {"MS KPI, Date ID": "nav_filterset_ms_kpi_date"},
       {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"}
@@ -56,8 +57,15 @@ for (var i=0; i<navjs.navCount; i++) {
     display_size: "half",
     default: ""
   }
-  options[`nav_${i+1}_url`] = {
+  options[`nav_${i+1}_filterset_custom`] = {
     order: 4,
+    section: section,
+    label: "Custom Filter Set",
+    type: "string",
+    placeholder: "nav_filterset_ms_campaign"
+  }
+  options[`nav_${i+1}_url`] = {
+    order: 5,
     section: section,
     label: "Custom URL",
     type: "string",
@@ -211,28 +219,30 @@ looker.plugins.visualizations.add({
     for (var i=0; i<navjs.navCount; i++) {
       if (config[`nav_${i+1}_label`]) {
         var nav = { label: config[`nav_${i+1}_label`] || '',
-                    filterset: config[`nav_${i+1}_filterset`],
+                    filterset_choice: config[`nav_${i+1}_filterset`],
+                    filterset_custom: config[`nav_${i+1}_filterset_custom`],
                     dashboard_id: config[`nav_${i+1}_dashboard_id`],
                     url: config[`nav_${i+1}_url`] || '#',
                     classname: '',
                     href: '#'}
         // Build href based on type
         if (nav.dashboard_id) {
-          nav.href = '/embed/dashboards/'+nav.dashboard_id+'?navjs=1'
-          nav.filterURLParams = ''
+          nav.querystring = '?nav=1'
           if (navjs.data && navjs.data[0]) {
-            nav.filterLink = navjs.data[0]["_parameters."+nav.filterset]
+            nav.filterset_active = (nav.filterset_custom || nav.filterset_choice)
+            nav.filterLink = navjs.data[0][] || navjs.data[0]["_parameters."+nav.filterset_active]
             if (nav.filterLink && nav.filterLink.html) {
-              nav.filterURLParams = $('<div/>').html(nav.filterLink.html).text()
+              nav.querystring += $('<div/>').html(nav.filterLink.html).text()
             }
           }
-          nav.url += nav.filterURLParams
+          nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
         }
         else if (nav.url) {
+          // use custom URL as-is
           nav.href = nav.url
         }
         // The "Active" nav item
-        if (nav.href === "#") {
+        if (nav.url === "#" || nav.href === "#") {
           nav.classname = "active"
         }
         navjs.navs.push(nav)
