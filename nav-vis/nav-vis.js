@@ -60,14 +60,14 @@ for (var i=0; i<navjs.navCount; i++) {
     section: section,
     label: "Custom Filter Set",
     type: "string",
-    placeholder: "nav_filterset_ms_campaign"
+    placeholder: "e.g. my_custom_dimension"
   }
   options[`nav_${i+1}_url`] = {
     order: 5,
     section: section,
     label: "Custom URL",
     type: "string",
-    placeholder: "URL to non-dashboard page"
+    placeholder: "http://..."
   }
 }
 
@@ -235,9 +235,13 @@ looker.plugins.visualizations.add({
               }
             }
             else {
-              nav.querystring += "&err=1"
+              nav.querystring += "&msg=filterset not found"
               console.log("ERROR - filterset parameter not found:", nav.filtersetParameter)
             }
+          }
+          else {
+              nav.querystring += "&msg=filterset has no data"
+              console.log("ERROR - filterset query has no data", navjs.data)
           }
           nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
         }
