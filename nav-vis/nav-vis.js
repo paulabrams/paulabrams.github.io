@@ -225,7 +225,7 @@ looker.plugins.visualizations.add({
                     href: '#'}
         // Build href based on type
         if (nav.dashboard_id) {
-          nav.querystring = '?nav=1'
+          nav.querystring = '?vis=navjs'
           if (navjs.data && navjs.data[0]) {
             nav.filtersetParameter = "_parameters."+(nav.filterset_custom || nav.filterset_choice)
             if (navjs.data[0][nav.filtersetParameter]) {
@@ -235,12 +235,12 @@ looker.plugins.visualizations.add({
               }
             }
             else {
-              nav.querystring += "&msg=filterset not found"
+              nav.querystring += "&message=filterset not found"
               console.log("ERROR - filterset parameter not found:", nav.filtersetParameter)
             }
           }
           else {
-              nav.querystring += "&msg=filterset has no data"
+              nav.querystring += "&message=filterset has no data"
               console.log("ERROR - filterset query has no data", navjs.data)
           }
           nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
