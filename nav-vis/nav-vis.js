@@ -47,15 +47,16 @@ for (var i=0; i<navjs.navCount; i++) {
     type: "string",
     values: [
       {"None": ""},
-      {"All Parameters": "nav_filterset_parameters"},
+      {"Default": "nav_filterset_default"},
       {"MS Date": "nav_filterset_ms_date"},
       {"MS Campaign": "nav_filterset_ms_campaign"},
       {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
       {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
-      {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"}
+      {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"},
+      {"Demo": "nav_filterset_demo"},
     ],
     display: "select",
-    default: "nav_filterset_parameters"
+    default: "nav_filterset_default"
   }
   options[`nav_${i+1}_filterset_custom`] = {
     order: 4,
