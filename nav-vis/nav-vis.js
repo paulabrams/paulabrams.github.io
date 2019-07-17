@@ -53,7 +53,7 @@ for (var i=0; i<navjs.navCount; i++) {
       {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
       {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
       {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"},
-      {"Demo": "nav_filterset_demo"},
+      {"Test": "nav_filterset_test"},
     ],
     display: "select",
     default: "nav_filterset_default"
