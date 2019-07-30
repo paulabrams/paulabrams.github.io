@@ -53,7 +53,8 @@ for (var i=0; i<navjs.navCount; i++) {
       {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
       {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
       {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"},
-      {"Test": "nav_filterset_test"},
+      {"MS Item Number": "nav_filterset_item_number"},
+      {"Test": "nav_filterset_test"}
     ],
     display: "select",
     default: "nav_filterset_default"
@@ -72,6 +73,53 @@ for (var i=0; i<navjs.navCount; i++) {
     type: "string",
     placeholder: "http://..."
   }
+  // Metric w/ comparison
+  options[`nav_${i+1}_metricdimension`] = {
+    order: 6,
+    section: section,
+    label: "Metric Dimension",
+    type: "string",
+    default: "",
+    placeholder: "e.g. my_dimension"
+  }
+  options[`nav_${i+1}_metriclabel`] = {
+    order: 7,
+    section: section,
+    label: "Metric Title Override",
+    type: "string",
+    default: "",
+    placeholder: "Leave blank to use field label"
+  }
+  // Comparison
+  options[`nav_${i+1}_comparision_dimension`] = {
+    order: 8,
+    section: section,
+    label: "Comparison Dimension",
+    type: "string",
+    default: "",
+    placeholder: "e.g. my_dimension"
+  }
+  options[`nav_${i+1}_comparision_showas`] = {
+    order: 9,
+    section: section,
+    label: "Comparison Style",
+    type: "string",
+    display: "select",
+    values: [
+      {"Show as Value": "value"},
+      {"Show as Change": "change"}
+    ],
+    default: "value"
+  }
+  options[`nav_${i+1}_comparision_label`] = {
+    order: 10,
+    section: section,
+    label: "Comparison Label Override",
+    type: "string",
+    default: "",
+    placeholder: "Leave blank to use field label"
+  }
+ 
 }
 
 // Style Section
@@ -161,7 +209,7 @@ options.listClass = {
     order: 7,
     type: "string",
     label: "Custom List Class",
-    default: "navbar-default",
+    default: "",
     display_size: "half",
     placeholder: "optional"
   }
@@ -263,7 +311,7 @@ looker.plugins.visualizations.add({
 
     config.widget = config.widget || 'navbar-nav'
     config.align = config.align || ''
-    config.listClass = config.listClass || ''
+    config.listClass = config.listClass || 'navbar-default'
     config.listItemClass = config.listItemClass || ''
 
     var themes = {
