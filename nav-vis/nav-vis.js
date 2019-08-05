@@ -74,7 +74,7 @@ for (var i=0; i<navjs.navCount; i++) {
     placeholder: "http://..."
   }
   // Metric w/ comparison
-  options[`nav_${i+1}_metricdimension`] = {
+  options[`nav_${i+1}_metric_dimension`] = {
     order: 6,
     section: section,
     label: "Metric Dimension",
@@ -82,7 +82,7 @@ for (var i=0; i<navjs.navCount; i++) {
     default: "",
     placeholder: "e.g. my_dimension"
   }
-  options[`nav_${i+1}_metriclabel`] = {
+  options[`nav_${i+1}_metric_title`] = {
     order: 7,
     section: section,
     label: "Metric Title Override",
@@ -99,7 +99,7 @@ for (var i=0; i<navjs.navCount; i++) {
     default: "",
     placeholder: "e.g. my_dimension"
   }
-  options[`nav_${i+1}_comparision_showas`] = {
+  options[`nav_${i+1}_comparision_style`] = {
     order: 9,
     section: section,
     label: "Comparison Style",
@@ -272,6 +272,11 @@ looker.plugins.visualizations.add({
                     filterset_custom: config[`nav_${i+1}_filterset_custom`],
                     dashboard_id: config[`nav_${i+1}_dashboard_id`],
                     url: config[`nav_${i+1}_url`] || '',
+                    metric_dimension: config[`nav_${i+1}_metric_dimension`],
+                    metric_title: config[`nav_${i+1}_metric_title`],
+                    comparison_dimension: config[`nav_${i+1}_comparison_dimension`],
+                    comparision_style: config[`nav_${i+1}_comparision_style`],
+                    comparision_label: config[`nav_${i+1}_comparision_label`],
                     classname: '',
                     href: '#'}
         // Build href based on type
@@ -288,6 +293,18 @@ looker.plugins.visualizations.add({
             else {
               nav.querystring += "&message=filterset not found"
               console.log("ERROR - filterset parameter not found:", nav.filtersetParameter)
+            }
+            // Metric
+            nav.metricParameter = "_parameters."+(nav.metric_dimension)
+            if (navjs.data[0][nav.metricParameter]) {
+              nav.metricValue = navjs.data[0][nav.metricParameter]
+              nav.label += nav.metricText
+              nav.label += `<span>${nav.metricValue} ${nav.metric_title}</span>`
+            }
+            nav.comparisonParameter = "_parameters."+(nav.comparison_dimension)
+            if (navjs.data[0][nav.comparisonParameter]) {
+              nav.comparisonValue = navjs.data[0][nav.comparisonText]
+              nav.label += `<span>${nav.comparisonValue} ${nav.comparison_label}</span>`
             }
           }
           else {
