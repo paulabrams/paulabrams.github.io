@@ -17,8 +17,9 @@
  */
 var navjs = {
   loadCss: "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
-  visElementStyles: { "font-family": "roboto, open sans, sans-serif", "margin": "0px" },
-  navCount: 8
+  inlineCss: '',
+  navCount: 8,
+  init: 0
 }
 
 var options = {}
@@ -262,71 +263,81 @@ looker.plugins.visualizations.add({
    
 
     var $el = $(element)
-    if (navjs.loadCss) {
-      $el.parent().after(`<link rel="stylesheet" href="${navjs.loadCss}" crossorigin="anonymous">`)
-      navjs.loadCss = ""
+    if (!navjs.init) {
+      if (navjs.loadCss) {
+        $el.parent().after(`<link rel="stylesheet" href="${navjs.loadCss}" crossorigin="anonymous">`)
+      }
+      if (navjs.loadCss) {
+        $el.parent().after(navjs.inlineCss)
+      }
+      navjs.init = 1
     }
 
     // Build nav items from config
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
-      if (config[`nav_${i+1}_label`]) {
-        var nav = { label: config[`nav_${i+1}_label`] || '',
-                    filterset_choice: config[`nav_${i+1}_filterset`],
-                    filterset_custom: config[`nav_${i+1}_filterset_custom`],
-                    dashboard_id: config[`nav_${i+1}_dashboard_id`],
-                    url: config[`nav_${i+1}_url`] || '',
-                    metric_dimension: config[`nav_${i+1}_metric_dimension`],
-                    metric_title: config[`nav_${i+1}_metric_title`],
-                    comparison_dimension: config[`nav_${i+1}_comparison_dimension`],
-                    comparision_style: config[`nav_${i+1}_comparision_style`],
-                    comparision_label: config[`nav_${i+1}_comparision_label`],
-                    classname: '',
-                    href: '#'}
-        // Build href based on type
-        if (nav.dashboard_id) {
-          nav.querystring = '?vis=navjs'
-          if (navjs.data && navjs.data[0]) {
-            nav.filtersetParameter = "_parameters."+(nav.filterset_custom || nav.filterset_choice)
-            if (navjs.data[0][nav.filtersetParameter]) {
-              nav.filterLink = navjs.data[0][nav.filtersetParameter]
-              if (nav.filterLink && nav.filterLink.html) {
-                nav.querystring += $('<div/>').html(nav.filterLink.html).text()
-              }
-            }
-            else {
-              nav.querystring += "&message=filterset not found"
-              console.log("ERROR - filterset parameter not found:", nav.filtersetParameter)
-            }
-            // Metric
-            if (navjs.data[0][nav.metric_dimension]) {
-              nav.metricValue = navjs.data[0][nav.metric_dimension].rendered
-              nav.label += `<div>${nav.metricValue} ${nav.metric_title}</div>`
-            }
-            if (navjs.data[0][nav.comparison_dimension]) {
-              nav.comparisonValue = navjs.data[0][nav.comparison_dimension].rendered
-              nav.comparisonChange = ""
-              if (nav.comparison_style === "show_as_change") {
-                if (nav.comparisonValue < 0) { nav.comparisonChange = "--" }
-                else if (nav.comparisonValue > 0) { nav.comparisonChange = "++" }
-              }
-              nav.label += `<div>${nav.comparisonValue} ${nav.comparison_label}</div>`
+      var nav = { label: config[`nav_${i+1}_label`] || '',
+                  filterset_choice: config[`nav_${i+1}_filterset`],
+                  filterset_custom: config[`nav_${i+1}_filterset_custom`],
+                  dashboard_id: config[`nav_${i+1}_dashboard_id`],
+                  url: config[`nav_${i+1}_url`] || '',
+                  metric_dimension: config[`nav_${i+1}_metric_dimension`],
+                  metric_title: config[`nav_${i+1}_metric_title`],
+                  comparison_dimension: config[`nav_${i+1}_comparison_dimension`],
+                  comparision_style: config[`nav_${i+1}_comparision_style`],
+                  comparision_label: config[`nav_${i+1}_comparision_label`],
+                  classname: '',
+                  href: '#'}
+        // Build label
+        // Metric
+        if (navjs.data[0][nav.metric_dimension]) {
+          nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
+          nav.label += `<div class="metric_title">${nav.metric_title}</div>`
+          nav.label += `<div class="metric_value">${nav.metric_value}</div>`
+        }
+        if (navjs.data[0][nav.comparison_dimension]) {
+          nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
+          nav.comparison_change = ""
+        if (nav.comparison_style === "show_as_change") {
+          if (nav.comparison_value < 0) { nav.comparison_change = "--" }
+          else if (nav.comparison_value > 0) { nav.comparison_change = "++" }
+        }
+        nav.label += `<div class="comparison">${nav.comparison_change} ${nav.comparison_value} ${nav.comparison_label}</div>`
+      }
+
+      // Build href based on type
+      if (nav.dashboard_id) {
+        nav.querystring = '?vis=navjs'
+        if (navjs.data && navjs.data[0]) {
+          nav.filterset_parameter = "_parameters."+(nav.filterset_custom || nav.filterset_choice)
+          if (navjs.data[0][nav.filterset_parameter]) {
+            nav.filter_link = navjs.data[0][nav.filterset_parameter]
+            if (nav.filter_link && nav.filter_link.html) {
+              nav.querystring += $('<div/>').html(nav.filter_link.html).text()
             }
           }
           else {
-              nav.querystring += "&message=filterset has no data"
-              console.log("ERROR - filterset query has no data", navjs.data)
+            nav.querystring += "&message=filterset not found"
+            console.log("ERROR - filterset parameter not found:", nav.filterset_parameter)
           }
-          nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
+
         }
-        else if (nav.url) {
-          // use custom URL as-is
-          nav.href = nav.url
+        else {
+            nav.querystring += "&message=filterset has no data"
+            console.log("ERROR - filterset query has no data", navjs.data)
         }
-        // The "Active" nav item
-        if (nav.url === "#" || nav.href === "#") {
-          nav.classname = "active"
-        }
+        nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
+      }
+      else if (nav.url) {
+        // use custom URL as-is
+        nav.href = nav.url
+      }
+      // The "Active" nav item
+      if (nav.url === "#" || nav.href === "#") {
+        nav.classname = "active"
+      }
+
+      if (nav.label) {
         navjs.navs.push(nav)
       }
     }
@@ -379,11 +390,55 @@ looker.plugins.visualizations.add({
     }
 
     // display the navbar
-    $el.html($navbar)
-       .css(navjs.visElementStyles)
+    $el.html($navbar).addClass("navjs")
     console.log("doneRending nav-vis.js")
     doneRendering()
   }
 
 });
 
+
+navjs.styles = `
+.navjs {
+  font-family: roboto, open sans, sans-serif;
+  margin: 0px;
+}
+.metric_label {
+  width: 46px;
+  height: 36px;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: 1.29;
+  letter-spacing: normal;
+  color: var(--charcoal-grey);
+}
+.metric_value {
+  width: 89px;
+  height: 36px;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: 1.29;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--charcoal-grey);
+}
+.comparison {
+  width: 58px;
+  height: 16px;
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: right;
+  color: #6c7373;
+}
+`
