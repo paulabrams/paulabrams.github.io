@@ -113,7 +113,7 @@ for (var i=0; i<navjs.navCount; i++) {
       {"Show as Value": "show_as_value"},
       {"Show as Change": "show_as_change"}
     ],
-    default: "value"
+    default: "show_as_value"
   }
   options[`nav_${i+1}_comparision_label`] = {
     order: 10,
@@ -308,15 +308,12 @@ looker.plugins.visualizations.add({
             nav.comparisonParameter = "_parameters."+(nav.comparison_dimension)
             if (navjs.data[0][nav.comparisonParameter]) {
               nav.comparisonValue = navjs.data[0][nav.comparisonText]
+              nav.comparisonChange = ""
               if (nav.comparison_style === "show_as_change") {
-                nav.comparisonChange = ""
                 if (nav.comparisonValue < 0) { nav.comparisonChange = "--" }
                 else if (nav.comparisonValue > 0) { nav.comparisonChange = "++" }
-                nav.label += `<span>${nav.comparisonValue} ${nav.comparisonChange} ${nav.comparison_label}</span>`
               }
-              else {
-                nav.label += `<span>${nav.comparisonValue} ${nav.comparison_label}</span>`
-              }
+              nav.label += `<span>${nav.comparisonValue} ${nav.comparison_label}</span>`
             }
           }
           else {
