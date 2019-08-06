@@ -279,8 +279,6 @@ looker.plugins.visualizations.add({
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
       var nav = { label: config[`nav_${i+1}_label`] || '',
-                  label_link: '',
-                  metric_text: '',
                   filterset_choice: config[`nav_${i+1}_filterset`] || '',
                   filterset_custom: config[`nav_${i+1}_filterset_custom`] || '',
                   dashboard_id: config[`nav_${i+1}_dashboard_id`] || '',
@@ -292,12 +290,17 @@ looker.plugins.visualizations.add({
                   comparison_label: config[`nav_${i+1}_comparison_label`] || '',
                   classname: '',
                   href: '#'}
+      // Label
+      nav.label_html = ''
+      if (nav.label) {
+        nav.metric_html += `<span class="label">${nav.label}</span>`
+      }
       // Metric
-      navjs.metric_text = ''
+      nav.metric_html = ''
       if (navjs.data[0][nav.metric_dimension]) {
         nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
-        nav.metric_text += `<span class="metric_title">${nav.metric_title}</span>`
-        nav.metric_text += `<span class="metric_value">${nav.metric_value}</span>`
+        nav.metric_html += `<div class="metric_title">${nav.metric_title}</div>`
+        nav.metric_html += `<div class="metric_value">${nav.metric_value}</div>`
       }
       if (navjs.data[0][nav.comparison_dimension]) {
         nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
@@ -306,7 +309,7 @@ looker.plugins.visualizations.add({
           if (nav.comparison_value < 0) { nav.comparison_change = "--" }
           else if (nav.comparison_value > 0) { nav.comparison_change = "++" }
         }
-        nav.metric_text += `<span class="comparison">${nav.comparison_change} ${nav.comparison_value} ${nav.comparison_label}</span>`
+        nav.metric_html += `<div class="comparison">${nav.comparison_change} ${nav.comparison_value} ${nav.comparison_label}</div>`
       }
 
       // Build href based on type
@@ -341,11 +344,7 @@ looker.plugins.visualizations.add({
         nav.classname = "active"
       }
 
-      if (nav.label) {
-        nav.label_link = `<a href="${nav.href}">${nav.label}</a>`
-      }
-
-      if (nav.label_link || nav.metric_text) {
+      if (nav.label || nav.metric_html) {
         navjs.navs.push(nav)
       }
     }
@@ -380,7 +379,7 @@ looker.plugins.visualizations.add({
     }
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.classname} ${navjs.size.item} ${config.listItemClass}">${nav.label_link}${nav.metric_text}</li>`)
+      $ul.append(`<li class="${nav.classname} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
     })
     $navbar.append($ul)
 
@@ -424,6 +423,16 @@ navjs.inlineCss = `
   color: var(--charcoal-grey);
 }
 .label {
+  width: 66px;
+  height: 22px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: 1.38;
+  letter-spacing: 0.2px;
+  color: var(--charcoal-grey);
 }
 .metric_title {
   width: 46px;
