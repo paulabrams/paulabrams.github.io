@@ -278,7 +278,7 @@ looker.plugins.visualizations.add({
                     url: config[`nav_${i+1}_url`] || '',
                     metric_dimension: config[`nav_${i+1}_metric_dimension`],
                     metric_title: config[`nav_${i+1}_metric_title`],
-                    comparison_dimension: config[`nav_${i+1}_comparsion_dimension`],
+                    comparison_dimension: config[`nav_${i+1}_comparison_dimension`],
                     comparision_style: config[`nav_${i+1}_comparision_style`],
                     comparision_label: config[`nav_${i+1}_comparision_label`],
                     classname: '',
