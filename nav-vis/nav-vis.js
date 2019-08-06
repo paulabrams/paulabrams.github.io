@@ -301,7 +301,7 @@ looker.plugins.visualizations.add({
             // Metric
             if (navjs.data[0][nav.metric_dimension]) {
               nav.metricValue = navjs.data[0][nav.metric_dimension].rendered
-              nav.label += `<span>${nav.metricValue} ${nav.metric_title}</span>`
+              nav.label += `<div>${nav.metricValue} ${nav.metric_title}</div>`
             }
             if (navjs.data[0][nav.comparison_dimension]) {
               nav.comparisonValue = navjs.data[0][nav.comparison_dimension].rendered
@@ -310,7 +310,7 @@ looker.plugins.visualizations.add({
                 if (nav.comparisonValue < 0) { nav.comparisonChange = "--" }
                 else if (nav.comparisonValue > 0) { nav.comparisonChange = "++" }
               }
-              nav.label += `<span>${nav.comparisonValue} ${nav.comparison_label}</span>`
+              nav.label += `<div>${nav.comparisonValue} ${nav.comparison_label}</div>`
             }
           }
           else {
