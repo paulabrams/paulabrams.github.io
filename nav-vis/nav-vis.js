@@ -267,7 +267,7 @@ looker.plugins.visualizations.add({
       if (navjs.loadCss) {
         $el.parent().after(`<link rel="stylesheet" href="${navjs.loadCss}" crossorigin="anonymous">`)
       }
-      if (navjs.loadCss) {
+      if (navjs.inlineCss) {
         $el.parent().after(navjs.inlineCss)
       }
       navjs.init = 1
@@ -398,7 +398,7 @@ looker.plugins.visualizations.add({
 });
 
 
-navjs.styles = `
+navjs.inlineCss = `
 .navjs {
   font-family: roboto, open sans, sans-serif;
   margin: 0px;
