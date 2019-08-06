@@ -105,7 +105,7 @@ for (var i=0; i<navjs.navCount; i++) {
     default: "",
     placeholder: "e.g. my_dimension"
   }
-  options[`nav_${i+1}_comparision_style`] = {
+  options[`nav_${i+1}_comparison_style`] = {
     order: 9,
     section: section,
     label: "Comparison Style",
@@ -117,7 +117,7 @@ for (var i=0; i<navjs.navCount; i++) {
     ],
     default: "show_as_value"
   }
-  options[`nav_${i+1}_comparision_label`] = {
+  options[`nav_${i+1}_comparison_label`] = {
     order: 10,
     section: section,
     label: "Comparison Label Override",
@@ -288,8 +288,8 @@ looker.plugins.visualizations.add({
                   metric_dimension: config[`nav_${i+1}_metric_dimension`] || '',
                   metric_title: config[`nav_${i+1}_metric_title`] || '',
                   comparison_dimension: config[`nav_${i+1}_comparison_dimension`] || '',
-                  comparison_style: config[`nav_${i+1}_comparision_style`] || '',
-                  comparison_label: config[`nav_${i+1}_comparision_label`] || '',
+                  comparison_style: config[`nav_${i+1}_comparison_style`] || '',
+                  comparison_label: config[`nav_${i+1}_comparison_label`] || '',
                   classname: '',
                   href: '#'}
       // Metric
@@ -365,8 +365,8 @@ looker.plugins.visualizations.add({
 
     var sizes = {
       large: { list: "", item: ""},
-      normal: { list: "small", item: "" },
-      small: { list: "small", item: "small" }
+      normal: { list: "", item: "" },
+      small: { list: "small", item: "" }
     }
     navjs.size = sizes[config.size] || sizes.normal
 
