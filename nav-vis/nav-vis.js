@@ -403,6 +403,18 @@ navjs.styles = `
   font-family: roboto, open sans, sans-serif;
   margin: 0px;
 }
+.navbar-header {
+  width: 108px;
+  height: 22px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: 1.38;
+  letter-spacing: 0.2px;
+  color: var(--charcoal-grey);
+}
 .metric_label {
   width: 46px;
   height: 36px;
