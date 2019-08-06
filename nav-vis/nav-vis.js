@@ -93,7 +93,8 @@ for (var i=0; i<navjs.navCount; i++) {
     label: "Metric Title Override",
     type: "string",
     default: "",
-    placeholder: "Leave blank to use field label"
+    placeholder: ""
+    //placeholder: "Leave blank to use field label"
   }
   // Comparison
   options[`nav_${i+1}_comparison_dimension`] = {
@@ -121,8 +122,9 @@ for (var i=0; i<navjs.navCount; i++) {
     section: section,
     label: "Comparison Label Override",
     type: "string",
+    //placeholder: "Leave blank to use field label"
     default: "",
-    placeholder: "Leave blank to use field label"
+    placeholder: ""
   }
  
 }
