@@ -299,15 +299,13 @@ looker.plugins.visualizations.add({
               console.log("ERROR - filterset parameter not found:", nav.filtersetParameter)
             }
             // Metric
-            nav.metricParameter = "_parameters."+(nav.metric_dimension)
-            if (navjs.data[0][nav.metricParameter]) {
-              nav.metricValue = navjs.data[0][nav.metricParameter].rendered
+            if (navjs.data[0][nav.metric_dimension]) {
+              nav.metricValue = navjs.data[0][nav.metric_dimension].rendered
               nav.label += nav.metricText
               nav.label += `<span>${nav.metricValue} ${nav.metric_title}</span>`
             }
-            nav.comparisonParameter = "_parameters."+(nav.comparison_dimension)
-            if (navjs.data[0][nav.comparisonParameter]) {
-              nav.comparisonValue = navjs.data[0][nav.comparisonParameter].rendered
+            if (navjs.data[0][nav.comparison_dimension]) {
+              nav.comparisonValue = navjs.data[0][nav.comparison_dimension].rendered
               nav.comparisonChange = ""
               if (nav.comparison_style === "show_as_change") {
                 if (nav.comparisonValue < 0) { nav.comparisonChange = "--" }
