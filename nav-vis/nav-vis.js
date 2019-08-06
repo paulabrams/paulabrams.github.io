@@ -110,8 +110,8 @@ for (var i=0; i<navjs.navCount; i++) {
     type: "string",
     display: "select",
     values: [
-      {"Show as Value": "value"},
-      {"Show as Change": "change"}
+      {"Show as Value": "show_as_value"},
+      {"Show as Change": "show_as_change"}
     ],
     default: "value"
   }
