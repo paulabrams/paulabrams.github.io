@@ -31,6 +31,7 @@ for (var i=0; i<navjs.navCount; i++) {
     label: "Label",
     type: "string",
     display_size: "normal",
+    default: "",
     placeholder: ""
   }
   options[`nav_${i+1}_dashboard_id`] = {
@@ -38,6 +39,7 @@ for (var i=0; i<navjs.navCount; i++) {
     section: section,
     label: "Dashboard ID",
     type: "string",
+    default: "",
     placeholder: "55 or mymodel::mylookml"
   }
   options[`nav_${i+1}_filterset`] = {
@@ -64,6 +66,7 @@ for (var i=0; i<navjs.navCount; i++) {
     section: section,
     label: "Custom Filter Set",
     type: "string",
+    default: "",
     placeholder: "e.g. my_custom_dimension"
   }
   options[`nav_${i+1}_url`] = {
@@ -71,6 +74,7 @@ for (var i=0; i<navjs.navCount; i++) {
     section: section,
     label: "Custom URL",
     type: "string",
+    default: "",
     placeholder: "http://..."
   }
   // Metric w/ comparison
