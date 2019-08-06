@@ -296,8 +296,8 @@ looker.plugins.visualizations.add({
       navjs.metric_text = ''
       if (navjs.data[0][nav.metric_dimension]) {
         nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
-        nav.metric_text += `<div class="metric_title">${nav.metric_title}</div>`
-        nav.metric_text += `<div class="metric_value">${nav.metric_value}</div>`
+        nav.metric_text += `<span class="metric_title">${nav.metric_title}</span>`
+        nav.metric_text += `<span class="metric_value">${nav.metric_value}</span>`
       }
       if (navjs.data[0][nav.comparison_dimension]) {
         nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
@@ -306,7 +306,7 @@ looker.plugins.visualizations.add({
           if (nav.comparison_value < 0) { nav.comparison_change = "--" }
           else if (nav.comparison_value > 0) { nav.comparison_change = "++" }
         }
-        nav.metric_text += `<div class="comparison">${nav.comparison_change} ${nav.comparison_value} ${nav.comparison_label}</div>`
+        nav.metric_text += `<span class="comparison">${nav.comparison_change} ${nav.comparison_value} ${nav.comparison_label}</span>`
       }
 
       // Build href based on type
