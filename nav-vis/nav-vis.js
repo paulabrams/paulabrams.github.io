@@ -301,13 +301,13 @@ looker.plugins.visualizations.add({
             // Metric
             nav.metricParameter = "_parameters."+(nav.metric_dimension)
             if (navjs.data[0][nav.metricParameter]) {
-              nav.metricValue = navjs.data[0][nav.metricParameter]
+              nav.metricValue = navjs.data[0][nav.metricParameter].rendered
               nav.label += nav.metricText
               nav.label += `<span>${nav.metricValue} ${nav.metric_title}</span>`
             }
             nav.comparisonParameter = "_parameters."+(nav.comparison_dimension)
             if (navjs.data[0][nav.comparisonParameter]) {
-              nav.comparisonValue = navjs.data[0][nav.comparisonText]
+              nav.comparisonValue = navjs.data[0][nav.comparisonParameter].rendered
               nav.comparisonChange = ""
               if (nav.comparison_style === "show_as_change") {
                 if (nav.comparisonValue < 0) { nav.comparisonChange = "--" }
