@@ -311,6 +311,9 @@ looker.plugins.visualizations.add({
         }
         nav.metric_html += `<div class="comparison">${nav.comparison_change} ${nav.comparison_value} ${nav.comparison_label}</div>`
       }
+      if (nav.metric_html) {
+        nav.metric_html = `<div class="metric">${nav.metric_html}</div>`
+      }
 
       // Build href based on type
       if (nav.dashboard_id) {
@@ -411,7 +414,6 @@ navjs.inlineCss = `
   margin: 0px;
 }
 .navbar-header {
-  width: 108px;
   height: 22px;
   font-family: Roboto;
   font-size: 16px;
@@ -423,7 +425,6 @@ navjs.inlineCss = `
   color: var(--charcoal-grey);
 }
 .label {
-  width: 66px;
   height: 22px;
   font-family: Roboto;
   font-size: 16px;
@@ -434,8 +435,9 @@ navjs.inlineCss = `
   letter-spacing: 0.2px;
   color: var(--charcoal-grey);
 }
+.metric {
+}
 .metric_title {
-  width: 46px;
   height: 36px;
   font-family: Roboto;
   font-size: 28px;
@@ -447,7 +449,6 @@ navjs.inlineCss = `
   color: var(--charcoal-grey);
 }
 .metric_value {
-  width: 89px;
   height: 36px;
   font-family: Roboto;
   font-size: 28px;
@@ -460,7 +461,6 @@ navjs.inlineCss = `
   color: var(--charcoal-grey);
 }
 .comparison {
-  width: 58px;
   height: 16px;
   font-family: Roboto;
   font-size: 12px;
