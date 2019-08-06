@@ -268,7 +268,7 @@ looker.plugins.visualizations.add({
         $el.parent().after(`<link rel="stylesheet" href="${navjs.loadCss}" crossorigin="anonymous">`)
       }
       if (navjs.inlineCss) {
-        $el.parent().after(navjs.inlineCss)
+        $el.parent().after(`<style>${navjs.inlineCss}</style>`)
       }
       navjs.init = 1
     }
