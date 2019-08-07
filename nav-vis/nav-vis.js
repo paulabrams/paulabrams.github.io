@@ -311,7 +311,7 @@ function buildOptions (navCount, config) {
 
     // Options for Nav items
     options[`${navId}_widget`] = {
-      order: 1,
+      order: 0,
       hidden: false, // never hidden
       section: navSection,
       label: "Widget",
@@ -326,12 +326,22 @@ function buildOptions (navCount, config) {
       default: "hidden"
     } 
     options[`${navId}_label`] = {
-      order: 2,
+      order: 1,
       hidden: navWidget === "hidden",
       section: navSection,
       label: "Label",
       type: "string",
       placeholder: ""
+    }
+    options[`${navId}_order`] = {
+      order: 2,
+      hidden: navWidget === "hidden",
+      section: navSection,
+      label: "Order",
+      type: "string",
+      display: "select",
+      values: orderValues,
+      default: i+1
     }
     options[`${navId}_style`] = {
       order: 3,
@@ -439,16 +449,6 @@ function buildOptions (navCount, config) {
       placeholder: "optional"
     }
 
-    options[`${navId}_order`] = {
-      order: 2,
-      hidden: navWidget === "hidden",
-      section: navSection,
-      label: "Order",
-      type: "string",
-      display: "select",
-      values: orderValues,
-      default: i+1
-    }
   }
 
   return options
