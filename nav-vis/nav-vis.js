@@ -315,10 +315,10 @@ function buildOptions (navCount, config) {
       type: "string",
       display: "select",
       values: [
+        {"Hidden": "hidden"},
         {"Dashboard Link": "dash"},
         {"Custom Link": "link"},
-        {"Metric": "metric"},
-        {"Hidden": "hidden"}
+        {"Metric": "metric"}
       ],
       default: "hidden"
     } 
