@@ -37,26 +37,7 @@ looker.plugins.visualizations.add({
 
     this.trigger('registerOptions', buildOptions(navjs.navCount, config))
 
-    // Nav Actions -- WIP
-    navjs.actions = {}
-    navjs.actions.getLink = function () {
-      return navjs.data[0].link
-    }
-    navjs.actions.openDrillMenu = function () { 
-      var link = navjs.actions.getLink()
-      var cell = LookerCharts.Utils.htmlForCell(link)
-      LookerCharts.Utils.openDrillMenu({
-        links: [{ label: "click drill", type: 'drill', type_label: "type", url: link }],
-        element: $(navjs.element),
-        event: $(navjs.element)}) 
-    }
-    navjs.actions.getHtml = function () {
-      return LookerCharts.Utils.htmlForCell(navjs.actions.getLink())
-    }
-    navjs.actions.openUrl = function (url) {
-      return LookerCharts.Utils.openUrl(url)
-    }
-   
+
     var $el = $(element)
     if (!navjs.init) {
       if (navjs.loadCss) {
@@ -453,6 +434,29 @@ function buildOptions (navCount, config) {
   }
 
   return options
+}
+
+
+// Nav Actions -- experiemental
+addNavActions () {
+  navjs.actions = {}
+  navjs.actions.getLink = function () {
+    return navjs.data[0].link
+  }
+  navjs.actions.openDrillMenu = function () { 
+    var link = navjs.actions.getLink()
+    var cell = LookerCharts.Utils.htmlForCell(link)
+    LookerCharts.Utils.openDrillMenu({
+      links: [{ label: "click drill", type: 'drill', type_label: "type", url: link }],
+      element: $(navjs.element),
+      event: $(navjs.element)}) 
+  }
+  navjs.actions.getHtml = function () {
+    return LookerCharts.Utils.htmlForCell(navjs.actions.getLink())
+  }
+  navjs.actions.openUrl = function (url) {
+    return LookerCharts.Utils.openUrl(url)
+  }
 }
 
 navjs.inlineCss = `
