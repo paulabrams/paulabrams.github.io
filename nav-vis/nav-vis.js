@@ -196,7 +196,7 @@ function buildOptions (navCount, config) {
   var options = {}
   var orderValues = [ { "Hidden": "hidden" } ]
   for (var i=0; i<navjs.navCount; i++) {
-    orderValues.push( { ''+i+1: ''+i+1 })
+    orderValues.push( { `${i+1}`: (i+1) })
   }
 
   // Style Section
