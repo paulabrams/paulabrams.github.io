@@ -52,21 +52,22 @@ looker.plugins.visualizations.add({
     // Build nav items from config
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
-      var navStyle = config[`nav_${i+1}_style`] || ''
+      var navSection = `nav_${i+1}`,
+          navStyle = config[`${navSection}_style`] || ''
       if (navStyle === "hidden") { continue }
 
       var nav = {
         style: navStyle,
-        label: config[`nav_${i+1}_label`] || '',
-        filterset_choice: config[`nav_${i+1}_filterset`] || '',
-        filterset_custom: config[`nav_${i+1}_filterset_custom`] || '',
-        dashboard_id: config[`nav_${i+1}_dashboard_id`] || '',
-        url: config[`nav_${i+1}_url`] || '',
-        metric_dimension: config[`nav_${i+1}_metric_dimension`] || '',
-        metric_title: config[`nav_${i+1}_metric_title`] || '',
-        comparison_dimension: config[`nav_${i+1}_comparison_dimension`] || '',
-        comparison_style: config[`nav_${i+1}_comparison_style`] || '',
-        comparison_label: config[`nav_${i+1}_comparison_label`] || '',
+        label: config[`${navSection}_label`] || '',
+        filterset_choice: config[`${navSection}_filterset`] || '',
+        filterset_custom: config[`${navSection}_filterset_custom`] || '',
+        dashboard_id: config[`${navSection}_dashboard_id`] || '',
+        url: config[`${navSection}_url`] || '',
+        metric_dimension: config[`${navSection}_metric_dimension`] || '',
+        metric_title: config[`${navSection}_metric_title`] || '',
+        comparison_dimension: config[`${navSection}_comparison_dimension`] || '',
+        comparison_style: config[`${navSection}_comparison_style`] || '',
+        comparison_label: config[`${navSection}_comparison_label`] || '',
         classname: '',
         href: '#'}
 
@@ -305,15 +306,17 @@ function buildOptions (navCount, config) {
   // Dependent options are marked as hidden=false/true
   console.log("build nav links", config)
   for (var i=0; i<navCount; i++) {
-    var navStyle = config[`nav_${i+1}_style`] || 'hidden'
+    var navSection = `nav_${i+1}`,
+        navStyle = config[`${navSection}_style`] || 'hidden'
+
 
     console.log("DEBUG - option for nav item "+(i+1)+" style="+navStyle)
     
     // Options for Nav items
-    options[`nav_${i+1}_style`] = {
-      order: 0,
+    options[`${navSection}_style`] = {
+      order: 1,
       hidden: false, // never hidden
-      section: section,
+      section: navSection,
       label: "Style",
       type: "string",
       display: "select",
@@ -325,30 +328,29 @@ function buildOptions (navCount, config) {
       ],
       default: "hidden"
     } 
-    var section = `Nav${i+1}`
-    options[`nav_${i+1}_label`] = {
-      order: 1,
+    options[`${navSection}_label`] = {
+      order: 2,
       hidden: navStyle === "hidden",
-      section: section,
+      section: navSection,
       label: "Label",
       type: "string",
       display_size: "normal",
       default: "",
       placeholder: ""
     }
-    options[`nav_${i+1}_dashboard_id`] = {
-      order: 2,
+    options[`${navSection}_dashboard_id`] = {
+      order: 3,
       hidden: navStyle !== "dash",
-      section: section,
+      section: navSection,
       label: "Link - Dashboard ID",
       type: "string",
       default: "",
       placeholder: "55 or mymodel::mylookml"
     }
-    options[`nav_${i+1}_filterset`] = {
-      order: 3,
+    options[`${navSection}_filterset`] = {
+      order: 4,
       hidden: navStyle !== "dash",
-      section: section,
+      section: navSection,
       label: "Link - Filter Set",
       type: "string",
       values: [
@@ -365,57 +367,57 @@ function buildOptions (navCount, config) {
       display: "select",
       default: "nav_filterset_default"
     }
-    options[`nav_${i+1}_filterset_custom`] = {
-      order: 4,
+    options[`${navSection}_filterset_custom`] = {
+      order: 5,
       hidden: navStyle !== "dash",
-      section: section,
+      section: navSection,
       label: "Link - Custom Filter Set",
       type: "string",
       default: "",
       placeholder: "e.g. my_custom_dimension"
     }
-    options[`nav_${i+1}_url`] = {
-      order: 5,
+    options[`${navSection}_url`] = {
+      order: 6,
       hidden: navStyle !== "link",
-      section: section,
+      section: navSection,
       label: "Link URL",
       type: "string",
       default: "",
       placeholder: "http://..."
     }
     // Metric w/ comparison
-    options[`nav_${i+1}_metric_dimension`] = {
-      order: 6,
+    options[`${navSection}_metric_dimension`] = {
+      order: 7,
       hidden: navStyle !== "metric",
-      section: section,
+      section: navSection,
       label: "Metric Dimension",
       type: "string",
       default: "",
       placeholder: "e.g. my_dimension"
     }
-    options[`nav_${i+1}_metric_title`] = {
-      order: 7,
+    options[`${navSection}_metric_title`] = {
+      order: 8,
       hidden: navStyle !== "metric",
-      section: section,
+      section: navSection,
       label: "Metric Title",
       type: "string",
       default: "",
       placeholder: "optional"
     }
     // Comparison
-    options[`nav_${i+1}_comparison_dimension`] = {
-      order: 8,
+    options[`${navSection}_comparison_dimension`] = {
+      order: 9,
       hidden: navStyle !== "metric",
-      section: section,
+      section: navSection,
       label: "Comparison Dimension",
       type: "string",
       default: "",
       placeholder: "e.g. my_dimension"
     }
-    options[`nav_${i+1}_comparison_style`] = {
-      order: 9,
+    options[`${navSection}_comparison_style`] = {
+      order: 10,
       hidden: navStyle !== "metric",
-      section: section,
+      section: navSection,
       label: "Comparison Style",
       type: "string",
       display: "select",
@@ -426,10 +428,10 @@ function buildOptions (navCount, config) {
       ],
       default: "show_as_value"
     }
-    options[`nav_${i+1}_comparison_label`] = {
-      order: 10,
+    options[`${navSection}_comparison_label`] = {
+      order: 11,
       hidden: navStyle !== "metric",
-      section: section,
+      section: navSection,
       label: "Comparison Label",
       type: "string",
       default: "",
