@@ -23,9 +23,9 @@ var navjs = {
 }
 
 looker.plugins.visualizations.add({
-  options: {},
+  options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log("nav-vis.js create() v0.1.2")
+    console.log("nav-vis.js create() v0.1.5")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     navjs.data = data
@@ -34,6 +34,8 @@ looker.plugins.visualizations.add({
     navjs.queryResponse = queryResponse
     navjs.details = details
     console.log("nav-vis.js updateAsync() navjs=", navjs)
+
+    this.trigger('registerOptions', buildOptions(navjs.navCount, config))
 
     // Nav Actions -- WIP
     navjs.actions = {}
@@ -55,7 +57,6 @@ looker.plugins.visualizations.add({
       return LookerCharts.Utils.openUrl(url)
     }
    
-
     var $el = $(element)
     if (!navjs.init) {
       if (navjs.loadCss) {
@@ -66,10 +67,6 @@ looker.plugins.visualizations.add({
       }
       navjs.init = 1
     }
-
-    
-    var options = buildOptions (navjs.navCount, config)
-    this.trigger('registerOptions', options)
 
     // Build nav items from config
     navjs.navs = []
