@@ -69,16 +69,14 @@ looker.plugins.visualizations.add({
         comparison_dimension: config[`${navId}_comparison_dimension`] || '',
         comparison_style: config[`${navId}_comparison_style`] || '',
         comparison_label: config[`${navId}_comparison_label`] || '',
-        href: '#'}
+        href: '#' }
 
       // Label
-      nav.label_html = ''
-      if (nav.label) {
-        nav.label_html += `<span class="label">${nav.label}</span>`
-      }
+      nav.label_html = nav.label ? `<span class="label">${nav.label}</span>` : ''
+
       // Metric
+      nav.metric_html = ''
       if (nav.style === "metric") {
-        nav.metric_html = ''
         if (navjs.data[0][nav.metric_dimension] !== undefined) {
           nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
           if (nav.metric_title) { nav.metric_html += `<div class="metric_title">${nav.metric_title}</div>` }
