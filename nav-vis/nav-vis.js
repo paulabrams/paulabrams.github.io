@@ -144,8 +144,6 @@ looker.plugins.visualizations.add({
 
     config.widget = config.widget || 'navbar-nav'
     config.align = config.align || ''
-    config.listClass = config.listClass || 'navbar-default'
-    config.listItemClass = config.listItemClass || ''
 
     var themes = {
       light: { navbar: "navbar-light bg-light" },
@@ -169,9 +167,9 @@ looker.plugins.visualizations.add({
           <div class="navjs-header navjs-header-${config.size}">${config.header}</div>
         </div>`)
     }
-    var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
+    var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.style} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
+      $ul.append(`<li class="${nav.style} ${navjs.size.item}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
     })
     $navbar.append($ul)
 
@@ -234,7 +232,7 @@ function buildOptions (navCount, config) {
       section: "Main",
       order: 3,
       type: "string",
-      label: "Style",
+      label: "Theme",
       values: [
         {"Light": "light"},
         {"Dark": "dark"},
