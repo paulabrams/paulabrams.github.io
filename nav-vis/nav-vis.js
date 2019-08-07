@@ -320,11 +320,7 @@ function buildOptions (navCount, config) {
   for (var i=0; i<navCount; i++) {
 
     // Dependent options are marked as hidden=false/true
-    var navStyle = config[`nav_${i+1}_style`] || 'hidden',
-        isDash = navStyle === "dash",
-        isLink = navStyle === "link",
-        isMetric = navStyle === "metric",
-        isHidden = navStyle === "hidden"
+    var navStyle = config[`nav_${i+1}_style`] || 'hidden'
 
     console.log("DEBUG - option for nav item "+(i+1)+" style="+navStyle)
     
@@ -347,7 +343,7 @@ function buildOptions (navCount, config) {
     var section = `Nav${i+1}`
     options[`nav_${i+1}_label`] = {
       order: 1,
-      hidden: isHidden,
+      hidden: navStyle === "hidden",
       section: section,
       label: "Label",
       type: "string",
@@ -357,7 +353,7 @@ function buildOptions (navCount, config) {
     }
     options[`nav_${i+1}_dashboard_id`] = {
       order: 2,
-      hidden: !isDash,
+      hidden: navStyle !== "dash",
       section: section,
       label: "Link - Dashboard ID",
       type: "string",
@@ -366,7 +362,7 @@ function buildOptions (navCount, config) {
     }
     options[`nav_${i+1}_filterset`] = {
       order: 3,
-      hidden: !isDash,
+      hidden: navStyle !== "dash",
       section: section,
       label: "Link - Filter Set",
       type: "string",
@@ -386,7 +382,7 @@ function buildOptions (navCount, config) {
     }
     options[`nav_${i+1}_filterset_custom`] = {
       order: 4,
-      hidden: !isDash,
+      hidden: navStyle !== "dash",
       section: section,
       label: "Link - Custom Filter Set",
       type: "string",
@@ -395,7 +391,7 @@ function buildOptions (navCount, config) {
     }
     options[`nav_${i+1}_url`] = {
       order: 5,
-      hidden: !isLink,
+      hidden: navStyle !== "link",
       section: section,
       label: "Link URL",
       type: "string",
@@ -405,7 +401,7 @@ function buildOptions (navCount, config) {
     // Metric w/ comparison
     options[`nav_${i+1}_metric_dimension`] = {
       order: 6,
-      hidden: !isMetric,
+      hidden: navStyle !== "metric",
       section: section,
       label: "Metric Dimension",
       type: "string",
@@ -414,7 +410,7 @@ function buildOptions (navCount, config) {
     }
     options[`nav_${i+1}_metric_title`] = {
       order: 7,
-      hidden: !isMetric,
+      hidden: navStyle !== "metric",
       section: section,
       label: "Metric Title",
       type: "string",
@@ -424,7 +420,7 @@ function buildOptions (navCount, config) {
     // Comparison
     options[`nav_${i+1}_comparison_dimension`] = {
       order: 8,
-      hidden: !isMetric,
+      hidden: navStyle !== "metric",
       section: section,
       label: "Comparison Dimension",
       type: "string",
@@ -433,7 +429,7 @@ function buildOptions (navCount, config) {
     }
     options[`nav_${i+1}_comparison_style`] = {
       order: 9,
-      hidden: !isMetric,
+      hidden: navStyle !== "metric",
       section: section,
       label: "Comparison Style",
       type: "string",
@@ -447,7 +443,7 @@ function buildOptions (navCount, config) {
     }
     options[`nav_${i+1}_comparison_label`] = {
       order: 10,
-      hidden: !isMetric,
+      hidden: navStyle !== "metric",
       section: section,
       label: "Comparison Label",
       type: "string",
