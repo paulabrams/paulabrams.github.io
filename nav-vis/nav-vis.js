@@ -318,11 +318,12 @@ function buildOptions (navCount, config) {
       type: "string",
       display: "select",
       values: [
+        {"Hidden": "hidden"},
         {"Dashboard Link": "dash"},
         {"Custom Link": "link"},
         {"Metric": "metric"}
       ],
-      default: "dash"
+      default: "hidden"
     } 
     options[`${navId}_label`] = {
       order: 2,
