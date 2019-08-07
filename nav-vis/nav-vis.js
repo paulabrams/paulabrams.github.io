@@ -71,24 +71,24 @@ looker.plugins.visualizations.add({
       if (nav.order === "hidden" || nav.widget === "hidden") { continue }
 
       // Label
-      nav.label_html = nav.label ? `<span class="nav-label">${nav.label}</span>` : ''
+      nav.label_html = nav.label ? `<span class="navjs-label">${nav.label}</span>` : ''
 
       // Metric
       nav.metric_html = ''
       if (nav.widget === "metric") {
         if (navjs.data[0][nav.metric_dimension] !== undefined) {
           nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
-          if (nav.metric_title) { nav.metric_html += `<div class="metric_title">${nav.metric_title}</div> ` }
-          nav.metric_html += `<div class="metric_value">${nav.metric_value}</div>`
+          if (nav.metric_title) { nav.metric_html += `<div class="navjs-metric-title">${nav.metric_title}</div> ` }
+          nav.metric_html += `<div class="navjs-metric-value">${nav.metric_value}</div>`
         }
         if (navjs.data[0][nav.comparison_dimension] !== undefined) {
           nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
           nav.comparison_change = ""
           if (nav.comparison_style === "show_as_change") {
-            if (nav.comparison_value > 0) { nav.comparison_change = `<span class="up-arrow-copy">^</span>` }
-            else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="down-arrow-copy">v</span>` }
+            if (nav.comparison_value > 0) { nav.comparison_change = `<span class="navjs-comparison-up">^</span>` }
+            else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="navjs-comparison-down">v</span>` }
           }
-          nav.metric_html += `<div class="comparison">${nav.comparison_change}${nav.comparison_value}${nav.comparison_label}</div>`
+          nav.metric_html += `<div class="navjs-comparison">${nav.comparison_change}${nav.comparison_value}${nav.comparison_label}</div>`
         }
         if (nav.metric_html) {
           nav.metric_html = `<div class="metric">${nav.metric_html}</div>`
@@ -159,7 +159,7 @@ looker.plugins.visualizations.add({
     if (config.header) {
       $navbar.append(`
         <div class="navbar-header">
-          <div class="header navbar-brand">${config.header}</div>
+          <div class="navjs-header navbar-brand">${config.header}</div>
         </div>`)
     }
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
@@ -483,7 +483,7 @@ navjs.inlineCss = `
   font-family: roboto, open sans, sans-serif;
   margin: 0px;
 }
-.header {
+.navjs-header {
   height: 36px;
   font-family: Roboto;
   font-size: 28px;
@@ -494,24 +494,13 @@ navjs.inlineCss = `
   letter-spacing: normal;
   color: var(--charcoal-grey);
 }
-.active .header {
-  height: 22px !important;
-  font-family: Roboto;
-  font-size: 16px !important;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: condensed;
-  line-height: 1.38 !important;
-  letter-spacing: 0.2px;
-  color: var(--charcoal-grey) !important;
-}
 a {
   color: var(--charcoal-grey) !important;
 }
 a:hover {
   color: var(--charcoal-grey) !important;
 }
-.nav-label {
+.navjs-label {
   height: 16px;
   font-family: Roboto;
   font-size: 13px;
@@ -522,9 +511,9 @@ a:hover {
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
 }
-.metric {
+.navjs-metric {
 }
-.active .metric_title {
+.active .navjs-metric-title {
   height: 22px;
   font-family: Roboto;
   font-size: 16px;
@@ -535,7 +524,7 @@ a:hover {
   letter-spacing: 0.2px;
   color: var(--charcoal-grey);
 }
-.metric_title {
+.navjs-metric-title {
   height: 22px;
   font-family: Roboto;
   font-size: 16px;
@@ -546,7 +535,7 @@ a:hover {
   letter-spacing: 0.2px;
   color: var(--charcoal-grey);
 }
-.metric_value {
+.navjs-metric-value {
   height: 36px;
   font-family: Roboto;
   font-size: 28px;
@@ -558,7 +547,7 @@ a:hover {
   text-align: center;
   color: var(--charcoal-grey);
 }
-.comparison {
+.navjs-comparison {
   height: 16px;
   font-family: Roboto;
   font-size: 12px;
@@ -570,12 +559,12 @@ a:hover {
   text-align: right;
   color: #6c7373 !important;
 }
-.up-arrow-copy {
+.navjs-comparison-up {
   width: 7px;
   height: 10px;
   background-image: linear-gradient(to bottom, #2db364, rgba(45, 179, 100, 0));
 }
-.down-arrow-copy {
+.navjs-comparison-down {
   width: 7px;
   height: 10px;
   transform: rotate(-180deg);
