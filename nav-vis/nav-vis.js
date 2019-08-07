@@ -56,7 +56,6 @@ looker.plugins.visualizations.add({
           nav = { widget: config[`${navId}_widget`] || '',
                   label: config[`${navId}_label`] || '',
                   style: config[`${navId}_style`] || '',
-                  order: config[`${navId}_order`] || '',
                   filterset_choice: config[`${navId}_filterset_choice`] || '',
                   filterset_custom: config[`${navId}_filterset_custom`] || '',
                   dashboard_id: config[`${navId}_dashboard_id`] || '',
@@ -68,11 +67,11 @@ looker.plugins.visualizations.add({
                   comparison_label: config[`${navId}_comparison_label`] || '',
                   href: '#' }
 
-      if (nav.order === "hidden" || nav.widget === "hidden") { continue }
+      if (nav.widget === "hidden") { continue }
 
       // Label
       if (nav.widget === "spacer") {
-        nav.label_html = `<span class="navjs-spacer"> </span>`
+        nav.label_html = `<div class="navjs-spacer">&nbsp;</div>`
       }
       else if (nav.label) {
         nav.label_html = `<span class="navjs-label">${nav.label}</span>`
@@ -205,7 +204,7 @@ function buildOptions (navCount, config) {
   var orderValues = [ { "Hidden": "hidden" } ]
   for (var i=0; i<navjs.navCount; i++) {
     var choice = {}
-    choice[`${i+1}`] = i+1
+    choice[`${i+1}`] = ''+(i+1)
     orderValues.push(choice)
   }
 
@@ -319,7 +318,7 @@ function buildOptions (navCount, config) {
 
     // Options for Nav items
     options[`${navId}_widget`] = {
-      order: 0,
+      order: 1,
       hidden: false, // never hidden
       section: navSection,
       label: "Widget",
@@ -335,26 +334,16 @@ function buildOptions (navCount, config) {
       default: "hidden"
     } 
     options[`${navId}_label`] = {
-      order: 1,
-      hidden: navWidget === "hidden" || navWidget === "spacer",
+      order: 2,
+      hidden: navWidget === "spacer" || navWidget === "hidden",
       section: navSection,
       label: "Label",
       type: "string",
       placeholder: ""
     }
-    options[`${navId}_order`] = {
-      order: 2,
-      hidden: navWidget === "hidden" || navWidget === "spacer",
-      section: navSection,
-      label: "Order",
-      type: "string",
-      display: "select",
-      values: orderValues,
-      default: i+1
-    }
     options[`${navId}_style`] = {
       order: 3,
-      hidden: navWidget === "hidden" || navWidget === "spacer",
+      hidden: navWidget === "spacer" || navWidget === "hidden",
       section: navSection,
       label: "Style",
       display: "select",
@@ -509,7 +498,7 @@ navjs.inlineCss = `
 .navjs-header-normal { }
 .navjs-header-small { }
 .navjs-spacer {
-  width: 120px
+  width: 100px
 }
 a {
   color: var(--charcoal-grey) !important;
