@@ -424,6 +424,12 @@ navjs.inlineCss = `
   letter-spacing: 0.2px;
   color: var(--charcoal-grey);
 }
+a {
+  color: inherit;
+}
+a:hover {
+  color: inherit;
+}
 .label {
   height: 22px;
   font-family: Roboto;
