@@ -71,7 +71,7 @@ looker.plugins.visualizations.add({
       if (nav.order === "hidden" || nav.widget === "hidden") { continue }
 
       // Label
-      nav.label_html = nav.label ? `<span class="label">${nav.label}</span>` : ''
+      nav.label_html = nav.label ? `<span class="nav-label">${nav.label}</span>` : ''
 
       // Metric
       nav.metric_html = ''
@@ -484,7 +484,6 @@ navjs.inlineCss = `
   margin: 0px;
 }
 .header {
-  width: 101px;
   height: 36px;
   font-family: Roboto;
   font-size: 28px;
@@ -495,7 +494,7 @@ navjs.inlineCss = `
   letter-spacing: normal;
   color: var(--charcoal-grey);
 }
-.header {
+.active .header {
   height: 22px !important;
   font-family: Roboto;
   font-size: 16px !important;
@@ -512,8 +511,7 @@ a {
 a:hover {
   color: var(--charcoal-grey) !important;
 }
-.label {
-  width: 62px;
+.nav-label {
   height: 16px;
   font-family: Roboto;
   font-size: 13px;
