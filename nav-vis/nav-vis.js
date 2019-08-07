@@ -38,7 +38,6 @@ looker.plugins.visualizations.add({
 
     this.trigger('registerOptions', buildOptions(navjs.navCount, config))
 
-
     var $el = $(element)
     if (!navjs.init) {
       if (navjs.loadCss) {
@@ -303,9 +302,9 @@ function buildOptions (navCount, config) {
 
 
   // Nav Links Sections
+  // Dependent options are marked as hidden=false/true
+  console.log("build nav links", config)
   for (var i=0; i<navCount; i++) {
-
-    // Dependent options are marked as hidden=false/true
     var navStyle = config[`nav_${i+1}_style`] || 'hidden'
 
     console.log("DEBUG - option for nav item "+(i+1)+" style="+navStyle)
