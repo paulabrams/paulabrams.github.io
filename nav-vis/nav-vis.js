@@ -203,13 +203,13 @@ function buildOptions (navCount, config) {
 
   // Style Section
   options.header = {
-      section: "Style",
+      section: "Main",
       order: 1,
       type: "string",
       label: "Header"
     }
   options.widget = {
-      section: "Style",
+      section: "Main",
       order: 2,
       type: "string",
       label: "Navbar",
@@ -224,7 +224,7 @@ function buildOptions (navCount, config) {
       default: "standard"
   }
   options.theme = {
-      section: "Style",
+      section: "Main",
       order: 3,
       type: "string",
       label: "Style",
@@ -238,7 +238,7 @@ function buildOptions (navCount, config) {
       default: "light"
     }
   options.size = {
-      section: "Style",
+      section: "Main",
       order: 4,
       type: "string",
       label: "Size",
@@ -252,7 +252,7 @@ function buildOptions (navCount, config) {
     default: "normal"
   }
   options.align = {
-    section: "Style",
+    section: "Main",
     order: 5,
     type: "string",
     label: "Align",
@@ -270,7 +270,7 @@ function buildOptions (navCount, config) {
   }
   /*
   options.form = {
-      section: "Style",
+      section: "Main",
       order: 6,
       type: "string",
       label: "Form",
@@ -282,7 +282,7 @@ function buildOptions (navCount, config) {
     }
     */
   options.listClass = {
-      section: "Style",
+      section: "Main",
       order: 7,
       type: "string",
       label: "Custom List Class",
@@ -291,7 +291,7 @@ function buildOptions (navCount, config) {
       placeholder: "optional"
     }
   options.listItemClass = { 
-      section: "Style",
+      section: "Main",
       order: 8,
       type: "string",
       label: "Custom Item Class",
