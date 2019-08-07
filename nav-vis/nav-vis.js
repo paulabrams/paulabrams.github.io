@@ -484,6 +484,18 @@ navjs.inlineCss = `
   margin: 0px;
 }
 .header {
+  width: 101px;
+  height: 36px;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: 1.29;
+  letter-spacing: normal;
+  color: var(--charcoal-grey);
+}
+.header {
   height: 22px !important;
   font-family: Roboto;
   font-size: 16px !important;
@@ -501,6 +513,31 @@ a:hover {
   color: var(--charcoal-grey) !important;
 }
 .label {
+  width: 62px;
+  height: 16px;
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: 1.23;
+  letter-spacing: 0.87px;
+  color: rgba(57, 66, 66, 0.8);
+}
+.metric {
+}
+.active .metric_title {
+  height: 22px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: 1.38;
+  letter-spacing: 0.2px;
+  color: var(--charcoal-grey);
+}
+.metric_title {
   height: 22px;
   font-family: Roboto;
   font-size: 16px;
@@ -509,20 +546,7 @@ a:hover {
   font-stretch: condensed;
   line-height: 1.38;
   letter-spacing: 0.2px;
-  color: var(--charcoal-grey) !important;
-}
-.metric {
-}
-.metric_title {
-  height: 36px;
-  font-family: Roboto;
-  font-size: 28px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: condensed;
-  line-height: 1.29;
-  letter-spacing: normal;
-  color: var(--charcoal-grey) !important;
+  color: var(--charcoal-grey);
 }
 .metric_value {
   height: 36px;
@@ -534,7 +558,7 @@ a:hover {
   line-height: 1.29;
   letter-spacing: normal;
   text-align: center;
-  color: var(--charcoal-grey) !important;
+  color: var(--charcoal-grey);
 }
 .comparison {
   height: 16px;
