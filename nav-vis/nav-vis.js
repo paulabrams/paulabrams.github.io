@@ -413,7 +413,7 @@ navjs.inlineCss = `
   font-family: roboto, open sans, sans-serif;
   margin: 0px;
 }
-.navbar-header {
+.navbar-brand {
   height: 22px;
   font-family: Roboto;
   font-size: 16px;
