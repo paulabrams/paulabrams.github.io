@@ -439,7 +439,7 @@ a:hover {
   font-stretch: condensed;
   line-height: 1.38;
   letter-spacing: 0.2px;
-  color: var(--charcoal-grey);
+  color: var(--charcoal-grey) !important;
 }
 .metric {
 }
@@ -452,7 +452,7 @@ a:hover {
   font-stretch: condensed;
   line-height: 1.29;
   letter-spacing: normal;
-  color: var(--charcoal-grey);
+  color: var(--charcoal-grey) !important;
 }
 .metric_value {
   height: 36px;
@@ -464,7 +464,7 @@ a:hover {
   line-height: 1.29;
   letter-spacing: normal;
   text-align: center;
-  color: var(--charcoal-grey);
+  color: var(--charcoal-grey) !important;
 }
 .comparison {
   height: 16px;
@@ -476,7 +476,7 @@ a:hover {
   line-height: 1.33;
   letter-spacing: normal;
   text-align: right;
-  color: #6c7373;
+  color: #6c7373 !important;
 }
 .up-arrow-copy {
   width: 7px;
