@@ -76,7 +76,7 @@ looker.plugins.visualizations.add({
 
       // Metric
       nav.metric_html = ''
-      if (nav.style === "metric") {
+      if (nav.widget === "metric") {
         if (navjs.data[0][nav.metric_dimension] !== undefined) {
           nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
           if (nav.metric_title) { nav.metric_html += `<div class="metric_title">${nav.metric_title}</div>` }
@@ -97,7 +97,7 @@ looker.plugins.visualizations.add({
       }
 
       // Build href based on type
-      if (nav.style === "dash") {
+      if (nav.widget === "dash") {
         nav.querystring = '?vis=navjs'
         if (navjs.data && navjs.data[0]) {
           nav.filterset = nav.filterset_custom || nav.filterset_choice || ''
@@ -125,7 +125,7 @@ looker.plugins.visualizations.add({
         }
         nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
       }
-      else if (nav.style === "link") {
+      else if (nav.widget === "link") {
         // use custom URL as-is
         nav.href = nav.url
       }
