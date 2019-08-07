@@ -293,7 +293,7 @@ looker.plugins.visualizations.add({
       // Label
       nav.label_html = ''
       if (nav.label) {
-        nav.metric_html += `<span class="label">${nav.label}</span>`
+        nav.label_html += `<span class="label">${nav.label}</span>`
       }
       // Metric
       nav.metric_html = ''
