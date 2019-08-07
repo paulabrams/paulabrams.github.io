@@ -548,7 +548,7 @@ a:hover {
   font-stretch: condensed;
   line-height: 1.29;
   letter-spacing: normal;
-  text-align: center;
+  /*text-align: center;*/
   color: var(--charcoal-grey);
 }
 .navjs-comparison {
@@ -560,7 +560,7 @@ a:hover {
   font-stretch: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  text-align: right;
+  /*text-align: right;*/
   color: #6c7373 !important;
 }
 .navjs-comparison-up {
