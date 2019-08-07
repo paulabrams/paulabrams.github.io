@@ -25,7 +25,7 @@ var navjs = {
 looker.plugins.visualizations.add({
   options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log("nav-vis.js create() v0.1.5")
+    console.log("nav-vis.js create() v0.1.6")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
@@ -53,12 +53,13 @@ looker.plugins.visualizations.add({
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
       var navId = `nav_${i+1}`,
-          navStyle = config[`${navId}_style`] || ''
-      if (navStyle === "hidden") { continue }
+          navWidget = config[`${navId}_widget`] || ''
+      if (navWidget === "hidden") { continue }
 
       var nav = {
-        style: navStyle,
+        widget: navWidget,
         label: config[`${navId}_label`] || '',
+        style: config[`${navId}_style`] || '',
         filterset_choice: config[`${navId}_filterset`] || '',
         filterset_custom: config[`${navId}_filterset_custom`] || '',
         dashboard_id: config[`${navId}_dashboard_id`] || '',
@@ -68,7 +69,6 @@ looker.plugins.visualizations.add({
         comparison_dimension: config[`${navId}_comparison_dimension`] || '',
         comparison_style: config[`${navId}_comparison_style`] || '',
         comparison_label: config[`${navId}_comparison_label`] || '',
-        classname: '',
         href: '#'}
 
       // Label
@@ -102,20 +102,22 @@ looker.plugins.visualizations.add({
       if (nav.style === "dash") {
         nav.querystring = '?vis=navjs'
         if (navjs.data && navjs.data[0]) {
-          nav.filterset_parameter = "_parameters."+(nav.filterset_custom || nav.filterset_choice)
-          if (navjs.data[0][nav.filterset_parameter]) {
-            nav.filter_link = navjs.data[0][nav.filterset_parameter]
-            if (nav.filter_link && nav.filter_link.html) {
-              nav.querystring += $('<div/>').html(nav.filter_link.html).text()
+          nav.filterset = nav.filterset_custom || nav.filterset_choice || ''
+          if (nav.filterset) {
+            nav.filterset_parameter = "_parameters."+nav.filterset
+            if (navjs.data[0][nav.filterset_parameter]) {
+              nav.filter_link = navjs.data[0][nav.filterset_parameter]
+              if (nav.filter_link && nav.filter_link.html) {
+                nav.querystring += $('<div/>').html(nav.filter_link.html).text()
+              }
+            }
+            else {
+              //nav.querystring += "&message=filterset not found"
+              this.addError({
+                title: "Filter Set Not Found",
+                message: "Filter Set not found: "+ nav.filterset_parameter });
             }
           }
-          else {
-            //nav.querystring += "&message=filterset not found"
-            this.addError({
-              title: "Filter Set Not Found",
-              message: "Filter Set not found: "+ nav.filterset_parameter });
-          }
-
         }
         else {
             //nav.querystring += "&message=filterset has no data"
@@ -128,10 +130,6 @@ looker.plugins.visualizations.add({
       else if (nav.style === "link") {
         // use custom URL as-is
         nav.href = nav.url
-      }
-      // The "Active" nav item
-      if (nav.url === "#" || nav.href === "#") {
-        nav.classname = "active"
       }
 
       if (nav.label || nav.metric_html) {
@@ -169,7 +167,7 @@ looker.plugins.visualizations.add({
     }
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.classname} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
+      $ul.append(`<li class="${nav.style} ${navjs.size.item} ${config.listItemClass}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
     })
     $navbar.append($ul)
 
@@ -289,6 +287,7 @@ function buildOptions (navCount, config) {
       label: "Custom List Class",
       default: "",
       display_size: "half",
+      hidden: true,
       placeholder: "optional"
     }
   options.listItemClass = { 
@@ -297,6 +296,7 @@ function buildOptions (navCount, config) {
       type: "string",
       label: "Custom Item Class",
       default: "",
+      hidden: true,
       display_size: "half",
       placeholder: "optional"
     }
@@ -308,17 +308,17 @@ function buildOptions (navCount, config) {
   for (var i=0; i<navCount; i++) {
     var navSection = `Nav ${i+1}`,
         navId = `nav_${i+1}`,
-        navStyle = config[`${navId}_style`] || 'hidden'
+        navWidget = config[`${navId}_widget`] || 'hidden'
 
 
-    console.log("DEBUG - option for nav item "+(i+1)+" style="+navStyle)
+    console.log("DEBUG - option for nav item "+(i+1)+" style="+navWidget)
     
     // Options for Nav items
-    options[`${navId}_style`] = {
+    options[`${navId}_widget`] = {
       order: 1,
       hidden: false, // never hidden
       section: navSection,
-      label: "Style",
+      label: "Widget",
       type: "string",
       display: "select",
       values: [
@@ -331,17 +331,29 @@ function buildOptions (navCount, config) {
     } 
     options[`${navId}_label`] = {
       order: 2,
-      hidden: navStyle === "hidden",
+      hidden: navWidget === "hidden",
       section: navSection,
       label: "Label",
       type: "string",
-      display_size: "normal",
       default: "",
       placeholder: ""
     }
-    options[`${navId}_dashboard_id`] = {
+    options[`${navId}_style`] = {
       order: 3,
-      hidden: navStyle !== "dash",
+      hidden: navWidget === "hidden",
+      section: navSection,
+      label: "Style",
+      display: "select",
+      values: [
+        {"Normal": "normal"},
+        {"Active": "active"},
+      ],
+      type: "string",
+      default: "normal"
+    }
+    options[`${navId}_dashboard_id`] = {
+      order: 4,
+      hidden: navWidget !== "dash",
       section: navSection,
       label: "Link - Dashboard ID",
       type: "string",
@@ -349,8 +361,8 @@ function buildOptions (navCount, config) {
       placeholder: "55 or mymodel::mylookml"
     }
     options[`${navId}_filterset`] = {
-      order: 4,
-      hidden: navStyle !== "dash",
+      order: 5,
+      hidden: navWidget !== "dash",
       section: navSection,
       label: "Link - Filter Set",
       type: "string",
@@ -369,8 +381,8 @@ function buildOptions (navCount, config) {
       default: "nav_filterset_default"
     }
     options[`${navId}_filterset_custom`] = {
-      order: 5,
-      hidden: navStyle !== "dash",
+      order: 6,
+      hidden: navWidget !== "dash",
       section: navSection,
       label: "Link - Custom Filter Set",
       type: "string",
@@ -378,8 +390,8 @@ function buildOptions (navCount, config) {
       placeholder: "e.g. my_custom_dimension"
     }
     options[`${navId}_url`] = {
-      order: 6,
-      hidden: navStyle !== "link",
+      order: 7,
+      hidden: navWidget !== "link",
       section: navSection,
       label: "Link URL",
       type: "string",
@@ -388,8 +400,8 @@ function buildOptions (navCount, config) {
     }
     // Metric w/ comparison
     options[`${navId}_metric_dimension`] = {
-      order: 7,
-      hidden: navStyle !== "metric",
+      order: 8,
+      hidden: navWidget !== "metric",
       section: navSection,
       label: "Metric Dimension",
       type: "string",
@@ -397,8 +409,8 @@ function buildOptions (navCount, config) {
       placeholder: "e.g. my_dimension"
     }
     options[`${navId}_metric_title`] = {
-      order: 8,
-      hidden: navStyle !== "metric",
+      order: 9,
+      hidden: navWidget !== "metric",
       section: navSection,
       label: "Metric Title",
       type: "string",
@@ -407,8 +419,8 @@ function buildOptions (navCount, config) {
     }
     // Comparison
     options[`${navId}_comparison_dimension`] = {
-      order: 9,
-      hidden: navStyle !== "metric",
+      order: 10,
+      hidden: navWidget !== "metric",
       section: navSection,
       label: "Comparison Dimension",
       type: "string",
@@ -416,8 +428,8 @@ function buildOptions (navCount, config) {
       placeholder: "e.g. my_dimension"
     }
     options[`${navId}_comparison_style`] = {
-      order: 10,
-      hidden: navStyle !== "metric",
+      order: 11,
+      hidden: navWidget !== "metric",
       section: navSection,
       label: "Comparison Style",
       type: "string",
@@ -430,8 +442,8 @@ function buildOptions (navCount, config) {
       default: "show_as_value"
     }
     options[`${navId}_comparison_label`] = {
-      order: 11,
-      hidden: navStyle !== "metric",
+      order: 12,
+      hidden: navWidget !== "metric",
       section: navSection,
       label: "Comparison Label",
       type: "string",
