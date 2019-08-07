@@ -306,8 +306,8 @@ looker.plugins.visualizations.add({
         nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
         nav.comparison_change = ""
         if (nav.comparison_style === "show_as_change") {
-          if (nav.comparison_value < 0) { nav.comparison_change = "--" }
-          else if (nav.comparison_value > 0) { nav.comparison_change = "++" }
+          if (nav.comparison_value > 0) { nav.comparison_change = `<span class="up-arrow-copy">^</span>` }
+          else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="down-arrow-copy">v</span>` }
         }
         nav.metric_html += `<div class="comparison">${nav.comparison_change} ${nav.comparison_value} ${nav.comparison_label}</div>`
       }
@@ -471,5 +471,16 @@ navjs.inlineCss = `
   letter-spacing: normal;
   text-align: right;
   color: #6c7373;
+}
+.up-arrow-copy {
+  width: 7px;
+  height: 10px;
+  background-image: linear-gradient(to bottom, #2db364, rgba(45, 179, 100, 0));
+}
+.down-arrow-copy {
+  width: 7px;
+  height: 10px;
+  transform: rotate(-180deg);
+  background-image: linear-gradient(to bottom, #ff475d, rgba(255, 71, 93, 0));
 }
 `
