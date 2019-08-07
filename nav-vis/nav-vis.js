@@ -16,8 +16,9 @@
  *  css: https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css
  */
 var navjs = {
-  loadCss: "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
-  inlineCss: '',
+  loadCss: [ "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
+             "https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Condensed|&display=swap" ],
+  inlineCss: '', //This is specified inline at the end of this file
   navCount: 7,
   init: 0
 }
@@ -40,9 +41,9 @@ looker.plugins.visualizations.add({
 
     var $el = $(element)
     if (!navjs.init) {
-      if (navjs.loadCss) {
-        $el.parent().after(`<link rel="stylesheet" href="${navjs.loadCss}" crossorigin="anonymous">`)
-      }
+      navjs.loadCss.forEach(function(css) {
+      $el.parent().after(`<link rel="stylesheet" href="${css}" crossorigin="anonymous">`)
+      })
       if (navjs.inlineCss) {
         $el.parent().after(`<style>${navjs.inlineCss}</style>`)
       }
