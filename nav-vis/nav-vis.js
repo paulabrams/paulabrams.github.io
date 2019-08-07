@@ -52,22 +52,22 @@ looker.plugins.visualizations.add({
     // Build nav items from config
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
-      var navSection = `nav_${i+1}`,
-          navStyle = config[`${navSection}_style`] || ''
+      var navId = `nav_${i+1}`,
+          navStyle = config[`${navId}_style`] || ''
       if (navStyle === "hidden") { continue }
 
       var nav = {
         style: navStyle,
-        label: config[`${navSection}_label`] || '',
-        filterset_choice: config[`${navSection}_filterset`] || '',
-        filterset_custom: config[`${navSection}_filterset_custom`] || '',
-        dashboard_id: config[`${navSection}_dashboard_id`] || '',
-        url: config[`${navSection}_url`] || '',
-        metric_dimension: config[`${navSection}_metric_dimension`] || '',
-        metric_title: config[`${navSection}_metric_title`] || '',
-        comparison_dimension: config[`${navSection}_comparison_dimension`] || '',
-        comparison_style: config[`${navSection}_comparison_style`] || '',
-        comparison_label: config[`${navSection}_comparison_label`] || '',
+        label: config[`${navId}_label`] || '',
+        filterset_choice: config[`${navId}_filterset`] || '',
+        filterset_custom: config[`${navId}_filterset_custom`] || '',
+        dashboard_id: config[`${navId}_dashboard_id`] || '',
+        url: config[`${navId}_url`] || '',
+        metric_dimension: config[`${navId}_metric_dimension`] || '',
+        metric_title: config[`${navId}_metric_title`] || '',
+        comparison_dimension: config[`${navId}_comparison_dimension`] || '',
+        comparison_style: config[`${navId}_comparison_style`] || '',
+        comparison_label: config[`${navId}_comparison_label`] || '',
         classname: '',
         href: '#'}
 
@@ -306,14 +306,15 @@ function buildOptions (navCount, config) {
   // Dependent options are marked as hidden=false/true
   console.log("build nav links", config)
   for (var i=0; i<navCount; i++) {
-    var navSection = `nav_${i+1}`,
-        navStyle = config[`${navSection}_style`] || 'hidden'
+    var navSection = `Nav ${i+1}`,
+        navId = `nav_${i+1}`,
+        navStyle = config[`${navId}_style`] || 'hidden'
 
 
     console.log("DEBUG - option for nav item "+(i+1)+" style="+navStyle)
     
     // Options for Nav items
-    options[`${navSection}_style`] = {
+    options[`${navId}_style`] = {
       order: 1,
       hidden: false, // never hidden
       section: navSection,
@@ -328,7 +329,7 @@ function buildOptions (navCount, config) {
       ],
       default: "hidden"
     } 
-    options[`${navSection}_label`] = {
+    options[`${navId}_label`] = {
       order: 2,
       hidden: navStyle === "hidden",
       section: navSection,
@@ -338,7 +339,7 @@ function buildOptions (navCount, config) {
       default: "",
       placeholder: ""
     }
-    options[`${navSection}_dashboard_id`] = {
+    options[`${navId}_dashboard_id`] = {
       order: 3,
       hidden: navStyle !== "dash",
       section: navSection,
@@ -347,7 +348,7 @@ function buildOptions (navCount, config) {
       default: "",
       placeholder: "55 or mymodel::mylookml"
     }
-    options[`${navSection}_filterset`] = {
+    options[`${navId}_filterset`] = {
       order: 4,
       hidden: navStyle !== "dash",
       section: navSection,
@@ -367,7 +368,7 @@ function buildOptions (navCount, config) {
       display: "select",
       default: "nav_filterset_default"
     }
-    options[`${navSection}_filterset_custom`] = {
+    options[`${navId}_filterset_custom`] = {
       order: 5,
       hidden: navStyle !== "dash",
       section: navSection,
@@ -376,7 +377,7 @@ function buildOptions (navCount, config) {
       default: "",
       placeholder: "e.g. my_custom_dimension"
     }
-    options[`${navSection}_url`] = {
+    options[`${navId}_url`] = {
       order: 6,
       hidden: navStyle !== "link",
       section: navSection,
@@ -386,7 +387,7 @@ function buildOptions (navCount, config) {
       placeholder: "http://..."
     }
     // Metric w/ comparison
-    options[`${navSection}_metric_dimension`] = {
+    options[`${navId}_metric_dimension`] = {
       order: 7,
       hidden: navStyle !== "metric",
       section: navSection,
@@ -395,7 +396,7 @@ function buildOptions (navCount, config) {
       default: "",
       placeholder: "e.g. my_dimension"
     }
-    options[`${navSection}_metric_title`] = {
+    options[`${navId}_metric_title`] = {
       order: 8,
       hidden: navStyle !== "metric",
       section: navSection,
@@ -405,7 +406,7 @@ function buildOptions (navCount, config) {
       placeholder: "optional"
     }
     // Comparison
-    options[`${navSection}_comparison_dimension`] = {
+    options[`${navId}_comparison_dimension`] = {
       order: 9,
       hidden: navStyle !== "metric",
       section: navSection,
@@ -414,7 +415,7 @@ function buildOptions (navCount, config) {
       default: "",
       placeholder: "e.g. my_dimension"
     }
-    options[`${navSection}_comparison_style`] = {
+    options[`${navId}_comparison_style`] = {
       order: 10,
       hidden: navStyle !== "metric",
       section: navSection,
@@ -428,7 +429,7 @@ function buildOptions (navCount, config) {
       ],
       default: "show_as_value"
     }
-    options[`${navSection}_comparison_label`] = {
+    options[`${navId}_comparison_label`] = {
       order: 11,
       hidden: navStyle !== "metric",
       section: navSection,
