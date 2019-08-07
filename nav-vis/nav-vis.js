@@ -377,7 +377,7 @@ looker.plugins.visualizations.add({
     if (config.header) {
       $navbar.append(`
         <div class="navbar-header">
-          <div class="navbar-brand">${config.header}</div>
+          <div class="header navbar-brand">${config.header}</div>
         </div>`)
     }
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
@@ -413,16 +413,16 @@ navjs.inlineCss = `
   font-family: roboto, open sans, sans-serif;
   margin: 0px;
 }
-.navbar-brand {
-  height: 22px;
+.header {
+  height: 22px !important;
   font-family: Roboto;
-  font-size: 16px;
+  font-size: 16px !important;
   font-weight: bold;
   font-style: normal;
   font-stretch: condensed;
-  line-height: 1.38;
+  line-height: 1.38 !important;
   letter-spacing: 0.2px;
-  color: var(--charcoal-grey);
+  color: var(--charcoal-grey) !important;
 }
 a {
   color: inherit;
