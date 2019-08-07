@@ -304,9 +304,6 @@ function buildOptions (navCount, config) {
         navId = `nav_${i+1}`,
         navWidget = config[`${navId}_widget`] || 'hidden'
 
-
-    console.log("DEBUG - option for nav item "+(i+1)+" style="+navWidget)
-    
     // Options for Nav items
     options[`${navId}_widget`] = {
       order: 1,
@@ -348,7 +345,7 @@ function buildOptions (navCount, config) {
       order: 4,
       hidden: navWidget !== "dash",
       section: navSection,
-      label: "Link - Dashboard ID",
+      label: "Dashboard ID",
       type: "string",
       placeholder: "55 or mymodel::mylookml"
     }
@@ -356,7 +353,7 @@ function buildOptions (navCount, config) {
       order: 5,
       hidden: navWidget !== "dash",
       section: navSection,
-      label: "Link - Filter Set",
+      label: "Filter Set",
       type: "string",
       values: [
         {"None": ""},
@@ -376,7 +373,7 @@ function buildOptions (navCount, config) {
       order: 6,
       hidden: navWidget !== "dash",
       section: navSection,
-      label: "Link - Custom Filter Set",
+      label: "Custom Filter Set",
       type: "string",
       placeholder: "e.g. my_custom_dimension"
     }
