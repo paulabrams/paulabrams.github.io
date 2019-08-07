@@ -28,6 +28,7 @@ looker.plugins.visualizations.add({
     console.log("nav-vis.js create() v0.1.5")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
+    this.clearErrors()
     navjs.data = data
     navjs.element = element
     navjs.config = config
@@ -109,14 +110,18 @@ looker.plugins.visualizations.add({
             }
           }
           else {
-            nav.querystring += "&message=filterset not found"
-            console.log("ERROR - filterset parameter not found:", nav.filterset_parameter)
+            //nav.querystring += "&message=filterset not found"
+            this.addError({
+              title: "Filter Set Not Found",
+              message: "Filter Set not found: "+ nav.filterset_parameter });
           }
 
         }
         else {
-            nav.querystring += "&message=filterset has no data"
-            console.log("ERROR - filterset query has no data", navjs.data)
+            //nav.querystring += "&message=filterset has no data"
+            this.addError({
+              title: "Filter Set Empty",
+              message: "Filter Set query has no data" });
         }
         nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
       }
@@ -436,9 +441,9 @@ function buildOptions (navCount, config) {
   return options
 }
 
-
 // Nav Actions -- experiemental
-addNavActions () {
+/*
+function addNavActions () {
   navjs.actions = {}
   navjs.actions.getLink = function () {
     return navjs.data[0].link
@@ -458,6 +463,7 @@ addNavActions () {
     return LookerCharts.Utils.openUrl(url)
   }
 }
+*/
 
 navjs.inlineCss = `
 .navjs {
