@@ -71,7 +71,15 @@ looker.plugins.visualizations.add({
       if (nav.order === "hidden" || nav.widget === "hidden") { continue }
 
       // Label
-      nav.label_html = nav.label ? `<span class="navjs-label">${nav.label}</span>` : ''
+      if (nav.widget === "spacer") {
+        nav.label_html = `<span class="navjs-spacer"> </span>`
+      }
+      else if (nav.label) {
+        nav.label_html = `<span class="navjs-label">${nav.label}</span>`
+      }
+      else {
+        nav.label_html = '' 
+      }
 
       // Metric
       nav.metric_html = ''
@@ -321,13 +329,14 @@ function buildOptions (navCount, config) {
         {"Hidden": "hidden"},
         {"Dashboard Link": "dash"},
         {"Custom Link": "link"},
-        {"Metric": "metric"}
+        {"Metric": "metric"},
+        {"Spacer": "spacer"}
       ],
       default: "hidden"
     } 
     options[`${navId}_label`] = {
       order: 1,
-      hidden: navWidget === "hidden",
+      hidden: navWidget === "hidden" || navWidget === "spacer",
       section: navSection,
       label: "Label",
       type: "string",
@@ -335,7 +344,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_order`] = {
       order: 2,
-      hidden: navWidget === "hidden",
+      hidden: navWidget === "hidden" || navWidget === "spacer",
       section: navSection,
       label: "Order",
       type: "string",
@@ -345,7 +354,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_style`] = {
       order: 3,
-      hidden: navWidget === "hidden",
+      hidden: navWidget === "hidden" || navWidget === "spacer",
       section: navSection,
       label: "Style",
       display: "select",
@@ -493,6 +502,9 @@ navjs.inlineCss = `
   line-height: 1.29;
   letter-spacing: normal;
   color: var(--charcoal-grey);
+}
+.navjs-spacer {
+  width: 120px
 }
 a {
   color: var(--charcoal-grey) !important;
