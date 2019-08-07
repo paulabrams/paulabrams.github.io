@@ -338,7 +338,7 @@ function buildOptions (navCount, config) {
         {"Metric": "metric"},
         {"Hidden": "hidden"}
       ],
-      default: "nav"
+      default: "hidden"
     } 
     var section = `Nav${i+1}`
     options[`nav_${i+1}_label`] = {
