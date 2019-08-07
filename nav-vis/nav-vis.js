@@ -167,7 +167,7 @@ looker.plugins.visualizations.add({
     if (config.header) {
       $navbar.append(`
         <div class="navbar-header">
-          <div class="navjs-header navbar-brand">${config.header}</div>
+          <div class="navjs-header">${config.header}</div>
         </div>`)
     }
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align} ${config.listClass}">`)
@@ -502,6 +502,8 @@ navjs.inlineCss = `
   line-height: 1.29;
   letter-spacing: normal;
   color: var(--charcoal-grey);
+  float: left;
+  padding: 15px 15px;
 }
 .navjs-spacer {
   width: 120px
