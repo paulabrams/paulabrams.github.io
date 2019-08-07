@@ -18,224 +18,16 @@
 var navjs = {
   loadCss: "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
   inlineCss: '',
-  navCount: 8,
+  navCount: 7,
   init: 0
 }
 
-var options = {}
-// Nav Links Sections
-for (var i=0; i<navjs.navCount; i++) {
-  var section = `Nav${i+1}`
-  options[`nav_${i+1}_label`] = {
-    order: 1,
-    section: section,
-    label: "Label",
-    type: "string",
-    display_size: "normal",
-    default: "",
-    placeholder: ""
-  }
-  options[`nav_${i+1}_dashboard_id`] = {
-    order: 2,
-    section: section,
-    label: "Dashboard ID",
-    type: "string",
-    default: "",
-    placeholder: "55 or mymodel::mylookml"
-  }
-  options[`nav_${i+1}_filterset`] = {
-    order: 3,
-    section: section,
-    label: "Dashboard Filter Set",
-    type: "string",
-    values: [
-      {"None": ""},
-      {"Default": "nav_filterset_default"},
-      {"MS Date": "nav_filterset_ms_date"},
-      {"MS Campaign": "nav_filterset_ms_campaign"},
-      {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
-      {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
-      {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"},
-      {"MS Item Number": "nav_filterset_item_number"},
-      {"Test": "nav_filterset_test"}
-    ],
-    display: "select",
-    default: "nav_filterset_default"
-  }
-  options[`nav_${i+1}_filterset_custom`] = {
-    order: 4,
-    section: section,
-    label: "Custom Filter Set",
-    type: "string",
-    default: "",
-    placeholder: "e.g. my_custom_dimension"
-  }
-  options[`nav_${i+1}_url`] = {
-    order: 5,
-    section: section,
-    label: "Custom URL",
-    type: "string",
-    default: "",
-    placeholder: "http://..."
-  }
-  // Metric w/ comparison
-  options[`nav_${i+1}_metric_dimension`] = {
-    order: 6,
-    section: section,
-    label: "Metric Dimension",
-    type: "string",
-    default: "",
-    placeholder: "e.g. my_dimension"
-  }
-  options[`nav_${i+1}_metric_title`] = {
-    order: 7,
-    section: section,
-    label: "Metric Title Override",
-    type: "string",
-    default: "",
-    placeholder: ""
-    //placeholder: "Leave blank to use field label"
-  }
-  // Comparison
-  options[`nav_${i+1}_comparison_dimension`] = {
-    order: 8,
-    section: section,
-    label: "Comparison Dimension",
-    type: "string",
-    default: "",
-    placeholder: "e.g. my_dimension"
-  }
-  options[`nav_${i+1}_comparison_style`] = {
-    order: 9,
-    section: section,
-    label: "Comparison Style",
-    type: "string",
-    display: "select",
-    values: [
-      {"Show as Value": "show_as_value"},
-      {"Show as Change": "show_as_change"}
-    ],
-    default: "show_as_value"
-  }
-  options[`nav_${i+1}_comparison_label`] = {
-    order: 10,
-    section: section,
-    label: "Comparison Label Override",
-    type: "string",
-    //placeholder: "Leave blank to use field label"
-    default: "",
-    placeholder: ""
-  }
- 
-}
-
-// Style Section
-options.header = {
-    section: "Style",
-    order: 1,
-    type: "string",
-    label: "Header",
-    default: ""
-  }
-options.widget = {
-    section: "Style",
-    order: 2,
-    type: "string",
-    label: "Navbar",
-    values: [
-      {"Standard": ""},
-      {"Tabs":  "nav-tabs"},
-      {"Pills": "nav-pills"},
-      {"Links": "nav-links"}
-    ],
-    display: "select",
-    display_size: "half",
-    default: ""
-}
-options.theme = {
-    section: "Style",
-    order: 3,
-    type: "string",
-    label: "Style",
-    values: [
-      {"Light": "light"},
-      {"Dark": "dark"},
-      {"Normal": "normal"}
-    ],
-    display: "select",
-    display_size: "half",
-    default: "light"
-  }
-options.size = {
-    section: "Style",
-    order: 4,
-    type: "string",
-    label: "Size",
-    values: [
-      {"Large": "large"},
-      {"Normal": "normal"},
-      {"Small":  "small"}
-    ],
-    display: "select",
-    display_size: "half",
-    default: "normal"
-  }
-options.align = {
-  section: "Style",
-  order: 5,
-  type: "string",
-  label: "Align",
-  values: [
-    {"Normal":    ""},
-    {"Stacked":  "nav-stacked"},
-    //{"Center":    "justify-content-center"},
-    //{"Right":     "justify-content-right"},
-    //{"Fill":      "nav-fill"},
-    {"Justified": "nav-justified"}
-  ],
-  display: "select",
-  display_size: "half",
-  default: ""
-}
-/*
-options.form = {
-    section: "Style",
-    order: 6,
-    type: "string",
-    label: "Form",
-    values: [
-      {"None":  ""},
-      {"Timeframe": "timeframe"}
-    ],
-    display: "select",
-    default: ""
-  }
-  */
-options.listClass = {
-    section: "Style",
-    order: 7,
-    type: "string",
-    label: "Custom List Class",
-    default: "",
-    display_size: "half",
-    placeholder: "optional"
-  }
-options.listItemClass = { 
-    section: "Style",
-    order: 8,
-    type: "string",
-    label: "Custom Item Class",
-    default: "",
-    display_size: "half",
-    placeholder: "optional"
-  }
-
 looker.plugins.visualizations.add({
-  options: options,
+  options: {},
   create: function(element, config){
     console.log("nav-vis.js create() v0.1.2")
   },
-  updateAsync: function(data, element, config, queryResponse, details, doneRendering){
+  updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     navjs.data = data
     navjs.element = element
     navjs.config = config
@@ -275,21 +67,28 @@ looker.plugins.visualizations.add({
       navjs.init = 1
     }
 
+    
+    var options = buildOptions (navjs.navCount, config)
+    this.trigger('registerOptions', options)
+
     // Build nav items from config
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
-      var nav = { label: config[`nav_${i+1}_label`] || '',
-                  filterset_choice: config[`nav_${i+1}_filterset`] || '',
-                  filterset_custom: config[`nav_${i+1}_filterset_custom`] || '',
-                  dashboard_id: config[`nav_${i+1}_dashboard_id`] || '',
-                  url: config[`nav_${i+1}_url`] || '',
-                  metric_dimension: config[`nav_${i+1}_metric_dimension`] || '',
-                  metric_title: config[`nav_${i+1}_metric_title`] || '',
-                  comparison_dimension: config[`nav_${i+1}_comparison_dimension`] || '',
-                  comparison_style: config[`nav_${i+1}_comparison_style`] || '',
-                  comparison_label: config[`nav_${i+1}_comparison_label`] || '',
-                  classname: '',
-                  href: '#'}
+      var nav = {
+        style: config[`nav_${i+1}_style`] || '',
+        label: config[`nav_${i+1}_label`] || '',
+        filterset_choice: config[`nav_${i+1}_filterset`] || '',
+        filterset_custom: config[`nav_${i+1}_filterset_custom`] || '',
+        dashboard_id: config[`nav_${i+1}_dashboard_id`] || '',
+        url: config[`nav_${i+1}_url`] || '',
+        metric_dimension: config[`nav_${i+1}_metric_dimension`] || '',
+        metric_title: config[`nav_${i+1}_metric_title`] || '',
+        comparison_dimension: config[`nav_${i+1}_comparison_dimension`] || '',
+        comparison_style: config[`nav_${i+1}_comparison_style`] || '',
+        comparison_label: config[`nav_${i+1}_comparison_label`] || '',
+        classname: '',
+        href: '#'}
+
       // Label
       nav.label_html = ''
       if (nav.label) {
@@ -402,10 +201,256 @@ looker.plugins.visualizations.add({
     // display the navbar
     $el.html($navbar).addClass("navjs")
     console.log("doneRending nav-vis.js")
+
     doneRendering()
   }
 
 });
+
+
+// Build or rebuild the admin config options
+// Dependent options are marked as hidden=false/true
+function buildOptions (navCount, config) {
+  config = config || { style: "hidden" }
+
+  var options = {}
+  // Nav Links Sections
+  for (var i=0; i<navCount; i++) {
+
+     var style = config[`nav_${i+1}_style`]
+ 
+
+     options[`nav_${i+1}_style`] = {
+      order: 0,
+      hidden: false // never hidden
+      section: section,
+      label: "Style",
+      type: "string",
+      display: "select",
+      values: [
+        {"Dashboard Link": "dash"},
+        {"Custom Link": "link"},
+        {"Metric": "metric"},
+        {"Hidden": "hidden"}
+      ],
+      default: "nav"
+    } 
+    var section = `Nav${i+1}`
+    options[`nav_${i+1}_label`] = {
+      order: 1,
+      hidden: true,
+      section: section,
+      label: "Label",
+      type: "string",
+      display_size: "normal",
+      default: "",
+      placeholder: ""
+    }
+    options[`nav_${i+1}_dashboard_id`] = {
+      order: 2,
+      hidden: true,
+      section: section,
+      label: "Link - Dashboard ID",
+    type: "string",
+    default: "",
+    placeholder: "55 or mymodel::mylookml"
+  }
+  options[`nav_${i+1}_filterset`] = {
+    order: 3,
+    hidden: true,
+    section: section,
+    label: "Link - Filter Set",
+    type: "string",
+    values: [
+      {"None": ""},
+      {"Default": "nav_filterset_default"},
+      {"MS Date": "nav_filterset_ms_date"},
+      {"MS Campaign": "nav_filterset_ms_campaign"},
+      {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
+      {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
+      {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"},
+      {"MS Item Number": "nav_filterset_item_number"},
+      {"Test": "nav_filterset_test"}
+    ],
+    display: "select",
+    default: "nav_filterset_default"
+  }
+  options[`nav_${i+1}_filterset_custom`] = {
+    order: 4,
+    hidden: true,
+    section: section,
+    label: "Link - Custom Filter Set",
+    type: "string",
+    default: "",
+    placeholder: "e.g. my_custom_dimension"
+  }
+  options[`nav_${i+1}_url`] = {
+    order: 5,
+    hidden: true,
+    section: section,
+    label: "Link - Custom URL",
+    type: "string",
+    default: "",
+    placeholder: "http://..."
+  }
+  // Metric w/ comparison
+  options[`nav_${i+1}_metric_dimension`] = {
+    order: 6,
+    hidden: true,
+    section: section,
+    label: "Metric Dimension",
+    type: "string",
+    default: "",
+    placeholder: "e.g. my_dimension"
+  }
+  options[`nav_${i+1}_metric_title`] = {
+    order: 7,
+    hidden: true,
+    section: section,
+    label: "Metric Title",
+    type: "string",
+    default: "",
+    placeholder: "optional"
+  }
+  // Comparison
+  options[`nav_${i+1}_comparison_dimension`] = {
+    order: 8,
+    hidden: true,
+    section: section,
+    label: "Comparison Dimension",
+    type: "string",
+    default: "",
+    placeholder: "e.g. my_dimension"
+  }
+  options[`nav_${i+1}_comparison_style`] = {
+    order: 9,
+    hidden: true,
+    section: section,
+    label: "Comparison Style",
+    type: "string",
+    display: "select",
+    values: [
+      {"Show as Value": "show_as_value"},
+      {"Show as Change": "show_as_change"},
+      {"Hidden": "hidden"}
+    ],
+    default: "show_as_value"
+  }
+  options[`nav_${i+1}_comparison_label`] = {
+    order: 10,
+    hidden: true,
+    section: section,
+    label: "Comparison Label",
+    type: "string",
+    default: "",
+    placeholder: "optional"
+  }
+ 
+}
+
+// Style Section
+options.header = {
+    section: "Style",
+    order: 1,
+    type: "string",
+    label: "Header",
+    default: ""
+  }
+options.widget = {
+    section: "Style",
+    order: 2,
+    type: "string",
+    label: "Navbar",
+    values: [
+      {"Standard": ""},
+      {"Tabs":  "nav-tabs"},
+      {"Pills": "nav-pills"},
+      {"Links": "nav-links"}
+    ],
+    display: "select",
+    display_size: "half",
+    default: ""
+}
+options.theme = {
+    section: "Style",
+    order: 3,
+    type: "string",
+    label: "Style",
+    values: [
+      {"Light": "light"},
+      {"Dark": "dark"},
+      {"Normal": "normal"}
+    ],
+    display: "select",
+    display_size: "half",
+    default: "light"
+  }
+options.size = {
+    section: "Style",
+    order: 4,
+    type: "string",
+    label: "Size",
+    values: [
+      {"Large": "large"},
+      {"Normal": "normal"},
+      {"Small":  "small"}
+    ],
+    display: "select",
+    display_size: "half",
+    default: "normal"
+  }
+options.align = {
+  section: "Style",
+  order: 5,
+  type: "string",
+  label: "Align",
+  values: [
+    {"Normal":    ""},
+    {"Stacked":  "nav-stacked"},
+    //{"Center":    "justify-content-center"},
+    //{"Right":     "justify-content-right"},
+    //{"Fill":      "nav-fill"},
+    {"Justified": "nav-justified"}
+  ],
+  display: "select",
+  display_size: "half",
+  default: ""
+}
+/*
+options.form = {
+    section: "Style",
+    order: 6,
+    type: "string",
+    label: "Form",
+    values: [
+      {"None":  ""},
+      {"Timeframe": "timeframe"}
+    ],
+    display: "select",
+    default: ""
+  }
+  */
+options.listClass = {
+    section: "Style",
+    order: 7,
+    type: "string",
+    label: "Custom List Class",
+    default: "",
+    display_size: "half",
+    placeholder: "optional"
+  }
+options.listItemClass = { 
+    section: "Style",
+    order: 8,
+    type: "string",
+    label: "Custom Item Class",
+    default: "",
+    display_size: "half",
+    placeholder: "optional"
+  }
+
+  return options
+}
 
 
 navjs.inlineCss = `
