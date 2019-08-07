@@ -79,7 +79,7 @@ looker.plugins.visualizations.add({
       if (nav.widget === "metric") {
         if (navjs.data[0][nav.metric_dimension] !== undefined) {
           nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
-          if (nav.metric_title) { nav.metric_html += `<div class="metric_title">${nav.metric_title}</div>` }
+          if (nav.metric_title) { nav.metric_html += `<div class="metric_title">${nav.metric_title}</div> ` }
           nav.metric_html += `<div class="metric_value">${nav.metric_value}</div>`
         }
         if (navjs.data[0][nav.comparison_dimension] !== undefined) {
@@ -259,6 +259,7 @@ function buildOptions (navCount, config) {
       //{"Fill":      "nav-fill"},
       {"Justified": "nav-justified"}
     ],
+    default: "",
     display: "select",
     display_size: "half"
   }
