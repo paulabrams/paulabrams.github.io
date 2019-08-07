@@ -297,19 +297,19 @@ looker.plugins.visualizations.add({
       }
       // Metric
       nav.metric_html = ''
-      if (navjs.data[0][nav.metric_dimension]) {
+      if (navjs.data[0][nav.metric_dimension] !== undefined) {
         nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
-        nav.metric_html += `<div class="metric_title">${nav.metric_title}</div>`
+        if (nav.metric_title) { nav.metric_html += `<div class="metric_title">${nav.metric_title}</div>` }
         nav.metric_html += `<div class="metric_value">${nav.metric_value}</div>`
       }
-      if (navjs.data[0][nav.comparison_dimension]) {
+      if (navjs.data[0][nav.comparison_dimension] !== undefined) {
         nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
         nav.comparison_change = ""
         if (nav.comparison_style === "show_as_change") {
           if (nav.comparison_value > 0) { nav.comparison_change = `<span class="up-arrow-copy">^</span>` }
           else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="down-arrow-copy">v</span>` }
         }
-        nav.metric_html += `<div class="comparison">${nav.comparison_change} ${nav.comparison_value} ${nav.comparison_label}</div>`
+        nav.metric_html += `<div class="comparison">${nav.comparison_change}${nav.comparison_value}${nav.comparison_label}</div>`
       }
       if (nav.metric_html) {
         nav.metric_html = `<div class="metric">${nav.metric_html}</div>`
@@ -425,10 +425,10 @@ navjs.inlineCss = `
   color: var(--charcoal-grey) !important;
 }
 a {
-  color: inherit;
+  color: var(--charcoal-grey) !important;
 }
 a:hover {
-  color: inherit;
+  color: var(--charcoal-grey) !important;
 }
 .label {
   height: 22px;
