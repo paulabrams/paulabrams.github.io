@@ -203,8 +203,7 @@ function buildOptions (navCount, config) {
       section: "Style",
       order: 1,
       type: "string",
-      label: "Header",
-      default: ""
+      label: "Header"
     }
   options.widget = {
       section: "Style",
@@ -212,14 +211,14 @@ function buildOptions (navCount, config) {
       type: "string",
       label: "Navbar",
       values: [
-        {"Standard": ""},
+        {"Standard": "standard"},
         {"Tabs":  "nav-tabs"},
         {"Pills": "nav-pills"},
         {"Links": "nav-links"}
       ],
       display: "select",
       display_size: "half",
-      default: ""
+      default: "standard"
   }
   options.theme = {
       section: "Style",
@@ -263,8 +262,7 @@ function buildOptions (navCount, config) {
       {"Justified": "nav-justified"}
     ],
     display: "select",
-    display_size: "half",
-    default: ""
+    display_size: "half"
   }
   /*
   options.form = {
@@ -276,16 +274,14 @@ function buildOptions (navCount, config) {
         {"None":  ""},
         {"Timeframe": "timeframe"}
       ],
-      display: "select",
-      default: ""
+      display: "select"
     }
     */
   options.listClass = {
       section: "Style",
       order: 7,
       type: "string",
-      label: "Custom List Class",
-      default: "",
+      label: "Custom List Class"
       display_size: "half",
       hidden: true,
       placeholder: "optional"
@@ -295,7 +291,6 @@ function buildOptions (navCount, config) {
       order: 8,
       type: "string",
       label: "Custom Item Class",
-      default: "",
       hidden: true,
       display_size: "half",
       placeholder: "optional"
@@ -335,7 +330,6 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Label",
       type: "string",
-      default: "",
       placeholder: ""
     }
     options[`${navId}_style`] = {
@@ -357,7 +351,6 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Link - Dashboard ID",
       type: "string",
-      default: "",
       placeholder: "55 or mymodel::mylookml"
     }
     options[`${navId}_filterset`] = {
@@ -378,7 +371,7 @@ function buildOptions (navCount, config) {
         {"Test": "nav_filterset_test"}
       ],
       display: "select",
-      default: "nav_filterset_default"
+      default: ""
     }
     options[`${navId}_filterset_custom`] = {
       order: 6,
@@ -386,7 +379,6 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Link - Custom Filter Set",
       type: "string",
-      default: "",
       placeholder: "e.g. my_custom_dimension"
     }
     options[`${navId}_url`] = {
@@ -395,7 +387,6 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Link URL",
       type: "string",
-      default: "",
       placeholder: "http://..."
     }
     // Metric w/ comparison
@@ -405,7 +396,6 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Metric Dimension",
       type: "string",
-      default: "",
       placeholder: "e.g. my_dimension"
     }
     options[`${navId}_metric_title`] = {
@@ -414,7 +404,6 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Metric Title",
       type: "string",
-      default: "",
       placeholder: "optional"
     }
     // Comparison
@@ -424,7 +413,6 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Comparison Dimension",
       type: "string",
-      default: "",
       placeholder: "e.g. my_dimension"
     }
     options[`${navId}_comparison_style`] = {
@@ -447,7 +435,6 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Comparison Label",
       type: "string",
-      default: "",
       placeholder: "optional"
     }
   }
