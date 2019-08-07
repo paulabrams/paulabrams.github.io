@@ -53,23 +53,22 @@ looker.plugins.visualizations.add({
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
       var navId = `nav_${i+1}`,
-          navWidget = config[`${navId}_widget`] || ''
-      if (navWidget === "hidden") { continue }
+          nav = { widget: config[`${navId}_widget`] || '',
+                  label: config[`${navId}_label`] || '',
+                  style: config[`${navId}_style`] || '',
+                  order: config[`${navId}_order`] || '',
+                  filterset_choice: config[`${navId}_filterset_choice`] || '',
+                  filterset_custom: config[`${navId}_filterset_custom`] || '',
+                  dashboard_id: config[`${navId}_dashboard_id`] || '',
+                  url: config[`${navId}_url`] || '',
+                  metric_dimension: config[`${navId}_metric_dimension`] || '',
+                  metric_title: config[`${navId}_metric_title`] || '',
+                  comparison_dimension: config[`${navId}_comparison_dimension`] || '',
+                  comparison_style: config[`${navId}_comparison_style`] || '',
+                  comparison_label: config[`${navId}_comparison_label`] || '',
+                  href: '#' }
 
-      var nav = {
-        widget: navWidget,
-        label: config[`${navId}_label`] || '',
-        style: config[`${navId}_style`] || '',
-        filterset_choice: config[`${navId}_filterset_choice`] || '',
-        filterset_custom: config[`${navId}_filterset_custom`] || '',
-        dashboard_id: config[`${navId}_dashboard_id`] || '',
-        url: config[`${navId}_url`] || '',
-        metric_dimension: config[`${navId}_metric_dimension`] || '',
-        metric_title: config[`${navId}_metric_title`] || '',
-        comparison_dimension: config[`${navId}_comparison_dimension`] || '',
-        comparison_style: config[`${navId}_comparison_style`] || '',
-        comparison_label: config[`${navId}_comparison_label`] || '',
-        href: '#' }
+      if (nav.order === "hidden" || nav.widget === "hidden") { continue }
 
       // Label
       nav.label_html = nav.label ? `<span class="label">${nav.label}</span>` : ''
@@ -195,6 +194,10 @@ looker.plugins.visualizations.add({
 // Build or rebuild the admin config options
 function buildOptions (navCount, config) {
   var options = {}
+  var orderValues = [ { "Hidden": "hidden" } ]
+  for (var i=0; i<navjs.navCount; i++) {
+    orderValues.push( { i+1: i+1 })
+  }
 
   // Style Section
   options.header = {
@@ -313,12 +316,11 @@ function buildOptions (navCount, config) {
       type: "string",
       display: "select",
       values: [
-        {"Hidden": "hidden"},
         {"Dashboard Link": "dash"},
         {"Custom Link": "link"},
         {"Metric": "metric"}
       ],
-      default: "hidden"
+      default: "dash"
     } 
     options[`${navId}_label`] = {
       order: 2,
@@ -432,6 +434,17 @@ function buildOptions (navCount, config) {
       label: "Comparison Label",
       type: "string",
       placeholder: "optional"
+    }
+
+    options[`${navId}_order`] = {
+      order: 2,
+      hidden: navWidget === "hidden",
+      section: navSection,
+      label: "Order",
+      type: "string",
+      display: "select",
+      values: orderValues,
+      default: i+1
     }
   }
 
