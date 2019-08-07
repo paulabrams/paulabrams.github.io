@@ -210,9 +210,111 @@ looker.plugins.visualizations.add({
 
 // Build or rebuild the admin config options
 function buildOptions (navCount, config) {
-  config = config || {}
-
   var options = {}
+
+  // Style Section
+  options.header = {
+      section: "Style",
+      order: 1,
+      type: "string",
+      label: "Header",
+      default: ""
+    }
+  options.widget = {
+      section: "Style",
+      order: 2,
+      type: "string",
+      label: "Navbar",
+      values: [
+        {"Standard": ""},
+        {"Tabs":  "nav-tabs"},
+        {"Pills": "nav-pills"},
+        {"Links": "nav-links"}
+      ],
+      display: "select",
+      display_size: "half",
+      default: ""
+  }
+  options.theme = {
+      section: "Style",
+      order: 3,
+      type: "string",
+      label: "Style",
+      values: [
+        {"Light": "light"},
+        {"Dark": "dark"},
+        {"Normal": "normal"}
+      ],
+      display: "select",
+      display_size: "half",
+      default: "light"
+    }
+  options.size = {
+      section: "Style",
+      order: 4,
+      type: "string",
+      label: "Size",
+      values: [
+        {"Large": "large"},
+        {"Normal": "normal"},
+        {"Small":  "small"}
+    ],
+    display: "select",
+    display_size: "half",
+    default: "normal"
+  }
+  options.align = {
+    section: "Style",
+    order: 5,
+    type: "string",
+    label: "Align",
+    values: [
+      {"Normal":    ""},
+      {"Stacked":  "nav-stacked"},
+      //{"Center":    "justify-content-center"},
+      //{"Right":     "justify-content-right"},
+      //{"Fill":      "nav-fill"},
+      {"Justified": "nav-justified"}
+    ],
+    display: "select",
+    display_size: "half",
+    default: ""
+  }
+  /*
+  options.form = {
+      section: "Style",
+      order: 6,
+      type: "string",
+      label: "Form",
+      values: [
+        {"None":  ""},
+        {"Timeframe": "timeframe"}
+      ],
+      display: "select",
+      default: ""
+    }
+    */
+  options.listClass = {
+      section: "Style",
+      order: 7,
+      type: "string",
+      label: "Custom List Class",
+      default: "",
+      display_size: "half",
+      placeholder: "optional"
+    }
+  options.listItemClass = { 
+      section: "Style",
+      order: 8,
+      type: "string",
+      label: "Custom Item Class",
+      default: "",
+      display_size: "half",
+      placeholder: "optional"
+    }
+
+
+
   // Nav Links Sections
   for (var i=0; i<navCount; i++) {
 
@@ -255,207 +357,104 @@ function buildOptions (navCount, config) {
       hidden: !isDash,
       section: section,
       label: "Link - Dashboard ID",
-    type: "string",
-    default: "",
-    placeholder: "55 or mymodel::mylookml"
-  }
-  options[`nav_${i+1}_filterset`] = {
-    order: 3,
-    hidden: !isDash,
-    section: section,
-    label: "Link - Filter Set",
-    type: "string",
-    values: [
-      {"None": ""},
-      {"Default": "nav_filterset_default"},
-      {"MS Date": "nav_filterset_ms_date"},
-      {"MS Campaign": "nav_filterset_ms_campaign"},
-      {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
-      {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
-      {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"},
-      {"MS Item Number": "nav_filterset_item_number"},
-      {"Test": "nav_filterset_test"}
-    ],
-    display: "select",
-    default: "nav_filterset_default"
-  }
-  options[`nav_${i+1}_filterset_custom`] = {
-    order: 4,
-    hidden: !isDash,
-    section: section,
-    label: "Link - Custom Filter Set",
-    type: "string",
-    default: "",
-    placeholder: "e.g. my_custom_dimension"
-  }
-  options[`nav_${i+1}_url`] = {
-    order: 5,
-    hidden: isLink,
-    section: section,
-    label: "Link URL",
-    type: "string",
-    default: "",
-    placeholder: "http://..."
-  }
-  // Metric w/ comparison
-  options[`nav_${i+1}_metric_dimension`] = {
-    order: 6,
-    hidden: !isMetric,
-    section: section,
-    label: "Metric Dimension",
-    type: "string",
-    default: "",
-    placeholder: "e.g. my_dimension"
-  }
-  options[`nav_${i+1}_metric_title`] = {
-    order: 7,
-    hidden: !isMetric,
-    section: section,
-    label: "Metric Title",
-    type: "string",
-    default: "",
-    placeholder: "optional"
-  }
-  // Comparison
-  options[`nav_${i+1}_comparison_dimension`] = {
-    order: 8,
-    hidden: !isMetric,
-    section: section,
-    label: "Comparison Dimension",
-    type: "string",
-    default: "",
-    placeholder: "e.g. my_dimension"
-  }
-  options[`nav_${i+1}_comparison_style`] = {
-    order: 9,
-    hidden: !isMetric,
-    section: section,
-    label: "Comparison Style",
-    type: "string",
-    display: "select",
-    values: [
-      {"Show as Value": "show_as_value"},
-      {"Show as Change": "show_as_change"},
-      {"Hidden": "hidden"}
-    ],
-    default: "show_as_value"
-  }
-  options[`nav_${i+1}_comparison_label`] = {
-    order: 10,
-    hidden: !isMetric,
-    section: section,
-    label: "Comparison Label",
-    type: "string",
-    default: "",
-    placeholder: "optional"
-  }
- 
-}
-
-// Style Section
-options.header = {
-    section: "Style",
-    order: 1,
-    type: "string",
-    label: "Header",
-    default: ""
-  }
-options.widget = {
-    section: "Style",
-    order: 2,
-    type: "string",
-    label: "Navbar",
-    values: [
-      {"Standard": ""},
-      {"Tabs":  "nav-tabs"},
-      {"Pills": "nav-pills"},
-      {"Links": "nav-links"}
-    ],
-    display: "select",
-    display_size: "half",
-    default: ""
-}
-options.theme = {
-    section: "Style",
-    order: 3,
-    type: "string",
-    label: "Style",
-    values: [
-      {"Light": "light"},
-      {"Dark": "dark"},
-      {"Normal": "normal"}
-    ],
-    display: "select",
-    display_size: "half",
-    default: "light"
-  }
-options.size = {
-    section: "Style",
-    order: 4,
-    type: "string",
-    label: "Size",
-    values: [
-      {"Large": "large"},
-      {"Normal": "normal"},
-      {"Small":  "small"}
-    ],
-    display: "select",
-    display_size: "half",
-    default: "normal"
-  }
-options.align = {
-  section: "Style",
-  order: 5,
-  type: "string",
-  label: "Align",
-  values: [
-    {"Normal":    ""},
-    {"Stacked":  "nav-stacked"},
-    //{"Center":    "justify-content-center"},
-    //{"Right":     "justify-content-right"},
-    //{"Fill":      "nav-fill"},
-    {"Justified": "nav-justified"}
-  ],
-  display: "select",
-  display_size: "half",
-  default: ""
-}
-/*
-options.form = {
-    section: "Style",
-    order: 6,
-    type: "string",
-    label: "Form",
-    values: [
-      {"None":  ""},
-      {"Timeframe": "timeframe"}
-    ],
-    display: "select",
-    default: ""
-  }
-  */
-options.listClass = {
-    section: "Style",
-    order: 7,
-    type: "string",
-    label: "Custom List Class",
-    default: "",
-    display_size: "half",
-    placeholder: "optional"
-  }
-options.listItemClass = { 
-    section: "Style",
-    order: 8,
-    type: "string",
-    label: "Custom Item Class",
-    default: "",
-    display_size: "half",
-    placeholder: "optional"
+      type: "string",
+      default: "",
+      placeholder: "55 or mymodel::mylookml"
+    }
+    options[`nav_${i+1}_filterset`] = {
+      order: 3,
+      hidden: !isDash,
+      section: section,
+      label: "Link - Filter Set",
+      type: "string",
+      values: [
+        {"None": ""},
+        {"Default": "nav_filterset_default"},
+        {"MS Date": "nav_filterset_ms_date"},
+        {"MS Campaign": "nav_filterset_ms_campaign"},
+        {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
+        {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
+        {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"},
+        {"MS Item Number": "nav_filterset_item_number"},
+        {"Test": "nav_filterset_test"}
+      ],
+      display: "select",
+      default: "nav_filterset_default"
+    }
+    options[`nav_${i+1}_filterset_custom`] = {
+      order: 4,
+      hidden: !isDash,
+      section: section,
+      label: "Link - Custom Filter Set",
+      type: "string",
+      default: "",
+      placeholder: "e.g. my_custom_dimension"
+    }
+    options[`nav_${i+1}_url`] = {
+      order: 5,
+      hidden: isLink,
+      section: section,
+      label: "Link URL",
+      type: "string",
+      default: "",
+      placeholder: "http://..."
+    }
+    // Metric w/ comparison
+    options[`nav_${i+1}_metric_dimension`] = {
+      order: 6,
+      hidden: !isMetric,
+      section: section,
+      label: "Metric Dimension",
+      type: "string",
+      default: "",
+      placeholder: "e.g. my_dimension"
+    }
+    options[`nav_${i+1}_metric_title`] = {
+      order: 7,
+      hidden: !isMetric,
+      section: section,
+      label: "Metric Title",
+      type: "string",
+      default: "",
+      placeholder: "optional"
+    }
+    // Comparison
+    options[`nav_${i+1}_comparison_dimension`] = {
+      order: 8,
+      hidden: !isMetric,
+      section: section,
+      label: "Comparison Dimension",
+      type: "string",
+      default: "",
+      placeholder: "e.g. my_dimension"
+    }
+    options[`nav_${i+1}_comparison_style`] = {
+      order: 9,
+      hidden: !isMetric,
+      section: section,
+      label: "Comparison Style",
+      type: "string",
+      display: "select",
+      values: [
+        {"Show as Value": "show_as_value"},
+        {"Show as Change": "show_as_change"},
+        {"Hidden": "hidden"}
+      ],
+      default: "show_as_value"
+    }
+    options[`nav_${i+1}_comparison_label`] = {
+      order: 10,
+      hidden: !isMetric,
+      section: section,
+      label: "Comparison Label",
+      type: "string",
+      default: "",
+      placeholder: "optional"
+    }
   }
 
   return options
 }
-
 
 navjs.inlineCss = `
 .navjs {
