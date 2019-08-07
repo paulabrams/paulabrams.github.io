@@ -60,7 +60,7 @@ looker.plugins.visualizations.add({
         widget: navWidget,
         label: config[`${navId}_label`] || '',
         style: config[`${navId}_style`] || '',
-        filterset_choice: config[`${navId}_filterset`] || '',
+        filterset_choice: config[`${navId}_filterset_choice`] || '',
         filterset_custom: config[`${navId}_filterset_custom`] || '',
         dashboard_id: config[`${navId}_dashboard_id`] || '',
         url: config[`${navId}_url`] || '',
@@ -281,7 +281,7 @@ function buildOptions (navCount, config) {
       section: "Style",
       order: 7,
       type: "string",
-      label: "Custom List Class"
+      label: "Custom List Class",
       display_size: "half",
       hidden: true,
       placeholder: "optional"
@@ -353,7 +353,7 @@ function buildOptions (navCount, config) {
       type: "string",
       placeholder: "55 or mymodel::mylookml"
     }
-    options[`${navId}_filterset`] = {
+    options[`${navId}_filterset_choice`] = {
       order: 5,
       hidden: navWidget !== "dash",
       section: navSection,
