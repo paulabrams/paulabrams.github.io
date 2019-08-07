@@ -76,10 +76,6 @@ looker.plugins.visualizations.add({
 
       var nav = {
         style: navStyle,
-        isHidden: navStyle === "hidden",
-        isDash: navStyle === "dash",
-        isMetric: navStyle === "metric",
-        isLink: navStyle === "link",
         label: config[`nav_${i+1}_label`] || '',
         filterset_choice: config[`nav_${i+1}_filterset`] || '',
         filterset_custom: config[`nav_${i+1}_filterset_custom`] || '',
@@ -99,7 +95,7 @@ looker.plugins.visualizations.add({
         nav.label_html += `<span class="label">${nav.label}</span>`
       }
       // Metric
-      if (nav.isMetric) {
+      if (nav.style === "metric") {
         nav.metric_html = ''
         if (navjs.data[0][nav.metric_dimension] !== undefined) {
           nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
@@ -121,7 +117,7 @@ looker.plugins.visualizations.add({
       }
 
       // Build href based on type
-      if (nav.isDash) {
+      if (nav.style === "dash") {
         nav.querystring = '?vis=navjs'
         if (navjs.data && navjs.data[0]) {
           nav.filterset_parameter = "_parameters."+(nav.filterset_custom || nav.filterset_choice)
@@ -143,7 +139,7 @@ looker.plugins.visualizations.add({
         }
         nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
       }
-      else if (nav.isLink) {
+      else if (nav.style === "link") {
         // use custom URL as-is
         nav.href = nav.url
       }
