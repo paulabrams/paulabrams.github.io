@@ -74,8 +74,15 @@ looker.plugins.visualizations.add({
     // Build nav items from config
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
+      var navStyle = config[`nav_${i+1}_style`] || ''
+      if (navStyle === "hidden") { continue }
+
       var nav = {
-        style: config[`nav_${i+1}_style`] || '',
+        style: navStyle,
+        isHidden: navStyle === "hidden",
+        isDash: navStyle === "dash",
+        isMetric: navStyle === "metric",
+        isLink: navStyle === "link",
         label: config[`nav_${i+1}_label`] || '',
         filterset_choice: config[`nav_${i+1}_filterset`] || '',
         filterset_custom: config[`nav_${i+1}_filterset_custom`] || '',
@@ -95,27 +102,29 @@ looker.plugins.visualizations.add({
         nav.label_html += `<span class="label">${nav.label}</span>`
       }
       // Metric
-      nav.metric_html = ''
-      if (navjs.data[0][nav.metric_dimension] !== undefined) {
-        nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
-        if (nav.metric_title) { nav.metric_html += `<div class="metric_title">${nav.metric_title}</div>` }
-        nav.metric_html += `<div class="metric_value">${nav.metric_value}</div>`
-      }
-      if (navjs.data[0][nav.comparison_dimension] !== undefined) {
-        nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
-        nav.comparison_change = ""
-        if (nav.comparison_style === "show_as_change") {
-          if (nav.comparison_value > 0) { nav.comparison_change = `<span class="up-arrow-copy">^</span>` }
-          else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="down-arrow-copy">v</span>` }
+      if (nav.isMetric) {
+        nav.metric_html = ''
+        if (navjs.data[0][nav.metric_dimension] !== undefined) {
+          nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
+          if (nav.metric_title) { nav.metric_html += `<div class="metric_title">${nav.metric_title}</div>` }
+          nav.metric_html += `<div class="metric_value">${nav.metric_value}</div>`
         }
-        nav.metric_html += `<div class="comparison">${nav.comparison_change}${nav.comparison_value}${nav.comparison_label}</div>`
-      }
-      if (nav.metric_html) {
-        nav.metric_html = `<div class="metric">${nav.metric_html}</div>`
+        if (navjs.data[0][nav.comparison_dimension] !== undefined) {
+          nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
+          nav.comparison_change = ""
+          if (nav.comparison_style === "show_as_change") {
+            if (nav.comparison_value > 0) { nav.comparison_change = `<span class="up-arrow-copy">^</span>` }
+            else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="down-arrow-copy">v</span>` }
+          }
+          nav.metric_html += `<div class="comparison">${nav.comparison_change}${nav.comparison_value}${nav.comparison_label}</div>`
+        }
+        if (nav.metric_html) {
+          nav.metric_html = `<div class="metric">${nav.metric_html}</div>`
+        }
       }
 
       // Build href based on type
-      if (nav.dashboard_id) {
+      if (nav.isDash) {
         nav.querystring = '?vis=navjs'
         if (navjs.data && navjs.data[0]) {
           nav.filterset_parameter = "_parameters."+(nav.filterset_custom || nav.filterset_choice)
@@ -137,7 +146,7 @@ looker.plugins.visualizations.add({
         }
         nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
       }
-      else if (nav.url) {
+      else if (nav.isLink) {
         // use custom URL as-is
         nav.href = nav.url
       }
@@ -314,7 +323,6 @@ function buildOptions (navCount, config) {
     }
 
 
-
   // Nav Links Sections
   for (var i=0; i<navCount; i++) {
 
@@ -325,6 +333,8 @@ function buildOptions (navCount, config) {
         isMetric = navStyle === "metric",
         isHidden = navStyle === "hidden"
 
+    console.log("DEBUG - option for nav item "+(i+1)+" style="+navStyle)
+    
     // Options for Nav items
     options[`nav_${i+1}_style`] = {
       order: 0,
@@ -392,7 +402,7 @@ function buildOptions (navCount, config) {
     }
     options[`nav_${i+1}_url`] = {
       order: 5,
-      hidden: isLink,
+      hidden: !isLink,
       section: section,
       label: "Link URL",
       type: "string",
