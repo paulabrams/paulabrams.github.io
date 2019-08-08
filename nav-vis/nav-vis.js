@@ -141,7 +141,7 @@ looker.plugins.visualizations.add({
         navjs.navs.push(nav)
       }
     }
-    console.log("navjs.navs=", navjs.navs)
+    //console.log("navjs.navs=", navjs.navs)
 
     config.widget = config.widget || 'navbar-nav'
     config.align = config.align || ''
@@ -172,12 +172,14 @@ looker.plugins.visualizations.add({
         </div>`)
     }
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
-    nav.tab_pull = ''
+
+    // Pull tabs to the right
+    nav.li_classs = ''
     if (nav.widget !== 'metric' && nav.widget !== "spacer") {
-      nav.tab_pull = "pull-right"
+      nav.li_class = "pull-right"
     }
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="navjs-li-widget-${nav.widget} ${nav.style} ${navjs.size.item} ${nav.tab_pull}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
+      $ul.append(`<li class="${nav.li_class} ${nav.style} ${navjs.size.item}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
     })
     $navbar.append($ul)
 
@@ -504,8 +506,6 @@ body {
   color: var(--charcoal-grey);
   float: left;
   padding: 15px 15px;
-}
-.navjs-li-widget-spacer {
 }
 .navjs-spacer {
   width: 100px
