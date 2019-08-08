@@ -538,6 +538,9 @@ li.navjs-widget-spacer a {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
+.navjs-mid li {
+  border-bottom: 1px solid #e7e7e7;
+}
 .navjs-mid.nav-pills li.active a,
 .navjs-mid.nav-pills li.active a:hover {
   background-color: transparent;
