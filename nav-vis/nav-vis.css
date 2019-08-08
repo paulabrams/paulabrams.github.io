@@ -49,12 +49,13 @@ li.navjs-widget-spacer a {
 }
 .navbar-nav.navjs-top li.active a,
 .navbar-nav.navjs-top li.active a:hover,
-.navbar-nav.navjs-left li.active a,
-.navbar-nav.navjs-left li.hover {
+.navbar-nav.navjs-side li.active a,
+.navbar-nav.navjs-side li.hover {
   color: #007573;
   background-color: #d7f5f4;
 }
-.navjs-mid.nav-pills li {
+.navjs-mid.nav-pills li,
+.navjs-side.nav-pills li {
   border-radius: 0;
   margin-left: 0px;
   padding-bottom: 4px;

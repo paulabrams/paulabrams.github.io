@@ -224,7 +224,7 @@ function buildOptions (navCount, config) {
         // custom
         {"Top Nav": "navjs-top"},
         {"Mid Nav": "navjs-mid"},
-        {"Left Nav": "navjs-side"},
+        {"Side Nav": "navjs-side"},
         {"Metrics Bar": "navjs-metrics"},
         // default bootstrap
         {"Pills": "nav-pills"},
