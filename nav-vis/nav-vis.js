@@ -494,7 +494,7 @@ body.navjs-theme-dark {
   background-color: #333;
 }
 .navjs {
-  margin: 0px;
+  /*margin: 0px;*/
 }
 .navjs-header {
   height: 36px;
