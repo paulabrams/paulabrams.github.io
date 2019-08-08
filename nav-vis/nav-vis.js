@@ -7,7 +7,6 @@
  *
  *  hosts
  *    https://paulabrams.github.io/nav-vis/nav-vis.js
- *    https://dl.dropboxusercontent.com/s/50iydrtuwzaml33/nav.js?raw=1
  *
  *  javascript dependencies:
  *    https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
@@ -18,7 +17,7 @@
 var navjs = {
   loadCss: [ "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
              "https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Condensed|&display=swap",
-             "nav-vis.css"],
+             "https://paulabrams.github.io/nav-vis/nav-vis.css"],
   navCount: 7,
   init: 0
 }
