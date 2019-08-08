@@ -528,6 +528,8 @@ li.navjs-widget-spacer a {
 }
 .navjs-top li a {
   border-radius: 3px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .navjs-top li.active a,
 .navjs-top li.active a:hover,
