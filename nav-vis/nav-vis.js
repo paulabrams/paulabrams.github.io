@@ -174,7 +174,7 @@ looker.plugins.visualizations.add({
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
 
     // Pull tabs to the right
-    nav.li_classs = ''
+    nav.li_class = ''
     if (nav.widget !== 'metric' && nav.widget !== "spacer") {
       nav.li_class = "pull-right"
     }
