@@ -549,7 +549,7 @@ li.navjs-widget-spacer a {
 }
 .navjs-mid.nav-pills li.active {
   padding-bottom: 2px;
-  border-bottom: 2px solid #d7f5f4;
+  border-bottom: 4px solid #d7f5f4;
 }
 .navjs-mid.nav-pills li.active a,
 .navjs-mid.nav-pills li.active a:hover {
