@@ -507,7 +507,6 @@ body {
   letter-spacing: normal;
   color: var(--charcoal-grey);
   float: left;
-  padding: 15px 15px;
 }
 li.navjs-widget-spacer {
   width: 150px;
