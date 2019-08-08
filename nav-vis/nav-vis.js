@@ -544,9 +544,10 @@ li.active .navjs-label:hover {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
-.navjs-mid li.active {
+.navjs-mid.nav-pills li.active {
   border-radius: 3px;
   border-color: #d7f5f4;
+  border-width: 0 0 2px 0;
   background-color: #fff;
 }
 li.active .navjs-metric-title {
