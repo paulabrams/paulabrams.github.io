@@ -540,11 +540,11 @@ li.active .navjs-label:hover {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
-.nav-pill.navjs-left li.active {
+.navjs-left li.active {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
-.nav-pill.navjs-mid li.active {
+.navjs-mid li.active {
   border-radius: 3px;
   border-color: #d7f5f4;
   background-color: #fff;
