@@ -477,12 +477,12 @@ function addNavActions () {
 
 navjs.inlineCss = `
 .navjs {
-  font-family: Roboto, open sans, sans-serif;
+  font-family: Roboto Condensed, Roboto, open sans, sans-serif;
   margin: 0px;
 }
 .navjs-header {
   height: 36px;
-  font-family: Roboto;
+  font-family: Roboto Condensed;
   font-size: 28px;
   font-weight: normal;
   font-style: normal;
@@ -507,7 +507,7 @@ a:hover {
 }
 .navjs-label {
   height: 16px;
-  font-family: Roboto;
+  font-family: Roboto Condensed;
   font-size: 13px;
   font-weight: bold;
   font-style: normal;
@@ -554,7 +554,7 @@ a:hover {
 }
 .navjs-comparison {
   height: 16px;
-  font-family: Roboto;
+  font-family: Roboto Condensed;
   font-size: 12px;
   font-weight: normal;
   font-style: normal;
