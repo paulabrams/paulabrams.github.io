@@ -484,17 +484,9 @@ body {
   padding: 0px;
   font-family: Roboto Condensed, Roboto, open sans, sans-serif;
 }
-body.navjs-theme-normal {
+.navjs .navbar-default {
   background-color: #f7f7f7;
-}
-body.navjs-theme-light {
-  background-color: #fff;
-}
-body.navjs-theme-dark {
-  background-color: #333;
-}
-.navjs {
-  /*margin: 0px;*/
+  border-color: #e7e7e7;
 }
 .navjs-header {
   height: 36px;
@@ -509,9 +501,6 @@ body.navjs-theme-dark {
   float: left;
   padding: 15px 15px;
 }
-.navjs-header-large { }
-.navjs-header-normal { }
-.navjs-header-small { }
 .navjs-spacer {
   width: 100px
 }
