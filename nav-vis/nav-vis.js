@@ -172,8 +172,12 @@ looker.plugins.visualizations.add({
         </div>`)
     }
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
+    nav.tab_pull = ''
+    if (nav.widget !== 'metric' && nav.widget !== "spacer") {
+      nav.tab_pull = "pull-right"
+    }
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.style} ${navjs.size.item} .navjs-li-widget-${nav.widget}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
+      $ul.append(`<li class="navjs-li-widget-${nav.widget} ${nav.style} ${navjs.size.item} ${nav.tab_pull}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
     })
     $navbar.append($ul)
 
