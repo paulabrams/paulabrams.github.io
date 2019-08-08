@@ -73,6 +73,7 @@ looker.plugins.visualizations.add({
       // Label
       if (nav.widget === "spacer") {
         nav.label_html = `<div class="navjs-spacer">&nbsp;</div>`
+        nav.style = "disabled"
       }
       else if (nav.label) {
         nav.label_html = `<span class="navjs-label">${nav.label}</span>`
@@ -171,7 +172,7 @@ looker.plugins.visualizations.add({
           <div class="navjs-header navjs-header-${config.size}">${config.header}</div>
         </div>`)
     }
-    var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
+    var $ul = $(`<ul class="nav navbar-nav navbar-expand-lg ${config.widget} ${navjs.size.list} ${config.align}">`)
 
     // Pull tabs to the right
     navjs.navs.forEach(function(nav) {
@@ -193,7 +194,7 @@ looker.plugins.visualizations.add({
     }
 
     // display the navbar
-    $el.html($navbar).addClass("navjs")
+    $el.html($navbar).addClass("navjs container")
     console.log("doneRending nav-vis.js")
 
     doneRendering()
@@ -354,8 +355,6 @@ function buildOptions (navCount, config) {
       values: [
         {"Normal": ""},
         {"Active": "active"},
-        {"Pull Left": "pull-left"},
-        {"Pull Right": "pull-right"}
       ],
       type: "string",
       default: ""
@@ -506,7 +505,7 @@ body {
   padding: 15px 15px;
 }
 .navjs-spacer {
-  width: 100px
+  width: 150px
 }
 a {
   color: var(--charcoal-grey) !important;
