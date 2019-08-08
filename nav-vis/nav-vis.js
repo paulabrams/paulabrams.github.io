@@ -71,7 +71,10 @@ looker.plugins.visualizations.add({
       if (nav.widget === "hidden") { continue }
 
       // Label
-      if (nav.label && nav.widget !== "spacer") {
+      if (nav.widget === "spacer") {
+        nav.label_html = `<div class="navjs-spacer">&nbsp;</div>`
+      }
+      else if (nav.label) {
         nav.label_html = `<span class="navjs-label">${nav.label}</span>`
       }
       else {
@@ -499,6 +502,8 @@ body {
   padding: 15px 15px;
 }
 .navjs-li-widget-spacer {
+}
+.navjs-spacer {
   width: 100px
 }
 a {
