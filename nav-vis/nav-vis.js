@@ -530,7 +530,8 @@ li.navjs-widget-spacer a {
 .navjs-top li.active .navjs-label:hover {
   color: #007573;
 }
-.navjs-top li.active {
+.navjs-top li.active,
+.navjs-top li.active:hover {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
