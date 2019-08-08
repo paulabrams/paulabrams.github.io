@@ -477,7 +477,7 @@ function addNavActions () {
 
 navjs.inlineCss = `
 .navjs {
-  font-family: roboto, open sans, sans-serif;
+  font-family: Roboto, open sans, sans-serif;
   margin: 0px;
 }
 .navjs-header {
@@ -520,7 +520,7 @@ a:hover {
 }
 .active .navjs-metric-title {
   height: 22px;
-  font-family: Roboto;
+  font-family: Roboto Condensed;
   font-size: 16px;
   font-weight: bold;
   font-style: normal;
@@ -531,7 +531,7 @@ a:hover {
 }
 .navjs-metric-title {
   height: 22px;
-  font-family: Roboto;
+  font-family: Roboto Condensed;
   font-size: 16px;
   font-weight: 300;
   font-style: normal;
@@ -542,7 +542,7 @@ a:hover {
 }
 .navjs-metric-value {
   height: 36px;
-  font-family: Roboto;
+  font-family: Roboto Condensed;
   font-size: 28px;
   font-weight: normal;
   font-style: normal;
