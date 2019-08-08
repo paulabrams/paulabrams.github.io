@@ -147,7 +147,7 @@ looker.plugins.visualizations.add({
     config.align = config.align || ''
 
     // apply theme to iframe
-    $("body").addClass("navjs-theme-"+config.theme)
+    $("body").removeClass().addClass("navjs-theme-"+config.theme)
 
     var themes = {
       normal: { navbar: "navbar-default" },
