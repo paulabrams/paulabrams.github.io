@@ -221,14 +221,16 @@ function buildOptions (navCount, config) {
       type: "string",
       label: "Navbar",
       values: [
-        {"Standard": "nav-standard"},
-        {"Tabs":  "nav-tabs"},
+        {"Top Nav": "navjs-top"},
+        {"Bottom Nav": "navjs-mid nav-pills"},
+        {"Left Nav": "navjs-side nav-pills "},
         {"Pills": "nav-pills"},
+        {"Tabs":  "nav-tabs"},
         {"Links": "nav-links"}
       ],
       display: "select",
       display_size: "half",
-      default: "nav-standard"
+      default: "navjs-top"
   }
   options.theme = {
       section: "Main",
@@ -526,9 +528,18 @@ li.active .navjs-label,
 li.active .navjs-label:hover {
   color: #007573;
 }
-.navbar-nav.nav-standard li.active {
+.navjs-top li.active {
   border-radius: 3px;
   background-color: #d7f5f4;
+}
+.nav-pill.navjs-left li.active {
+  border-radius: 3px;
+  background-color: #d7f5f4;
+}
+.nav-pill.navjs-mid li.active {
+  border-radius: 3px;
+  border-color: #d7f5f4;
+  background-color: #fff;
 }
 li.active .navjs-metric-title {
   height: 22px;
