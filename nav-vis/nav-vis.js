@@ -146,6 +146,9 @@ looker.plugins.visualizations.add({
     config.widget = config.widget || 'navbar-nav'
     config.align = config.align || ''
 
+    // apply theme to iframe
+    $("body").addClass("navjs-theme-"+config.theme)
+
     var themes = {
       light: { navbar: "navbar-light bg-light" },
       dark: { navbar: "navbar-dark bg-dark" },
@@ -477,14 +480,21 @@ function addNavActions () {
 
 navjs.inlineCss = `
 body {
-  background-color: #f7f7f7;
   margin: 0px;
   padding: 0px;
-}
-#vis.navjs {
   font-family: Roboto Condensed, Roboto, open sans, sans-serif;
-  margin: 0px;
+}
+body.navjs-theme-normal {
   background-color: #f7f7f7;
+}
+body.navjs-theme-light {
+  background-color: #fff;
+}
+body.navjs-theme-dark {
+  background-color: #333;
+}
+.navjs {
+  margin: 0px;
 }
 .navjs-header {
   height: 36px;
