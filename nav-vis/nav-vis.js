@@ -526,12 +526,14 @@ li.navjs-widget-spacer a {
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
 }
+.navjs-top li a {
+  border-radius: 3px;
+}
 .navjs-top li.active a,
 .navjs-top li.active a:hover,
 .navjs-left li.active a,
 .navjs-left li.hover {
   color: #007573;
-  border-radius: 3px a;
   background-color: #d7f5f4;
 }
 .navjs-mid.nav-pills li {
