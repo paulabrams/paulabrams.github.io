@@ -476,10 +476,13 @@ function addNavActions () {
 */
 
 navjs.inlineCss = `
-#vis.navjs {
-  font-family: Roboto Condensed, Roboto, open sans, sans-serif;
+body {
+  background-color: #f7f7f7;
   margin: 0px;
   padding: 0px;
+}
+#vis.navjs {
+  font-family: Roboto Condensed, Roboto, open sans, sans-serif;
   margin: 0px;
   background-color: #f7f7f7;
 }
