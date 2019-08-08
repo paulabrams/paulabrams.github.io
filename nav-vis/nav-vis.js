@@ -138,7 +138,11 @@ looker.plugins.visualizations.add({
     }
     //console.log("navjs.navs=", navjs.navs)
 
-    config.widget = config.widget || 'navbar-nav'
+    navjs.navbarClass = config.widget || 'navjs-top'
+    if (config.widget === "navjs-top" || config.widget === "navjs-mid) {
+      navjs.navbarClass += "nav-pills"
+    }
+
     config.align = config.align || ''
 
     // apply theme to iframe
@@ -166,7 +170,7 @@ looker.plugins.visualizations.add({
           <div class="navjs-header navjs-header-${config.size}">${config.header}</div>
         </div>`)
     }
-    var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
+    var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`)
 
     navjs.navs.forEach(function(nav) {
       $ul.append(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}">
@@ -222,8 +226,9 @@ function buildOptions (navCount, config) {
       label: "Navbar",
       values: [
         {"Top Nav": "navjs-top"},
-        {"Bottom Nav": "navjs-mid nav-pills"},
-        {"Left Nav": "navjs-side nav-pills "},
+        {"Bottom Nav": "navjs-mid"},
+        {"Left Nav": "navjs-side"},
+        {"Metrics Bar": "navjs-metrics"},
         {"Pills": "nav-pills"},
         {"Tabs":  "nav-tabs"},
         {"Links": "nav-links"}
