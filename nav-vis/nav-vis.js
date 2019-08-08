@@ -510,7 +510,7 @@ body {
   padding: 10px 10px;
 }
 li.navjs-widget-spacer {
-  width: 150px;
+  width: 180px;
 }
 li.navjs-widget-spacer a {
   cursor: default;
