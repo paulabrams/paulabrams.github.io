@@ -25,7 +25,7 @@ var navjs = {
 looker.plugins.visualizations.add({
   options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log("nav-vis.js v0.2.0")
+    console.log("nav-vis.js v0.2.1")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
