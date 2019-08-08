@@ -141,7 +141,7 @@ looker.plugins.visualizations.add({
     // Navbar Widget and class
     navjs.navbarClass = config.widget || 'navjs-top'
     if (config.widget === "navjs-top" || config.widget === "navjs-mid") {
-      navjs.navbarClass += "nav-pills"
+      navjs.navbarClass += " nav-pills "
     }
 
     config.align = config.align || ''
