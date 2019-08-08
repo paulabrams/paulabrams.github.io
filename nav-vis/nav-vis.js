@@ -223,14 +223,14 @@ function buildOptions (navCount, config) {
       type: "string",
       label: "Navbar",
       values: [
-        {"Standard": "standard"},
+        {"Standard": "nav-standard"},
         {"Tabs":  "nav-tabs"},
         {"Pills": "nav-pills"},
         {"Links": "nav-links"}
       ],
       display: "select",
       display_size: "half",
-      default: "standard"
+      default: "nav-standard"
   }
   options.theme = {
       section: "Main",
@@ -514,7 +514,7 @@ a:hover {
   height: 16px;
   font-family: Roboto Condensed;
   font-size: 13px;
-  font-weight: normal;
+  font-weight: bold;
   font-style: normal;
   font-stretch: condensed;
   line-height: 1.23;
@@ -522,7 +522,13 @@ a:hover {
   color: rgba(57, 66, 66, 0.8);
 }
 .active .navjs-label {
-  font-weight: bold;
+  color: #007573;
+}
+.navbar-nav.standard li.active {
+  width: 79px;
+  height: 32px;
+  border-radius: 3px;
+  background-color: #d7f5f4;
 }
 .navjs-metric {
 }
