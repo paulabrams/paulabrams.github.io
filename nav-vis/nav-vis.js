@@ -526,15 +526,14 @@ li.navjs-widget-spacer a {
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
 }
-.navjs-top li a {
+.navbar-nav.navjs-top li a {
   border-radius: 3px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 10px;
 }
-.navjs-top li.active a,
-.navjs-top li.active a:hover,
-.navjs-left li.active a,
-.navjs-left li.hover {
+.navbar-nav.navjs-top li.active a,
+.navbar-nav.navjs-top li.active a:hover,
+.navbar-nav.navjs-left li.active a,
+.navbar-nav.navjs-left li.hover {
   color: #007573;
   background-color: #d7f5f4;
 }
