@@ -54,6 +54,7 @@ li.navjs-widget-spacer a {
   color: #007573;
   background-color: #d7f5f4;
 }
+.navjs-middle.nav-pills li,
 .navjs-bottom.nav-pills li,
 .navjs-side.nav-pills li {
   border-radius: 0;
@@ -61,13 +62,17 @@ li.navjs-widget-spacer a {
   padding-bottom: 4px;
   border-bottom: 1px solid #e7e7e7;
 }
+.navjs-middle.nav-pills li+li a,
 .navjs-bottom.nav-pills li+li a {
   padding-left: 17px;
 }
+.navjs-middle.nav-pills li.active,
 .navjs-bottom.nav-pills li.active {
   padding-bottom: 2px;
   border-bottom: 4px solid #d7f5f4;
 }
+.navjs-middle.nav-pills li.active a,
+.navjs-middle.nav-pills li.active a:hover,
 .navjs-bottom.nav-pills li.active a,
 .navjs-bottom.nav-pills li.active a:hover {
   background-color: #fff;
