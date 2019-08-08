@@ -72,7 +72,6 @@ looker.plugins.visualizations.add({
 
       // Label
       if (nav.widget === "spacer") {
-        nav.style = "disabled"
       }
       else if (nav.label) {
         nav.label_html = `<span class="navjs-label">${nav.label}</span>`
@@ -174,7 +173,9 @@ looker.plugins.visualizations.add({
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
 
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
+      $ul.append(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}">
+                    <a href="${nav.href}">${nav.label_html}${nav.metric_html}</a>
+                  </li>`)
     })
     $navbar.append($ul)
 
@@ -503,7 +504,10 @@ body {
   padding: 15px 15px;
 }
 li.navjs-widget-spacer {
-  width: 150px
+  width: 150px;
+}
+li.navjs-widget-spacer a {
+  cursor: default;
 }
 a {
   color: var(--charcoal-grey) !important;
@@ -522,7 +526,8 @@ a:hover {
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
 }
-li.active .navjs-label {
+li.active .navjs-label,
+li.active .navjs-label:hover {
   color: #007573;
 }
 .navbar-nav.nav-standard li.active {
