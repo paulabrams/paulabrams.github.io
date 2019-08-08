@@ -526,17 +526,12 @@ li.navjs-widget-spacer a {
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
 }
-.navjs-top li.active .navjs-label,
-.navjs-top li.active .navjs-label:hover {
+.navjs-top li.active a,
+.navjs-top li.active a:hover,
+.navjs-left li.active a,
+.navjs-left li.hover {
   color: #007573;
-}
-.navjs-top li.active,
-.navjs-top li.active:hover {
-  border-radius: 3px;
-  background-color: #d7f5f4;
-}
-.navjs-left li.active {
-  border-radius: 3px;
+  border-radius: 3px a;
   background-color: #d7f5f4;
 }
 .navjs-mid.nav-pills li {
