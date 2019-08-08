@@ -71,13 +71,9 @@ looker.plugins.visualizations.add({
       if (nav.widget === "hidden") { continue }
 
       // Label
-      if (nav.widget === "spacer") {
-      }
-      else if (nav.label) {
+      nav.label_html = '' 
+      if (nav.widget !== "spacer" && nav.label) {
         nav.label_html = `<span class="navjs-label">${nav.label}</span>`
-      }
-      else {
-        nav.label_html = '' 
       }
 
       // Metric
