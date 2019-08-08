@@ -538,14 +538,15 @@ li.navjs-widget-spacer a {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
-.navjs-mid li {
+.navjs-mid li a {
   border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 10px;
+  background-color: #fff;
 }
 .navjs-mid.nav-pills li.active a,
 .navjs-mid.nav-pills li.active a:hover {
-  background-color: transparent;
   border-bottom: 2px solid #d7f5f4;
-  padding-bottom: 10px;
+  background-color: #fff;
   font-weight: bold;
   color: var(--charcoal-grey);
 }
