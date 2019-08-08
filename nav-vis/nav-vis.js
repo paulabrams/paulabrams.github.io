@@ -476,9 +476,12 @@ function addNavActions () {
 */
 
 navjs.inlineCss = `
-.navjs {
+#vis.navjs {
   font-family: Roboto Condensed, Roboto, open sans, sans-serif;
   margin: 0px;
+  padding: 0px;
+  margin: 0px;
+  background-color: #f7f7f7;
 }
 .navjs-header {
   height: 36px;
