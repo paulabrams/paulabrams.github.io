@@ -514,12 +514,15 @@ a:hover {
   height: 16px;
   font-family: Roboto Condensed;
   font-size: 13px;
-  font-weight: bold;
+  font-weight: normal;
   font-style: normal;
   font-stretch: condensed;
   line-height: 1.23;
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
+}
+.active .navjs-label {
+  font-weight: bold;
 }
 .navjs-metric {
 }
