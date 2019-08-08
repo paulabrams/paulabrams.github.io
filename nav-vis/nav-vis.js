@@ -538,11 +538,10 @@ li.active .navjs-label:hover {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
-.navjs-mid.nav-pills li.active {
-  border-bottom: 1px solid #d7f5f4;
-}
 .navjs-mid.nav-pills li.active a {
   background-color: transparent;
+  border-bottom: 2px solid #d7f5f4;
+  padding-bottom: 3px;
   font-weight: bold;
   color: var(--charcoal-grey);
 }
