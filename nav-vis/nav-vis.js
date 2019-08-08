@@ -26,7 +26,7 @@ var navjs = {
 looker.plugins.visualizations.add({
   options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log("nav-vis.js create() v0.1.6")
+    console.log("nav-vis.js v0.2.0")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
@@ -35,7 +35,6 @@ looker.plugins.visualizations.add({
     navjs.config = config
     navjs.queryResponse = queryResponse
     navjs.details = details
-    console.log("nav-vis.js updateAsync() navjs=", navjs)
 
     this.trigger('registerOptions', buildOptions(navjs.navCount, config))
 
@@ -195,7 +194,7 @@ looker.plugins.visualizations.add({
 
     // display the navbar
     $el.html($navbar).addClass("navjs container")
-    console.log("doneRending nav-vis.js")
+    //console.log("doneRending nav-vis.js")
 
     doneRendering()
   }
@@ -320,7 +319,7 @@ function buildOptions (navCount, config) {
 
   // Nav Links Sections
   // Dependent options are marked as hidden=false/true
-  console.log("build nav links", config)
+  //console.log("build nav links", config)
   for (var i=0; i<navCount; i++) {
     var navSection = `Nav ${i+1}`,
         navId = `nav_${i+1}`,
