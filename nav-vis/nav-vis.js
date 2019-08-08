@@ -542,10 +542,11 @@ li.navjs-widget-spacer a {
   border-radius: 0;
   border-bottom: 1px solid #e7e7e7;
 }
+.navjs-mid.nav-pills li.active {
+  border-bottom: 2px solid #d7f5f4;
+}
 .navjs-mid.nav-pills li.active a,
 .navjs-mid.nav-pills li.active a:hover {
-  padding-bottom: 8px;
-  border-bottom: 2px solid #d7f5f4;
   background-color: #fff;
   font-weight: bold;
   color: var(--charcoal-grey);
