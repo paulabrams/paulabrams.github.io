@@ -150,9 +150,9 @@ looker.plugins.visualizations.add({
     $("body").addClass("navjs-theme-"+config.theme)
 
     var themes = {
-      light: { navbar: "navbar-light bg-light" },
-      dark: { navbar: "navbar-dark bg-dark" },
       normal: { navbar: "navbar-default" },
+      light: { navbar: "navbar-light bg-light" },
+      dark: { navbar: "navbar-dark bg-dark" }
     }
     navjs.theme = themes[config.theme] || themes.normal 
 
@@ -238,13 +238,13 @@ function buildOptions (navCount, config) {
       type: "string",
       label: "Theme",
       values: [
+        {"Normal": "normal"},
         {"Light": "light"},
-        {"Dark": "dark"},
-        {"Normal": "normal"}
+        {"Dark": "dark"}
       ],
       display: "select",
       display_size: "half",
-      default: "light"
+      default: "normal"
     }
   options.size = {
       section: "Main",
