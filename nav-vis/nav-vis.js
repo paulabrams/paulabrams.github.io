@@ -174,12 +174,8 @@ looker.plugins.visualizations.add({
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
 
     // Pull tabs to the right
-    nav.li_class = ''
-    if (nav.widget !== 'metric' && nav.widget !== "spacer") {
-      nav.li_class = "pull-right"
-    }
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.li_class} ${nav.style} ${navjs.size.item}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
+      $ul.append(`<li class="${nav.style} ${navjs.size.item}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
     })
     $navbar.append($ul)
 
@@ -358,8 +354,8 @@ function buildOptions (navCount, config) {
       values: [
         {"Normal": ""},
         {"Active": "active"},
-        {"Pull Left": "pull_left"},
-        {"Pull Right": "pull_right"}
+        {"Pull Left": "pull-left"},
+        {"Pull Right": "pull-right"}
       ],
       type: "string",
       default: ""
