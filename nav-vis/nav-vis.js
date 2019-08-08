@@ -135,7 +135,7 @@ looker.plugins.visualizations.add({
 
     // Navbar Widget and class
     navjs.navbarClass = config.widget || 'navjs-top'
-    if (config.widget === "navjs-mid") {
+    if (config.widget === "navjs-bottom") {
       navjs.navbarClass += " nav-pills "
     }
 
@@ -223,7 +223,7 @@ function buildOptions (navCount, config) {
       values: [
         // custom
         {"Top Nav": "navjs-top"},
-        {"Mid Nav": "navjs-mid"},
+        {"Bottom Nav": "navjs-bottom"},
         {"Side Nav": "navjs-side"},
         {"Metrics Bar": "navjs-metrics"},
         // default bootstrap
