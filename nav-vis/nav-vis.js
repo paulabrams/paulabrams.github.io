@@ -72,7 +72,6 @@ looker.plugins.visualizations.add({
 
       // Label
       if (nav.widget === "spacer") {
-        nav.label_html = `<div class="navjs-spacer">&nbsp;</div>`
         nav.style = "disabled"
       }
       else if (nav.label) {
@@ -172,11 +171,10 @@ looker.plugins.visualizations.add({
           <div class="navjs-header navjs-header-${config.size}">${config.header}</div>
         </div>`)
     }
-    var $ul = $(`<ul class="nav navbar-nav navbar-expand-lg ${config.widget} ${navjs.size.list} ${config.align}">`)
+    var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
 
-    // Pull tabs to the right
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.style} ${navjs.size.item}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
+      $ul.append(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
     })
     $navbar.append($ul)
 
@@ -504,7 +502,7 @@ body {
   float: left;
   padding: 15px 15px;
 }
-.navjs-spacer {
+li.navjs-widget-spacer {
   width: 150px
 }
 a {
