@@ -515,12 +515,6 @@ li.navjs-widget-spacer {
 li.navjs-widget-spacer a {
   cursor: default;
 }
-a {
-  color: var(--charcoal-grey) !important;
-}
-a:hover {
-  color: var(--charcoal-grey) !important;
-}
 .navjs-label {
   height: 16px;
   font-family: Roboto Condensed;
@@ -549,6 +543,8 @@ li.active .navjs-label:hover {
 }
 .navjs-mid.nav-pills li.active a {
   background-color: transparent;
+  font-weight: bold;
+  color: var(--charcoal-grey);
 }
 li.active .navjs-metric-title {
   height: 22px;
