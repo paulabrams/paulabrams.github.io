@@ -71,10 +71,7 @@ looker.plugins.visualizations.add({
       if (nav.widget === "hidden") { continue }
 
       // Label
-      if (nav.widget === "spacer") {
-        nav.label_html = `<div class="navjs-spacer">&nbsp;</div>`
-      }
-      else if (nav.label) {
+      if (nav.label && nav.widget !== "spacer") {
         nav.label_html = `<span class="navjs-label">${nav.label}</span>`
       }
       else {
@@ -173,7 +170,7 @@ looker.plugins.visualizations.add({
     }
     var $ul = $(`<ul class="nav navbar-nav ${config.widget} ${navjs.size.list} ${config.align}">`)
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="${nav.style} ${navjs.size.item}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
+      $ul.append(`<li class="${nav.style} ${navjs.size.item} .navjs-li-widget-${nav.widget}"><a href="${nav.href}">${nav.label_html}${nav.metric_html}</a></li>`)
     })
     $navbar.append($ul)
 
@@ -345,7 +342,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_style`] = {
       order: 3,
-      hidden: navWidget === "spacer" || navWidget === "hidden",
+      hidden: navWidget === "hidden",
       section: navSection,
       label: "Style",
       display: "select",
@@ -501,7 +498,7 @@ body {
   float: left;
   padding: 15px 15px;
 }
-.navjs-spacer {
+.navjs-li-widget-spacer {
   width: 100px
 }
 a {
@@ -521,16 +518,14 @@ a:hover {
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
 }
-.active .navjs-label {
+li.active .navjs-label {
   color: #007573;
 }
-.navbar-nav.standard li.active {
+.navbar-nav.nav-standard li.active {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
-.navjs-metric {
-}
-.active .navjs-metric-title {
+li.active .navjs-metric-title {
   height: 22px;
   font-family: Roboto Condensed;
   font-size: 16px;
