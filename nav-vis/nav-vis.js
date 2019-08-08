@@ -525,8 +525,6 @@ a:hover {
   color: #007573;
 }
 .navbar-nav.standard li.active {
-  width: 79px;
-  height: 32px;
   border-radius: 3px;
   background-color: #d7f5f4;
 }
