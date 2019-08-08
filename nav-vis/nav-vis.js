@@ -526,8 +526,8 @@ li.navjs-widget-spacer a {
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
 }
-li.active .navjs-label,
-li.active .navjs-label:hover {
+.navjs-top li.active .navjs-label,
+.navjs-top li.active .navjs-label:hover {
   color: #007573;
 }
 .navjs-top li.active {
@@ -538,10 +538,11 @@ li.active .navjs-label:hover {
   border-radius: 3px;
   background-color: #d7f5f4;
 }
-.navjs-mid.nav-pills li.active a {
+.navjs-mid.nav-pills li.active a,
+.navjs-mid.nav-pills li.active a:hover {
   background-color: transparent;
   border-bottom: 2px solid #d7f5f4;
-  padding-bottom: 3px;
+  padding-bottom: 10px;
   font-weight: bold;
   color: var(--charcoal-grey);
 }
