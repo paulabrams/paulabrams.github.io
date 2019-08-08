@@ -506,7 +506,8 @@ body {
   letter-spacing: normal;
   color: var(--charcoal-grey);
   float: left;
-  padding: 10px 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 li.navjs-widget-spacer {
   width: 180px;
@@ -527,7 +528,8 @@ li.navjs-widget-spacer a {
 }
 .navbar-nav.navjs-top li a {
   border-radius: 3px;
-  padding: 10px 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .navbar-nav.navjs-top li.active a,
 .navbar-nav.navjs-top li.active a:hover,
