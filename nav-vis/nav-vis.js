@@ -356,11 +356,13 @@ function buildOptions (navCount, config) {
       label: "Style",
       display: "select",
       values: [
-        {"Normal": "normal"},
+        {"Normal": ""},
         {"Active": "active"},
+        {"Pull Left": "pull_left"},
+        {"Pull Right": "pull_right"}
       ],
       type: "string",
-      default: "normal"
+      default: ""
     }
     options[`${navId}_dashboard_id`] = {
       order: 4,
