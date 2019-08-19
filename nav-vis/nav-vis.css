@@ -128,14 +128,9 @@ li.active .navjs-metric-title {
 .navjs-comparison-show_as_value { }
 .navjs-comparison-show_as_change-positive,
 .navjs-comparison-show_as_change_reversed-negative {
-  width: 7px;
-  height: 10px;
   background-image: linear-gradient(to bottom, #2db364, rgba(45, 179, 100, 0));
 }
 .navjs-comparison-show_as_change-negative,
 .navjs-comparison-show_as_change_reversed-positive {
-  width: 7px;
-  height: 10px;
-  transform: rotate(-180deg);
   background-image: linear-gradient(to bottom, #ff475d, rgba(255, 71, 93, 0));
 }

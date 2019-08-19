@@ -89,7 +89,7 @@ looker.plugins.visualizations.add({
           }
           else if (nav.comparison_style === "show_as_change" ||  nav.comparison_style === "show_as_change_reversed") {
             comparison_class += comparisonData.value > 0 ? "-positive" : "-negative"
-            nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">▲ ${nav.comparison_value}</span> ${nav.comparison_label}</div> `
+            nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">▲</span> ${nav.comparison_value} ${nav.comparison_label}</div> `
           }
           else if (nav.comparison_style === "hidden") {
             
