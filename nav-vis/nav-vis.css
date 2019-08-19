@@ -125,7 +125,6 @@ li.active .navjs-metric-title {
   /*text-align: right;*/
   color: #8d9494;
 }
-.navjs-comparison-show_as_value { }
 .navjs-comparison-show_as_change-positive,
 .navjs-comparison-show_as_change_reversed-negative {
   background-image: linear-gradient(to bottom, #2db364, rgba(45, 179, 100, 0));
