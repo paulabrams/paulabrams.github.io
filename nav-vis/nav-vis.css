@@ -116,14 +116,14 @@ li.active .navjs-metric-title {
 .navjs-comparison {
   height: 16px;
   font-family: Roboto Condensed;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   line-height: 1.33;
   letter-spacing: normal;
   /*text-align: right;*/
-  color: #6c7373 !important;
+  color: #8d9494;
 }
 .navjs-comparison-show_as_value { }
 .navjs-comparison-show_as_change-positive,
