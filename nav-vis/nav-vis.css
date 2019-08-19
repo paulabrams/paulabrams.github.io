@@ -125,12 +125,15 @@ li.active .navjs-metric-title {
   /*text-align: right;*/
   color: #6c7373 !important;
 }
-.navjs-comparison-up {
+.navjs-comparison-show_as_value { }
+.navjs-comparison-show_as_change-positive,
+.navjs-comparison-show_as_change-reversed-positive {
   width: 7px;
   height: 10px;
   background-image: linear-gradient(to bottom, #2db364, rgba(45, 179, 100, 0));
 }
-.navjs-comparison-down {
+.navjs-comparison-show_as_change-negative,
+.navjs-comparison-show_as_change-reversed-positive {
   width: 7px;
   height: 10px;
   transform: rotate(-180deg);

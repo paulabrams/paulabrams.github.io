@@ -83,12 +83,17 @@ looker.plugins.visualizations.add({
         var comparisonData = navjs.data[0][nav.comparison_dimension]
         if (comparisonData !== undefined && comparisonData.rendered !== undefined) {
           nav.comparison_value = comparisonData.rendered
-          nav.comparison_change = ""
-          if (nav.comparison_style === "show_as_change") {
-            if (nav.comparison_value > 0) { nav.comparison_change = `<span class="navjs-comparison-up">▲ </span> ` }
-            else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="navjs-comparison-down">▲ </span> ` }
+          var comparison_class = "navjs-comparison-"nav.comparison_style
+          if (nav.comparison_style === "show_as_value") {
+            nav.metric_html += ` <div class="${comparison_class}">${nav.comparison_value}${nav.comparison_label}</div> `
           }
-          nav.metric_html += ` <div class="navjs-comparison">${nav.comparison_change}${nav.comparison_value}${nav.comparison_label}</div> `
+          else if (nav.comparison_style === "show_as_change" ||  nav.comparison_style === "show_as_change_reversed") {
+            comparison_class += nav.comparison_value > 0 ? "-positive" : "-negative"
+            nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">▲ ${nav.comparison_value}</span> ${nav.comparison_label}</div> `
+          }
+          else if (nav.comparison_style === "hidden") {
+            
+          }
         }
         if (nav.metric_html) {
           nav.metric_html = ` <div class="metric">${nav.metric_html}</div> `
@@ -442,6 +447,7 @@ function buildOptions (navCount, config) {
       values: [
         {"Show as Value": "show_as_value"},
         {"Show as Change": "show_as_change"},
+        {"Show as Change (reversed)": "show_as_change_reversed"},
         {"Hidden": "hidden"}
       ],
       default: "show_as_value"
