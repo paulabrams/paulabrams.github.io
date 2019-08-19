@@ -83,7 +83,7 @@ looker.plugins.visualizations.add({
         var comparisonData = navjs.data[0][nav.comparison_dimension]
         if (comparisonData !== undefined && comparisonData.rendered !== undefined) {
           nav.comparison_value = comparisonData.rendered
-          var comparison_class = "navjs-comparison-"nav.comparison_style
+          var comparison_class = `navjs-comparison-${nav.comparison_style}`
           if (nav.comparison_style === "show_as_value") {
             nav.metric_html += ` <div class="${comparison_class}">${nav.comparison_value}${nav.comparison_label}</div> `
           }
