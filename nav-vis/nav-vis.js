@@ -147,9 +147,9 @@ looker.plugins.visualizations.add({
     $("body").removeClass().addClass("navjs-theme-"+config.theme)
 
     var themes = {
-      normal: { navbar: "navbar-default" },
-      light: { navbar: "navbar-light bg-light" },
-      dark: { navbar: "navbar-dark bg-dark" }
+      normal: { navbar: "navbar-default navbar-expand-lg" },
+      light: { navbar: "navbar-light bg-light navbar-expand-lg" },
+      dark: { navbar: "navbar-dark bg-dark navbar-expand-lg" }
     }
     navjs.theme = themes[config.theme] || themes.normal 
 
