@@ -74,22 +74,24 @@ looker.plugins.visualizations.add({
       // Metric
       nav.metric_html = ''
       if (nav.widget === "metric") {
-        if (navjs.data[0][nav.metric_dimension] !== undefined) {
-          nav.metric_value = navjs.data[0][nav.metric_dimension].rendered
+        var metricData = navjs.data[0][nav.metric_dimension]
+        if (metricData !== undefined && metricData.rendered !== undefined) {
+          nav.metric_value = metricData.rendered
           if (nav.metric_title) { nav.metric_html += `<div class="navjs-metric-title">${nav.metric_title}</div> ` }
-          nav.metric_html += `<div class="navjs-metric-value">${nav.metric_value}</div>`
+          nav.metric_html += ` <div class="navjs-metric-value">${nav.metric_value}</div> `
         }
-        if (navjs.data[0][nav.comparison_dimension] !== undefined) {
-          nav.comparison_value = navjs.data[0][nav.comparison_dimension].rendered
+        var comparisonData = navjs.data[0][nav.comparison_dimension]
+        if (comparisonData !== undefined && comparisonData.rendered !== undefined) {
+          nav.comparison_value = comparisonData.rendered
           nav.comparison_change = ""
           if (nav.comparison_style === "show_as_change") {
-            if (nav.comparison_value > 0) { nav.comparison_change = `<span class="navjs-comparison-up">^</span>` }
-            else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="navjs-comparison-down">v</span>` }
+            if (nav.comparison_value > 0) { nav.comparison_change = `<span class="navjs-comparison-up">▲ </span> ` }
+            else if (nav.comparison_value < 0) { nav.comparison_change = `<span class="navjs-comparison-down">▲ </span> ` }
           }
-          nav.metric_html += `<div class="navjs-comparison">${nav.comparison_change}${nav.comparison_value}${nav.comparison_label}</div>`
+          nav.metric_html += ` <div class="navjs-comparison">${nav.comparison_change}${nav.comparison_value}${nav.comparison_label}</div> `
         }
         if (nav.metric_html) {
-          nav.metric_html = `<div class="metric">${nav.metric_html}</div>`
+          nav.metric_html = ` <div class="metric">${nav.metric_html}</div> `
         }
       }
 
