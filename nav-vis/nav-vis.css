@@ -110,7 +110,6 @@ li.active .navjs-metric-title {
   font-stretch: condensed;
   line-height: 1.29;
   letter-spacing: normal;
-  /*text-align: center;*/
   color: var(--charcoal-grey);
 }
 .navjs-comparison {
@@ -122,7 +121,6 @@ li.active .navjs-metric-title {
   font-stretch: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  /*text-align: right;*/
   color: #8d9494;
 }
 .navjs-comparison-show_as_change-positive,
