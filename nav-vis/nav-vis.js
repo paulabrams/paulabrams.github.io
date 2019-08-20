@@ -101,7 +101,7 @@ looker.plugins.visualizations.add({
       }
 
       // Build href based on type
-      if (nav.widget === "dash") {
+      if (nav.widget === "dash" || nav.widget === "metric_dash") {
         nav.querystring = '?vis=navjs'
         if (navjs.data && navjs.data[0]) {
           nav.filterset = nav.filterset_custom || nav.filterset_choice || ''
@@ -340,8 +340,9 @@ function buildOptions (navCount, config) {
       values: [
         {"Hidden": "hidden"},
         {"Dashboard Link": "dash"},
-        {"Custom Link": "link"},
+        {"Dashboard Link / Metric": "metric_dash"},
         {"Metric": "metric"},
+        {"Custom Link": "link"},
         {"Spacer": "spacer"}
       ],
       default: "hidden"
@@ -369,7 +370,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_dashboard_id`] = {
       order: 4,
-      hidden: navWidget !== "dash",
+      hidden: navWidget !== "dash" && navWidget !== "metric_dash",
       section: navSection,
       label: "Dashboard ID",
       type: "string",
@@ -377,7 +378,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_filterset_choice`] = {
       order: 5,
-      hidden: navWidget !== "dash",
+      hidden: navWidget !== "dash" && navWidget !== "metric_dash",
       section: navSection,
       label: "Filter Set",
       type: "string",
@@ -397,7 +398,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_filterset_custom`] = {
       order: 6,
-      hidden: navWidget !== "dash",
+      hidden: navWidget !== "dash" && navWidget !== "metric_dash",
       section: navSection,
       label: "Custom Filter Set",
       type: "string",
