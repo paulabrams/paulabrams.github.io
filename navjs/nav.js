@@ -19,6 +19,7 @@ var navjs = {
   css: [ "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
          "https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Condensed|&display=swap",
          "https://paulabrams.github.io/navjs/nav.css"],
+  fields: {},
   init: 0
 }
 
@@ -35,6 +36,8 @@ looker.plugins.visualizations.add({
     navjs.queryResponse = queryResponse
     navjs.details = details
 
+    buildFields("measures")
+    buildFields("dimensions")
     this.trigger('registerOptions', buildOptions(navjs.navCount, config))
 
     var $el = $(element)
@@ -52,8 +55,7 @@ looker.plugins.visualizations.add({
           nav = { widget: config[`${navId}_widget`] || '',
                   label: config[`${navId}_label`] || '',
                   style: config[`${navId}_style`] || '',
-                  filterset_choice: config[`${navId}_filterset_choice`] || '',
-                  filterset_custom: config[`${navId}_filterset_custom`] || '',
+                  filterset: config[`${navId}_filterset`] || '',
                   dashboard_id: config[`${navId}_dashboard_id`] || '',
                   url: config[`${navId}_url`] || '',
                   metric_dimension: config[`${navId}_metric_dimension`] || '',
@@ -73,30 +75,32 @@ looker.plugins.visualizations.add({
 
       // Metric
       nav.metric_html = ''
-      if (nav.widget === "metric") {
-        var metricData = navjs.data[0][nav.metric_dimension]
-        if (metricData !== undefined && metricData.rendered !== undefined) {
-          nav.metric_value = metricData.rendered
-          if (nav.metric_title) { nav.metric_html += `<div class="navjs-metric-title">${nav.metric_title}</div> ` }
-          nav.metric_html += ` <div class="navjs-metric-value">${nav.metric_value}</div> `
-        }
-        var comparisonData = navjs.data[0][nav.comparison_dimension]
-        if (comparisonData !== undefined && comparisonData.rendered !== undefined) {
-          nav.comparison_value = comparisonData.rendered
-          var comparison_class = `navjs-comparison-${nav.comparison_style}`
-          if (nav.comparison_style === "show_as_value") {
-            nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">${nav.comparison_value}${nav.comparison_label}</span></div> `
+      if (nav.widget === "metric" || nav.widget === "metric_dash") {
+        if (navjs.data && navjs.data[0]) {
+          var metricData = navjs.data[0][nav.metric_dimension]
+          if (metricData !== undefined && metricData.rendered !== undefined) {
+            nav.metric_value = metricData.rendered
+            if (nav.metric_title) { nav.metric_html += `<div class="navjs-metric-title">${nav.metric_title}</div> ` }
+            nav.metric_html += ` <div class="navjs-metric-value">${nav.metric_value}</div> `
           }
-          else if (nav.comparison_style === "show_as_change" ||  nav.comparison_style === "show_as_change_reversed") {
-            comparison_class += comparisonData.value > 0 ? "-positive" : "-negative"
-            nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">▲</span> ${nav.comparison_value} ${nav.comparison_label}</div> `
+          var comparisonData = navjs.data[0][nav.comparison_dimension]
+          if (comparisonData !== undefined && comparisonData.rendered !== undefined) {
+            nav.comparison_value = comparisonData.rendered
+            var comparison_class = `navjs-comparison-${nav.comparison_style}`
+            if (nav.comparison_style === "show_as_value") {
+              nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">${nav.comparison_value}${nav.comparison_label}</span></div> `
+            }
+            else if (nav.comparison_style === "show_as_change" ||  nav.comparison_style === "show_as_change_reversed") {
+              comparison_class += comparisonData.value > 0 ? "-positive" : "-negative"
+              nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">▲</span> ${nav.comparison_value} ${nav.comparison_label}</div> `
+            }
+            else if (nav.comparison_style === "hidden") {
+              
+            }
           }
-          else if (nav.comparison_style === "hidden") {
-            
+          if (nav.metric_html) {
+            nav.metric_html = ` <div class="metric">${nav.metric_html}</div> `
           }
-        }
-        if (nav.metric_html) {
-          nav.metric_html = ` <div class="metric">${nav.metric_html}</div> `
         }
       }
 
@@ -104,11 +108,9 @@ looker.plugins.visualizations.add({
       if (nav.widget === "dash" || nav.widget === "metric_dash") {
         nav.querystring = '?vis=nav'
         if (navjs.data && navjs.data[0]) {
-          nav.filterset = nav.filterset_custom || nav.filterset_choice || ''
           if (nav.filterset) {
-            nav.filterset_parameter = "_parameters."+nav.filterset
-            if (navjs.data[0][nav.filterset_parameter]) {
-              nav.filter_link = navjs.data[0][nav.filterset_parameter]
+            if (navjs.data[0][nav.filterset]) {
+              nav.filter_link = navjs.data[0][nav.filterset]
               if (nav.filter_link && nav.filter_link.html) {
                 nav.querystring += $('<div/>').html(nav.filter_link.html).text()
               }
@@ -117,7 +119,7 @@ looker.plugins.visualizations.add({
               //nav.querystring += "&message=filterset not found"
               this.addError({
                 title: "Filter Set Not Found",
-                message: "Filter Set not found: "+ nav.filterset_parameter });
+                message: "Filter Set not found: "+ nav.filterset });
             }
           }
         }
@@ -199,6 +201,18 @@ looker.plugins.visualizations.add({
   }
 });
 
+
+// Fields
+function buildFields (fieldGroup) {
+  var options = navjs.fields[fieldGroup] = [ {"None": ""} ]
+  if (navjs.queryResponse && navjs.queryResponse.fields && navjs.queryResponse.fields[fieldGroup]) {
+    navjs.queryResponse.fields[fieldGroup].forEach( function(field) {
+      var option = {}
+      option[field.label] = field.name
+      options.push(option)
+    })
+  }
+}
 
 // Build or rebuild the admin config options
 function buildOptions (navCount, config) {
@@ -370,33 +384,15 @@ function buildOptions (navCount, config) {
       type: "string",
       placeholder: "55 or mymodel::mylookml"
     }
-    options[`${navId}_filterset_choice`] = {
+    options[`${navId}_filterset`] = {
       order: 5,
       hidden: navWidget !== "dash" && navWidget !== "metric_dash",
       section: navSection,
-      label: "Filter Set",
+      label: "Filter Dimension",
       type: "string",
-      values: [
-        {"None": ""},
-        {"Default": "nav_filterset_default"},
-        {"MS Date": "nav_filterset_ms_date"},
-        {"MS Campaign": "nav_filterset_ms_campaign"},
-        {"MS Campaign, KPI, Date": "nav_filterset_ms_campaign_kpi_date"},
-        {"MS KPI, Date": "nav_filterset_ms_kpi_date"},
-        {"MS KPI, Date, MyParam1, MyParam2": "nav_filterset_ms_kpi_date_myparam1_myparam2"},
-        {"MS Item Number": "nav_filterset_item_number"},
-        {"Test": "nav_filterset_test"}
-      ],
+      values: navjs.fields.dimensions,
       display: "select",
       default: ""
-    }
-    options[`${navId}_filterset_custom`] = {
-      order: 6,
-      hidden: navWidget !== "dash" && navWidget !== "metric_dash",
-      section: navSection,
-      label: "Custom Filter Set",
-      type: "string",
-      placeholder: "e.g. my_custom_dimension"
     }
     options[`${navId}_url`] = {
       order: 7,
@@ -409,15 +405,16 @@ function buildOptions (navCount, config) {
     // Metric w/ comparison
     options[`${navId}_metric_dimension`] = {
       order: 8,
-      hidden: navWidget !== "metric",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Metric Dimension",
       type: "string",
-      placeholder: "e.g. my_dimension"
+      values: navjs.fields.measures,
+      display: "select"
     }
     options[`${navId}_metric_title`] = {
       order: 9,
-      hidden: navWidget !== "metric",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Metric Title",
       type: "string",
@@ -426,15 +423,16 @@ function buildOptions (navCount, config) {
     // Comparison
     options[`${navId}_comparison_dimension`] = {
       order: 10,
-      hidden: navWidget !== "metric",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Dimension",
       type: "string",
-      placeholder: "e.g. my_dimension"
+      values: navjs.fields.measures,
+      display: "select"
     }
     options[`${navId}_comparison_style`] = {
       order: 11,
-      hidden: navWidget !== "metric",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Style",
       type: "string",
@@ -449,7 +447,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_comparison_label`] = {
       order: 12,
-      hidden: navWidget !== "metric",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Label",
       type: "string",
