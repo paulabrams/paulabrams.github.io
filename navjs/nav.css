@@ -66,10 +66,18 @@ li.navjs-widget-spacer a {
 .navjs-bottom.nav-pills li+li a {
   padding-left: 17px;
 }
-.navjs-middle.nav-pills li.active,
-.navjs-bottom.nav-pills li.active {
+.navjs .navjs-middle.nav-pills li.active,
+.navjs .navjs-bottom.nav-pills li.active {
   padding-bottom: 2px;
   border-bottom: 4px solid #d7f5f4;
+}
+.navjs .navjs-metrics li {
+  padding-top: 3px;
+}
+.navjs .navjs-metrics li.active {
+  background-color: transparent;
+  padding-top: 0px;
+  border-top: 3px solid #d7f5f4;
 }
 .navjs-middle.nav-pills li.active a,
 .navjs-middle.nav-pills li.active a:hover,
