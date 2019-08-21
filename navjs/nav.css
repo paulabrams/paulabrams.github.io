@@ -59,7 +59,7 @@ li.navjs-widget-spacer a {
 .navjs-side.nav-pills li {
   border-radius: 0;
   margin-left: 0px;
-  padding-bottom: 4px;
+  padding-bottom: 1px;
   border-bottom: 1px solid #e7e7e7;
 }
 .navjs-middle.nav-pills li+li a,
@@ -68,8 +68,8 @@ li.navjs-widget-spacer a {
 }
 .navjs .navjs-middle.nav-pills li.active,
 .navjs .navjs-bottom.nav-pills li.active {
-  padding-bottom: 2px;
-  border-bottom: 4px solid #d7f5f4;
+  padding-bottom: 0px;
+  border-bottom: 2px solid #63cfcd;
 }
 .navjs .navjs-metrics li {
   padding-top: 3px;
