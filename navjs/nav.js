@@ -140,14 +140,17 @@ looker.plugins.visualizations.add({
     }
 
     config.align = config.align || ''
+    if (config.widget === "navjs-top" && config.align === '') {
+      config.align = 'navbar-right'
+    }
 
     // apply theme to iframe
     $("body").removeClass().addClass("navjs-theme-"+config.theme)
 
     var themes = {
-      normal: { navbar: "navbar-default navbar-expand-lg" },
-      light: { navbar: "navbar-light bg-light navbar-expand-lg" },
-      dark: { navbar: "navbar-dark bg-dark navbar-expand-lg" }
+      normal: { navbar: "navbar-default navbar-expand-sm" },
+      light: { navbar: "navbar-light bg-light navbar-expand-sm" },
+      dark: { navbar: "navbar-dark bg-dark navbar-expand-sm" }
     }
     navjs.theme = themes[config.theme] || themes.normal 
 
@@ -159,20 +162,20 @@ looker.plugins.visualizations.add({
     navjs.size = sizes[config.size] || sizes.normal
 
     // build the navbar
-    var $navbar = $(`<nav class="navbar ${navjs.theme.navbar}" style="margin-bottom: 0px"></nav`)
+    var $navbar = $(`<nav class="navbar ${navjs.theme.navbar}" style="margin-bottom: 0px"></nav>`)
+    var $container = $(`<div class="container-fluid"></div>`).appendTo($navbar)
     if (config.header) {
-      $navbar.append(`
+      $container.append(`
         <div class="navbar-header">
           <div class="navjs-header navjs-header-${config.size}">${config.header}</div>
         </div>`)
     }
-    var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`)
+    var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`).appendTo($container)
 
     navjs.navs.forEach(function(nav) {
       nav.$link = $(`<a href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
       $(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link).appendTo($ul)
     })
-    $navbar.append($ul)
 
     if (config.form === "navjs-date") {
       var $form = $(`
@@ -278,10 +281,9 @@ function buildOptions (navCount, config) {
     label: "Align",
     values: [
       {"Normal":    ""},
-      {"Stacked":  "nav-stacked"},
-      //{"Center":    "justify-content-center"},
-      //{"Right":     "justify-content-right"},
+      {"Right":     "navbar-right"},
       //{"Fill":      "nav-fill"},
+      {"Stacked":  "nav-stacked"},
       {"Justified": "nav-justified"}
     ],
     default: "",
