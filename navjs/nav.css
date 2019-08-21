@@ -22,8 +22,7 @@ body {
   letter-spacing: normal;
   color: var(--charcoal-grey);
   float: left;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 5px;
 }
 li.navjs-widget-spacer {
   width: 180px;
@@ -61,6 +60,14 @@ li.navjs-widget-spacer a {
   margin-left: 0px;
   padding-bottom: 1px;
   border-bottom: 1px solid #e7e7e7;
+}
+.navjs-bottom.navbar-nav.nav-pills li a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.navjs-bottom.nav-pills li .navjs-label {
+  height: 18px;
+  font-size: 16px;
 }
 .navjs-middle.nav-pills li+li a,
 .navjs-bottom.nav-pills li+li a {
