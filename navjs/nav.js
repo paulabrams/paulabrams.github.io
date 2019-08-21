@@ -15,7 +15,7 @@
  *  css: https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css
  */
 var navjs = {
-  navCount: 7,
+  navCount: 9,
   css: [ "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
          "https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Condensed|&display=swap",
          "https://paulabrams.github.io/navjs/nav.css"],
@@ -102,6 +102,9 @@ looker.plugins.visualizations.add({
             nav.metric_html = ` <div class="metric">${nav.metric_html}</div> `
           }
         }
+        else {
+          console.log("no data")
+        }
       }
 
       // Build href based on type
@@ -109,25 +112,13 @@ looker.plugins.visualizations.add({
         nav.querystring = '?vis=nav'
         if (navjs.data && navjs.data[0]) {
           if (nav.filterset) {
-            if (navjs.data[0][nav.filterset]) {
+            if (navjs.data[0][nav.filterset] !== undefined) {
               nav.filter_link = navjs.data[0][nav.filterset]
               if (nav.filter_link && nav.filter_link.html) {
                 nav.querystring += $('<div/>').html(nav.filter_link.html).text()
               }
             }
-            else {
-              //nav.querystring += "&message=filterset not found"
-              this.addError({
-                title: "Filter Set Not Found",
-                message: "Filter Set not found: "+ nav.filterset });
-            }
           }
-        }
-        else {
-            //nav.querystring += "&message=filterset has no data"
-            this.addError({
-              title: "Filter Set Empty",
-              message: "Filter Set query has no data" });
         }
         nav.href = '/embed/dashboards/'+nav.dashboard_id + nav.querystring
       }
@@ -178,7 +169,7 @@ looker.plugins.visualizations.add({
     var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`)
 
     navjs.navs.forEach(function(nav) {
-      nav.$link = $(`<a href="${nav.href}">${nav.label_html}${nav.metric_html}</a>`).click(navjs.actions.clickLink)
+      nav.$link = $(`<a href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
       $(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link).appendTo($ul)
     })
     $navbar.append($ul)
@@ -333,7 +324,7 @@ function buildOptions (navCount, config) {
   // Dependent options are marked as hidden=false/true
   //console.log("build nav links", config)
   for (var i=0; i<navCount; i++) {
-    var navSection = `Nav ${i+1}`,
+    var navSection = `N${i+1}`,
         navId = `nav_${i+1}`,
         navWidget = config[`${navId}_widget`] || 'hidden'
 
