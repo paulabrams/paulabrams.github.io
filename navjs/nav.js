@@ -177,7 +177,7 @@ looker.plugins.visualizations.add({
 
     navjs.navs.forEach(function(nav) {
       nav.$link = $(`<a href="${nav.href}">${nav.label_html}${nav.metric_html}</a>`).click(navjs.actions.clickLink)
-      $ul.append(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link)
+      $(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link).appendTo($ul)
     })
     $navbar.append($ul)
 
