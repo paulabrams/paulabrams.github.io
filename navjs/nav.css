@@ -79,6 +79,9 @@ li.navjs-widget-spacer a {
   font-weight: bold;
   color: var(--charcoal-grey);
 }
+.metric {
+  color: var(--charcoal-grey);
+}
 li.active .navjs-metric-title {
   height: 22px;
   font-family: Roboto Condensed;
