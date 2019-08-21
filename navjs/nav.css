@@ -79,10 +79,10 @@ li.navjs-widget-spacer a {
   font-weight: bold;
   color: var(--charcoal-grey);
 }
-.navjs .navbar ul li a {
+.navjs .navbar a {
   color: var(--charcoal-grey);
 }
-li.active .navjs-metric-title {
+.navjs .navbar li.active .navjs-metric-title {
   height: 22px;
   font-family: Roboto Condensed;
   font-size: 16px;
@@ -93,7 +93,7 @@ li.active .navjs-metric-title {
   letter-spacing: 0.2px;
   color: var(--charcoal-grey);
 }
-.navjs-metric-title {
+.navjs .navbar ul li .navjs-metric-title {
   height: 22px;
   font-family: Roboto Condensed;
   font-size: 16px;
@@ -104,7 +104,7 @@ li.active .navjs-metric-title {
   letter-spacing: 0.2px;
   color: var(--charcoal-grey);
 }
-.navjs-metric-value {
+.navjs .navbar ul li .navjs-metric-value {
   height: 36px;
   font-family: Roboto Condensed;
   font-size: 28px;
@@ -115,7 +115,7 @@ li.active .navjs-metric-title {
   letter-spacing: normal;
   color: var(--charcoal-grey);
 }
-.navjs-comparison {
+.navjs .navbar ul li .navjs-comparison {
   height: 16px;
   font-family: Roboto Condensed;
   font-size: 14px;
