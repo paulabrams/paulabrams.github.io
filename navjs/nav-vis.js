@@ -1,5 +1,5 @@
 /**
- *  nav-vis.js
+ *  nav.js
  *
  *  This is a custom Looker Visualization containing a Bootstrap Navbar
  *
