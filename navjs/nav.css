@@ -79,7 +79,7 @@ li.navjs-widget-spacer a {
   font-weight: bold;
   color: var(--charcoal-grey);
 }
-.metric {
+.navjs .navbar ul li a {
   font-family: Roboto Condensed;
   font-size: 14px;
   font-weight: normal;
