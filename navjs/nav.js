@@ -6,7 +6,7 @@
  *  Usage: configure custom visualization in Looker using a host and dependencies below
  *
  *  hosts
- *    https://paulabrams.github.io/nav-vis/nav-vis.js
+ *    https://paulabrams.github.io/navjs/nav.js
  *
  *  javascript dependencies:
  *    https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
@@ -18,14 +18,14 @@ var navjs = {
   navCount: 7,
   css: [ "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
          "https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Condensed|&display=swap",
-         "https://paulabrams.github.io/nav-vis/nav-vis.css"],
+         "https://paulabrams.github.io/navjs/nav.css"],
   init: 0
 }
 
 looker.plugins.visualizations.add({
   options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log("nav-vis.js v0.3.0")
+    console.log("navjs v0.3.0")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
