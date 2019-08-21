@@ -25,7 +25,7 @@ var navjs = {
 looker.plugins.visualizations.add({
   options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log("nav-vis.js v0.2.1")
+    console.log("nav-vis.js v0.3.0")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
@@ -102,7 +102,7 @@ looker.plugins.visualizations.add({
 
       // Build href based on type
       if (nav.widget === "dash" || nav.widget === "metric_dash") {
-        nav.querystring = '?vis=navjs'
+        nav.querystring = '?vis=nav'
         if (navjs.data && navjs.data[0]) {
           nav.filterset = nav.filterset_custom || nav.filterset_choice || ''
           if (nav.filterset) {
@@ -176,32 +176,27 @@ looker.plugins.visualizations.add({
     var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`)
 
     navjs.navs.forEach(function(nav) {
-      $ul.append(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}">
-                    <a href="${nav.href}">${nav.label_html}${nav.metric_html}</a>
-                  </li>`)
+      nav.$link = $(`<a href="${nav.href}">${nav.label_html}${nav.metric_html}</a>`).click(navjs.actions.clickLink)
+      $ul.append(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link)
     })
     $navbar.append($ul)
 
-    if (config.form === "timeframe") {
+    if (config.form === "navjs-date") {
       var $form = $(`
         <form class="form-inline">
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="timeframe">Timeframe</span>
+              <span class="input-group-text" id="navjs-date">Date</span>
             </div>
-            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="timeframe">
+            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="navjs-date">
           </div>
         </form>`)
       $navbar.append($form)
     }
 
-    // display the navbar
     $el.html($navbar).addClass("navjs container")
-    //console.log("doneRending nav-vis.js")
-
     doneRendering()
   }
-
 });
 
 
@@ -288,19 +283,18 @@ function buildOptions (navCount, config) {
     display: "select",
     display_size: "half"
   }
-  /*
   options.form = {
       section: "Main",
       order: 6,
       type: "string",
       label: "Form",
       values: [
-        {"None":  ""},
-        {"Timeframe": "timeframe"}
+        {"None":  "none"},
+        {"Date": "navjs-date"}
       ],
+      default: "none",
       display: "select"
     }
-    */
   options.listClass = {
       section: "Main",
       order: 7,
@@ -469,13 +463,15 @@ function buildOptions (navCount, config) {
 
 //
 // Nav Actions
-// - experiemental -
-/*
+// Wrappers for Looker functions
+// 
 function addNavActions () {
   navjs.actions = {}
-  navjs.actions.getLink = function () {
-    return navjs.data[0].link
+  navjs.actions.clickLink = function () {
+    return LookerCharts.Utils.openUrl(this.url)
   }
+  // - experimental -
+  /*
   navjs.actions.openDrillMenu = function () { 
     var link = navjs.actions.getLink()
     var cell = LookerCharts.Utils.htmlForCell(link)
@@ -484,11 +480,10 @@ function addNavActions () {
       element: $(navjs.element),
       event: $(navjs.element)}) 
   }
+  /*
   navjs.actions.getHtml = function () {
     return LookerCharts.Utils.htmlForCell(navjs.actions.getLink())
   }
-  navjs.actions.openUrl = function (url) {
-    return LookerCharts.Utils.openUrl(url)
-  }
+  */
 }
-*/
+addNavActions ()
