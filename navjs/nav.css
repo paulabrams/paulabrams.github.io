@@ -80,12 +80,6 @@ li.navjs-widget-spacer a {
   color: var(--charcoal-grey);
 }
 .navjs .navbar ul li a {
-  font-family: Roboto Condensed;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: condensed;
-  letter-spacing: 0.2px;
   color: var(--charcoal-grey);
 }
 li.active .navjs-metric-title {
