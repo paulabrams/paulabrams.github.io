@@ -467,8 +467,13 @@ function buildOptions (navCount, config) {
 // 
 function addNavActions () {
   navjs.actions = {}
+  // Links need to be opened via Looker since we are down in an iframe
   navjs.actions.clickLink = function () {
-    return LookerCharts.Utils.openUrl(this.url)
+    var url = $(this).attr("href")
+    if (url !== undefined && url !== "#") {
+      return LookerCharts.Utils.openUrl(url)
+    }
+    return false
   }
   // - experimental -
   /*
