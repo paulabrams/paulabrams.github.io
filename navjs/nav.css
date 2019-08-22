@@ -7,6 +7,9 @@ body {
   padding: 0px;
   font-family: Roboto Condensed, Roboto, open sans, sans-serif;
 }
+#vis.navjs.container {
+  margin: 0px;
+}
 .navjs .navbar-default {
   background-color: #f7f7f7;
   border-color: #e7e7e7;
