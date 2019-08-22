@@ -140,9 +140,6 @@ looker.plugins.visualizations.add({
     }
 
     config.align = config.align || ''
-    if (config.widget === "navjs-top" && config.align === '') {
-      config.align = 'navbar-right'
-    }
 
     // apply theme to iframe
     $("body").removeClass().addClass("navjs-theme-"+config.theme)
