@@ -17,7 +17,7 @@
 var navjs = {
   navCount: 9,
   css: [ "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
-         "https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Condensed|&display=swap",
+         "https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto+Condensed|Roboto+Condensed:300|&display=swap",
          "https://paulabrams.github.io/navjs/nav.css"],
   fields: {},
   init: 0
