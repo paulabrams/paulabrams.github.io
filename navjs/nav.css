@@ -24,8 +24,6 @@ body {
   line-height: 1.29;
   letter-spacing: normal;
   color: var(--charcoal-grey);
-  float: left;
-  padding-top: 5px;
 }
 .navjs-label {
   height: 16px;
