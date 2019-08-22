@@ -170,26 +170,27 @@ looker.plugins.visualizations.add({
           <div class="navjs-header navjs-header-${config.size}">${config.header}</div>
         </div>`)
     }
+
+    /* if (config.form === "navjs-date") {
+      var $form = $(`<form class="form-inline navbar-right  my-2 my-lg-0">
+          <div class="input-group">
+            <div class="input-group-prepend my-2 my-sm-0">
+              <span class="input-group-text" id="basic-addon1">Date</span>
+            </div>
+            <select class="form-control mr-sm-2" type="search" placeholder="Date" aria-label="Date">
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+            </select>
+          </div>
+        </form>`).appendTo($container)
+    } */
+
     var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`).appendTo($container)
 
     navjs.navs.forEach(function(nav) {
       nav.$link = $(`<a href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
       $(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link).appendTo($ul)
     })
-
-    if (config.form === "navjs-date") {
-      var $form = $(`
-        <form class="form-inline">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="navjs-date">Date</span>
-            </div>
-            <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="navjs-date">
-          </div>
-        </form>`)
-      $navbar.append($form)
-    }
-
     $el.html($navbar).addClass("navjs container")
     doneRendering()
   }
@@ -290,7 +291,7 @@ function buildOptions (navCount, config) {
     display: "select",
     display_size: "half"
   }
-  options.form = {
+  /*options.form = {
       section: "Main",
       order: 6,
       type: "string",
@@ -301,7 +302,7 @@ function buildOptions (navCount, config) {
       ],
       default: "none",
       display: "select"
-    }
+    }*/
   options.listClass = {
       section: "Main",
       order: 7,
@@ -466,20 +467,6 @@ function addNavActions () {
     }
     return false
   }
-  // - experimental -
-  /*
-  navjs.actions.openDrillMenu = function () { 
-    var link = navjs.actions.getLink()
-    var cell = LookerCharts.Utils.htmlForCell(link)
-    LookerCharts.Utils.openDrillMenu({
-      links: [{ label: "click drill", type: 'drill', type_label: "type", url: link }],
-      element: $(navjs.element),
-      event: $(navjs.element)}) 
-  }
-  /*
-  navjs.actions.getHtml = function () {
-    return LookerCharts.Utils.htmlForCell(navjs.actions.getLink())
-  }
-  */
+
 }
 addNavActions ()
