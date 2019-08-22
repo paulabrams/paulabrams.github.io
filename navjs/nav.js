@@ -40,7 +40,7 @@ looker.plugins.visualizations.add({
     buildFields("dimensions")
     this.trigger('registerOptions', buildOptions(navjs.navCount, config))
 
-    var $el = $(element)
+    var $el = $(element).addClass("navjs container").hide()
     if (!navjs.init) {
       navjs.css.forEach(function(css) {
       $el.parent().after(`<link rel="stylesheet" href="${css}" crossorigin="anonymous">`)
@@ -193,7 +193,7 @@ looker.plugins.visualizations.add({
       $(`<li class="navjs-end-spacer">&nbsp;</li>`).appendTo($ul)
     }
 
-    $el.html($navbar).addClass("navjs container")
+    $el.html($navbar).fadeIn()
     doneRendering()
   }
 });
