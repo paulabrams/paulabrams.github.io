@@ -188,6 +188,11 @@ looker.plugins.visualizations.add({
       nav.$link = $(`<a href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
       $(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link).appendTo($ul)
     })
+
+    if (config.align === "navbar-right") {
+      $(`<li class="navjs-end-spacer">&nbsp;</li>`).appendTo($ul)
+    }
+
     $el.html($navbar).addClass("navjs container")
     doneRendering()
   }
@@ -324,7 +329,7 @@ function buildOptions (navCount, config) {
   // Dependent options are marked as hidden=false/true
   //console.log("build nav links", config)
   for (var i=0; i<navCount; i++) {
-    var navSection = `N${i+1}`,
+    var navSection = `n${i+1}`,
         navId = `nav_${i+1}`,
         navWidget = config[`${navId}_widget`] || 'hidden'
 

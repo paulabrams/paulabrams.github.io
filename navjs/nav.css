@@ -41,6 +41,9 @@ li.navjs-widget-spacer a {
   letter-spacing: 0.87px;
   color: rgba(57, 66, 66, 0.8);
 }
+.navjs-end-spacer {
+  width: 115px;
+}
 .navbar-nav.navjs-top li a {
   border-radius: 3px;
   padding-top: 10px;
@@ -57,7 +60,7 @@ li.navjs-widget-spacer a {
 .navjs-bottom.nav-pills li,
 .navjs-side.nav-pills li {
   border-radius: 0;
-  margin-left: 0px;
+  margin-left: 0px;/
   padding-bottom: 1px;
   border-bottom: 1px solid #e7e7e7;
 }
