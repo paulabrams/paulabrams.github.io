@@ -2,10 +2,17 @@
  * nav-vis.css
  */
 
-body {
+body.navjs {
   margin: 0px;
   padding: 0px;
   font-family: Roboto Condensed, Roboto, open sans, sans-serif;
+  background-color: initial;
+}
+body.navjs.navjs-theme-normal {
+}
+body.navjs.navjs-theme-light {
+}
+body.navjs.navjs-theme-dark {
 }
 #vis.navjs.container {
   margin: 0px;
@@ -107,7 +114,7 @@ body {
 .navjs-middle.nav-pills li.active a:hover,
 .navjs-bottom.nav-pills li.active a,
 .navjs-bottom.nav-pills li.active a:hover {
-  background-color: #fff;
+  background-color: transparent;
   font-weight: bold;
   color: var(--charcoal-grey);
 }
