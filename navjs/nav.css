@@ -8,12 +8,6 @@ body.navjs {
   font-family: Roboto Condensed, Roboto, open sans, sans-serif;
   background-color: initial;
 }
-body.navjs.navjs-theme-normal {
-}
-body.navjs.navjs-theme-light {
-}
-body.navjs.navjs-theme-dark {
-}
 #vis.navjs.container {
   margin: 0px;
 }
