@@ -36,8 +36,8 @@ looker.plugins.visualizations.add({
     navjs.queryResponse = queryResponse
     navjs.details = details
 
-    buildFields("measures")
-    buildFields("dimensions")
+    buildFields("measures_like")
+    buildFields("dimensions_like")
     this.trigger('registerOptions', buildOptions(navjs.navCount, config))
 
     var $el = $(element).addClass("navjs container").hide()
@@ -386,7 +386,7 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Filter Dimension",
       type: "string",
-      values: navjs.fields.dimensions,
+      values: navjs.fields.dimensions_like,
       display: "select",
       default: ""
     }
@@ -405,7 +405,7 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Metric Dimension",
       type: "string",
-      values: navjs.fields.measures,
+      values: navjs.fields.measures_like,
       display: "select"
     }
     options[`${navId}_metric_title`] = {
@@ -423,7 +423,7 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Comparison Dimension",
       type: "string",
-      values: navjs.fields.measures,
+      values: navjs.fields.measures_like,
       display: "select"
     }
     options[`${navId}_comparison_style`] = {
