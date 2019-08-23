@@ -36,8 +36,12 @@ looker.plugins.visualizations.add({
     navjs.queryResponse = queryResponse
     navjs.details = details
 
-    buildFields("measures_like")
-    buildFields("dimensions_like")
+    navjs.fields.measures = [ {"None": ""} ]
+    navjs.fields.dimensions = [ {"None": ""} ]
+    buildFields("table_calculations", navjs.fields.measures)
+    buildFields("measures", navjs.fields.measures)
+    buildFields("dimensions", navjs.fields.dimensions)
+
     this.trigger('registerOptions', buildOptions(navjs.navCount, config))
 
     var $el = $(element).addClass("navjs container").hide()
@@ -200,13 +204,12 @@ looker.plugins.visualizations.add({
 
 
 // Fields
-function buildFields (fieldGroup) {
-  var options = navjs.fields[fieldGroup] = [ {"None": ""} ]
-  if (navjs.queryResponse && navjs.queryResponse.fields && navjs.queryResponse.fields[fieldGroup]) {
+function buildFields (fieldGroup, fieldOptionArray) {
+  if (navjs.queryResponse && navjs.queryResponse.fields && navjs.queryResponse.fields[fieldGroup] !== undefined) {
     navjs.queryResponse.fields[fieldGroup].forEach( function(field) {
       var option = {}
       option[field.label] = field.name
-      options.push(option)
+      fieldOptionArray.push(option)
     })
   }
 }
@@ -386,7 +389,7 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Filter Dimension",
       type: "string",
-      values: navjs.fields.dimensions_like,
+      values: navjs.fields.dimensions,
       display: "select",
       default: ""
     }
@@ -405,7 +408,7 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Metric Dimension",
       type: "string",
-      values: navjs.fields.measures_like,
+      values: navjs.fields.measures,
       display: "select"
     }
     options[`${navId}_metric_title`] = {
@@ -423,7 +426,7 @@ function buildOptions (navCount, config) {
       section: navSection,
       label: "Comparison Dimension",
       type: "string",
-      values: navjs.fields.measures_like,
+      values: navjs.fields.measures,
       display: "select"
     }
     options[`${navId}_comparison_style`] = {
