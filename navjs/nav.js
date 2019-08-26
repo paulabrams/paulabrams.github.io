@@ -251,7 +251,7 @@ function buildOptions (navCount, config) {
       {"Show Active Tab": "active_tab"}
     ],
     display: "select",
-    default: "active_tab"
+    default: "text"
   }
   options.header = {
     section: "Main",
