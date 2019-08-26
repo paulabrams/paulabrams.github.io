@@ -26,7 +26,7 @@ var navjs = {
 looker.plugins.visualizations.add({
   options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log("navjs v0.3.0")
+    console.log("navjs v0.4.0")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     this.clearErrors()
@@ -53,6 +53,7 @@ looker.plugins.visualizations.add({
     }
 
     // Build nav items from config
+    navjs.active_tab = null
     navjs.navs = []
     for (var i=0; i<navjs.navCount; i++) {
       var navId = `nav_${i+1}`,
@@ -60,6 +61,8 @@ looker.plugins.visualizations.add({
                   label: config[`${navId}_label`] || '',
                   style: config[`${navId}_style`] || '',
                   filterset: config[`${navId}_filterset`] || '',
+                  active_param: config[`${navId}_active_param`] || '',
+                  active_param_value: config[`${navId}_active_param_value`] || '',
                   dashboard_id: config[`${navId}_dashboard_id`] || '',
                   url: config[`${navId}_url`] || '',
                   metric_dimension: config[`${navId}_metric_dimension`] || '',
@@ -71,7 +74,19 @@ looker.plugins.visualizations.add({
 
       if (nav.widget === "hidden") { continue }
 
-      // Label
+      // Active Tab
+      if (nav.style === "active_param" && navjs.active_param_value !== '') {
+        if (navjs.data && navjs.data[0] && navjs.data[0][nav.active_param]) {
+          if (navjs.data[0][nav.active_param] === navjs.active_param_value) {
+            nav.style = "active"
+          }
+        }
+      }
+      if (nav.style === "active") {
+        navjs.active_tab = navjs.active_tab || nav
+      }
+
+      // Tab Label
       nav.label_html = '' 
       if (nav.widget !== "spacer" && nav.label) {
         nav.label_html = `<span class="navjs-label">${nav.label}</span>`
@@ -105,9 +120,6 @@ looker.plugins.visualizations.add({
           if (nav.metric_html) {
             nav.metric_html = ` <div class="metric">${nav.metric_html}</div> `
           }
-        }
-        else {
-          console.log("no data")
         }
       }
 
@@ -165,6 +177,9 @@ looker.plugins.visualizations.add({
     // build the navbar
     var $navbar = $(`<nav class="navbar ${navjs.theme.navbar} navjs-size-${config.size}" style="margin-bottom: 0px"></nav>`)
     var $container = $(`<div class="container-fluid"></div>`).appendTo($navbar)
+    if (config.header_style === "active_tab" && navjs.active_tab !== null) {
+      config.header = navjs.active_tab.label || config.header
+    }
     if (config.header) {
       $container.append(`
         <div class="navbar-header">
@@ -225,56 +240,71 @@ function buildOptions (navCount, config) {
   }
 
   // Style Section
+  options.header_style = {
+    section: "Main",
+    order: 0,
+    type: "string",
+    label: "Header Style",
+    values: [
+      {"Hidden": ""},
+      {"Text": "text"},
+      {"Show Active Tab": "active_tab"}
+    ],
+    display: "select",
+    default: "active_tab"
+  }
   options.header = {
-      section: "Main",
-      order: 1,
-      type: "string",
-      label: "Header"
-    }
+    section: "Main",
+    order: 1,
+    hidden: config.header_style === "",
+    type: "string",
+    label: "Header Text",
+    placeholder: config.header_style === "active_tab" ? "displayed if no active tab" : ""
+  }
   options.widget = {
-      section: "Main",
-      order: 2,
-      type: "string",
-      label: "Navbar",
-      values: [
-        // custom
-        {"Top Nav": "navjs-top"},
-        {"Middle Nav": "navjs-middle"},
-        {"Bottom Nav": "navjs-bottom"},
-        {"Side Nav": "navjs-side"},
-        {"Metrics Bar": "navjs-metrics"},
-        // default bootstrap
-        {"Pills": "nav-pills"},
-        {"Tabs":  "nav-tabs"},
-        {"Links": "nav-links"}
-      ],
-      display: "select",
-      display_size: "half",
-      default: "navjs-top"
+    section: "Main",
+    order: 2,
+    type: "string",
+    label: "Navbar",
+    values: [
+      // custom
+      {"Top Nav": "navjs-top"},
+      {"Middle Nav": "navjs-middle"},
+      {"Bottom Nav": "navjs-bottom"},
+      {"Side Nav": "navjs-side"},
+      {"Metrics Bar": "navjs-metrics"},
+      // default bootstrap
+      {"Pills": "nav-pills"},
+      {"Tabs":  "nav-tabs"},
+      {"Links": "nav-links"}
+    ],
+    display: "select",
+    display_size: "half",
+    default: "navjs-top"
   }
   options.theme = {
-      section: "Main",
-      order: 3,
-      type: "string",
-      label: "Theme",
-      values: [
-        {"Normal": "normal"},
-        {"Light": "light"},
-        {"Dark": "dark"}
-      ],
-      display: "select",
-      display_size: "half",
-      default: "normal"
-    }
+    section: "Main",
+    order: 3,
+    type: "string",
+    label: "Theme",
+    values: [
+      {"Normal": "normal"},
+      {"Light": "light"},
+      {"Dark": "dark"}
+    ],
+    display: "select",
+    display_size: "half",
+    default: "normal"
+  }
   options.size = {
-      section: "Main",
-      order: 4,
-      type: "string",
-      label: "Size",
-      values: [
-        {"Large": "large"},
-        {"Normal": "normal"},
-        {"Small":  "small"}
+    section: "Main",
+    order: 4,
+    type: "string",
+    label: "Size",
+    values: [
+      {"Large": "large"},
+      {"Normal": "normal"},
+      {"Small":  "small"}
     ],
     display: "select",
     display_size: "half",
@@ -334,7 +364,8 @@ function buildOptions (navCount, config) {
   for (var i=0; i<navCount; i++) {
     var navSection = `n${i+1}`,
         navId = `nav_${i+1}`,
-        navWidget = config[`${navId}_widget`] || 'hidden'
+        navWidget = config[`${navId}_widget`] || 'hidden',
+        navStyle = config[`${navId}_style`] || ''
 
     // Options for Nav items
     options[`${navId}_widget`] = {
@@ -362,21 +393,8 @@ function buildOptions (navCount, config) {
       type: "string",
       placeholder: ""
     }
-    options[`${navId}_style`] = {
-      order: 3,
-      hidden: navWidget === "hidden",
-      section: navSection,
-      label: "Style",
-      display: "select",
-      values: [
-        {"Normal": ""},
-        {"Active": "active"},
-      ],
-      type: "string",
-      default: ""
-    }
     options[`${navId}_dashboard_id`] = {
-      order: 4,
+      order: 3,
       hidden: navWidget !== "dash" && navWidget !== "metric_dash",
       section: navSection,
       label: "Dashboard ID",
@@ -384,7 +402,7 @@ function buildOptions (navCount, config) {
       placeholder: "55 or mymodel::mylookml"
     }
     options[`${navId}_filterset`] = {
-      order: 5,
+      order: 4,
       hidden: navWidget !== "dash" && navWidget !== "metric_dash",
       section: navSection,
       label: "Filter Dimension",
@@ -393,8 +411,42 @@ function buildOptions (navCount, config) {
       display: "select",
       default: ""
     }
-    options[`${navId}_url`] = {
+    options[`${navId}_style`] = {
+      order: 5,
+      hidden: navWidget === "hidden",
+      section: navSection,
+      label: "Style",
+      display: "select",
+      values: [
+        {"Normal": ""},
+        {"Active": "active"},
+        {"Active Param ": "active_param"},
+      ],
+      type: "string",
+      default: ""
+    }
+    options[`${navId}_active_param`] = {
+      order: 6,
+      hidden: (navWidget !== "dash" && navWidget !== "metric_dash") || navStyle !== "active_param",
+      section: navSection,
+      label: "Active Param",
+      type: "string",
+      values: navjs.fields.dimensions,
+      display: "select",
+      default: ""
+    }
+    options[`${navId}_active_param_value`] = {
       order: 7,
+      hidden: (navWidget !== "dash" && navWidget !== "metric_dash") || navStyle !== "active_param",
+      section: navSection,
+      label: "Active Param Value",
+      type: "string",
+      //values: navjs.fields.dimensions,
+      //display: "select",
+      default: ""
+    }
+    options[`${navId}_url`] = {
+      order: 8,
       hidden: navWidget !== "link",
       section: navSection,
       label: "Link URL",
@@ -403,7 +455,7 @@ function buildOptions (navCount, config) {
     }
     // Metric w/ comparison
     options[`${navId}_metric_dimension`] = {
-      order: 8,
+      order: 9,
       hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Metric Dimension",
@@ -412,7 +464,7 @@ function buildOptions (navCount, config) {
       display: "select"
     }
     options[`${navId}_metric_title`] = {
-      order: 9,
+      order: 10,
       hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Metric Title",
@@ -421,7 +473,7 @@ function buildOptions (navCount, config) {
     }
     // Comparison
     options[`${navId}_comparison_dimension`] = {
-      order: 10,
+      order: 11,
       hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Dimension",
@@ -430,7 +482,7 @@ function buildOptions (navCount, config) {
       display: "select"
     }
     options[`${navId}_comparison_style`] = {
-      order: 11,
+      order: 12,
       hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Style",
@@ -445,7 +497,7 @@ function buildOptions (navCount, config) {
       default: "show_as_value"
     }
     options[`${navId}_comparison_label`] = {
-      order: 12,
+      order: 13,
       hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Label",
