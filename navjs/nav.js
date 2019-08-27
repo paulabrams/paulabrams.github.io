@@ -180,7 +180,7 @@ looker.plugins.visualizations.add({
     if (config.header_style === "active_tab" && navjs.active_tab !== null) {
       config.header = navjs.active_tab.label || config.header
     }
-    if (config.header) {
+    if (config.header_style !== "hidden" && config.header) {
       $container.append(`
         <div class="navbar-header">
           <div class="navjs-header">${config.header}</div>
