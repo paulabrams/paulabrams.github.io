@@ -77,7 +77,7 @@ looker.plugins.visualizations.add({
       // Active Tab
       if (nav.style === "active_param" && navjs.active_param_value !== '') {
         if (navjs.data && navjs.data[0]) {
-          if (''+navjs.data[0][nav.active_param] === ''+navjs.active_param_value) {
+          if ((''+navjs.data[0][nav.active_param]) === (''+navjs.active_param_value)) {
             nav.style = "active"
           }
         }
