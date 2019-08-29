@@ -18,7 +18,7 @@ var navjs = {
   navCount: 9,
   css: [ "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
          "https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto+Condensed|Roboto+Condensed:300|&display=swap",
-         "https://paulabrams.github.io/navjs/nav.css"],
+         "https://paulabrams.github.io/navjs/nav.css" ],
   fields: {},
   init: 0
 }
@@ -29,6 +29,7 @@ looker.plugins.visualizations.add({
     console.log("navjs v0.4.0")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
+    navjs.vis = this
     this.clearErrors()
     navjs.data = data
     navjs.element = element
@@ -76,7 +77,7 @@ looker.plugins.visualizations.add({
 
       // Active Tab
       if (nav.style === "active_param" && nav.active_param_value !== '') {
-        if (navjs.data && navjs.data[0]) {
+        if (navjs.data && navjs.data[0] && navjs.data[0][nav.active_param] && navjs.data[0][nav.active_param].value !== undefined) {
           if ((''+navjs.data[0][nav.active_param].value) === (''+nav.active_param_value)) {
             nav.style = "active"
           }
@@ -161,9 +162,9 @@ looker.plugins.visualizations.add({
     $("body").removeClass().addClass("navjs navjs-theme-"+config.theme)
 
     var themes = {
-      normal: { navbar: "navbar-default navbar-expand-sm" },
-      light: { navbar: "navbar-light bg-light navbar-expand-sm" },
-      dark: { navbar: "navbar-dark bg-dark navbar-expand-sm" }
+      normal: { navbar: "" },
+      light: { navbar: "navbar-light bg-light" },
+      dark: { navbar: "navbar-dark bg-dark" }
     }
     navjs.theme = themes[config.theme] || themes.normal 
 
@@ -175,41 +176,48 @@ looker.plugins.visualizations.add({
     navjs.size = sizes[config.size] || sizes.normal
 
     // build the navbar
-    var $navbar = $(`<nav class="navbar ${navjs.theme.navbar} navjs-size-${config.size}" style="margin-bottom: 0px"></nav>`)
-    var $container = $(`<div class="container-fluid"></div>`).appendTo($navbar)
+    var $navbar = $(`<nav class="navbar navbar-expand d-print ${navjs.theme.navbar} navjs-size-${config.size}" style="margin-bottom: 0px"></nav>`)
+    var $container = $navbar
+    //var $container = $(`<div class="container-fluid"></div>`).appendTo($navbar)
+
+    // header
     if (config.header_style === "active_tab" && navjs.active_tab !== null) {
       config.header = navjs.active_tab.label || config.header
     }
-    if (config.header_style !== "hidden" && config.header) {
+    if (config.header_style !== "hidden" && config.header && !config.showTools) {
       $container.append(`
         <div class="navbar-header">
           <div class="navjs-header">${config.header}</div>
         </div>`)
     }
 
-    /* if (config.form === "navjs-date") {
-      var $form = $(`<form class="form-inline navbar-right  my-2 my-lg-0">
-          <div class="input-group">
-            <div class="input-group-prepend my-2 my-sm-0">
-              <span class="input-group-text" id="basic-addon1">Date</span>
-            </div>
-            <select class="form-control mr-sm-2" type="search" placeholder="Date" aria-label="Date">
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-            </select>
-          </div>
-        </form>`).appendTo($container)
-    } */
+    if (config.showTools) {
+      var $form = $(`<form onsubmit="return false;">`).submit(function() { return false }).appendTo($container)
+      $(`<h3 style="">Advanced Tools</h1>`).appendTo($form)
+      var $formGroup = $(`<div class="form-group">`).appendTo($form)
+      $(`<label for="inputConfigJson">Config JSON</label>`).appendTo($formGroup)
+      navjs.$configInput = $(`<textarea id="inputConfigJson" class="form-control" rows="10">`)
+        .val(JSON.stringify(navjs.config, null, '\t'))
+        .appendTo($formGroup)
+      $(`<button class="btn btn-primary" type="submit">Apply</button>`)
+        .click(navjs.actions.applyJsonConfig)
+          .appendTo($form)
+      $(`<button class="btn btn-default pull-right" type="submit">Close</button>`)
+        .click(navjs.actions.closeTools)
+          .appendTo($form)
+    }
 
-    var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`).appendTo($container)
+    if (!config.showTools) {
+      var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`).appendTo($container)
 
-    navjs.navs.forEach(function(nav) {
-      nav.$link = $(`<a href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
-      $(`<li class="navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link).appendTo($ul)
-    })
+      navjs.navs.forEach(function(nav) {
+        nav.$link = $(`<a classs="nav-link" href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
+        $(`<li class="nav-item navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link).appendTo($ul)
+      })
 
-    if (config.align === "navbar-right") {
-      $(`<li class="navjs-end-spacer">&nbsp;</li>`).appendTo($ul)
+      if (config.align === "navbar-right") {
+        $(`<li class="navjs-end-spacer">&nbsp;</li>`).appendTo($ul)
+      }
     }
 
     $el.html($navbar).fadeIn()
@@ -327,36 +335,42 @@ function buildOptions (navCount, config) {
     display_size: "half"
   }
   /*options.form = {
-      section: "Main",
-      order: 6,
-      type: "string",
-      label: "Form",
-      values: [
-        {"None":  "none"},
-        {"Date": "navjs-date"}
-      ],
-      default: "none",
-      display: "select"
-    }*/
+    section: "Main",
+    order: 6,
+    type: "string",
+    label: "Form",
+    values: [
+      {"None":  "none"},
+      {"Date": "navjs-date"}
+    ],
+    default: "none",
+    display: "select"
+  }*/
   options.listClass = {
-      section: "Main",
-      order: 7,
-      type: "string",
-      label: "Custom List Class",
-      display_size: "half",
-      hidden: true,
-      placeholder: "optional"
-    }
+    section: "Main",
+    order: 7,
+    type: "string",
+    label: "Custom List Class",
+    display_size: "half",
+    hidden: true,
+    placeholder: "optional"
+  }
   options.listItemClass = { 
-      section: "Main",
-      order: 8,
-      type: "string",
-      label: "Custom Item Class",
-      hidden: true,
-      display_size: "half",
-      placeholder: "optional"
-    }
-
+    section: "Main",
+    order: 8,
+    type: "string",
+    label: "Custom Item Class",
+    hidden: true,
+    display_size: "half",
+    placeholder: "optional"
+  }
+  options.showTools = { 
+    section: "Main",
+    order: 10,
+    type: "boolean",
+    label: "Show Advanced Tools",
+    value: false
+  }
 
   // Nav Links Sections
   // Dependent options are marked as hidden=false/true
@@ -523,6 +537,32 @@ function addNavActions () {
       return LookerCharts.Utils.openUrl(url)
     }
     return false
+  }
+
+  navjs.actions.exportConfig = function () {
+    navjs.$configInput.show()
+    navjs.$configInput.val(JSON.stringify(navjs.config))
+    navjs.$configInput.select(); 
+    navjs.$configInput.setSelectionRange(0, 99999); /*For mobile devices*/
+    document.execCommand("copy");
+    console.log("config copied to clipboard")
+  }
+
+  navjs.actions.applyJsonConfig = function () {
+    var inputVal = navjs.$configInput.val()
+    var config = JSON.parse(inputVal)
+    if (config) {
+      console.log("Applying Config JSON", config)
+      config.showTools = false
+      navjs.vis.trigger("updateConfig", [config])
+    }
+    else {
+      console.log("Invalid Config JSON", inputVal)
+    }
+  }
+
+  navjs.actions.closeTools = function () {
+    navjs.vis.trigger("updateConfig", [ {showTools: false} ])
   }
 
 }
