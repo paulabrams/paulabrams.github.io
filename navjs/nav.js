@@ -20,6 +20,7 @@ var navjs = {
          "https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto+Condensed|Roboto+Condensed:300|&display=swap",
          "https://paulabrams.github.io/navjs/nav.css" ],
   fields: {},
+  blankRendered: '-',
   init: 0
 }
 
@@ -98,19 +99,19 @@ looker.plugins.visualizations.add({
       if (nav.widget === "metric" || nav.widget === "metric_dash") {
         if (navjs.data && navjs.data[0]) {
           var metricData = navjs.data[0][nav.metric_dimension]
-          if (metricData !== undefined && metricData.rendered !== undefined) {
-            nav.metric_value = metricData.rendered
+          if (metricData !== undefined) {
+            nav.metric_value = metricData.rendered || navjs.blankRendered
             if (nav.metric_title) { nav.metric_html += `<div class="navjs-metric-title">${nav.metric_title}</div> ` }
             nav.metric_html += ` <div class="navjs-metric-value">${nav.metric_value}</div> `
           }
           var comparisonData = navjs.data[0][nav.comparison_dimension]
-          if (comparisonData !== undefined && comparisonData.rendered !== undefined) {
-            nav.comparison_value = comparisonData.rendered
+          if (comparisonData !== undefined) {
+            nav.comparison_value = comparisonData.rendered || navjs.blankRendered
             var comparison_class = `navjs-comparison-${nav.comparison_style}`
             if (nav.comparison_style === "show_as_value") {
               nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">${nav.comparison_value}${nav.comparison_label}</span></div> `
             }
-            else if (nav.comparison_style === "show_as_change" ||  nav.comparison_style === "show_as_change_reversed") {
+            else if (comparisonData.rendered !== undefined && nav.comparison_style === "show_as_change" ||  nav.comparison_style === "show_as_change_reversed") {
               comparison_class += comparisonData.value > 0 ? "-positive" : "-negative"
               nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">▲</span> ${nav.comparison_value} ${nav.comparison_label}</div> `
             }
