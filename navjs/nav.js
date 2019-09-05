@@ -20,7 +20,7 @@ var navjs = {
          "https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto+Condensed|Roboto+Condensed:300|&display=swap",
          "https://paulabrams.github.io/navjs/nav.css" ],
   fields: {},
-  blankRendered: '-',
+  blankRendered: '--',
   init: 0
 }
 
