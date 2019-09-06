@@ -100,18 +100,18 @@ looker.plugins.visualizations.add({
         if (navjs.data && navjs.data[0]) {
           var metricData = navjs.data[0][nav.metric_dimension]
           if (metricData !== undefined) {
-            nav.metric_value = metricData.rendered || navjs.blankRendered
+            nav.metric_value = metricData.rendered || metricData.value || navjs.blankRendered
             if (nav.metric_title) { nav.metric_html += `<div class="navjs-metric-title">${nav.metric_title}</div> ` }
             nav.metric_html += ` <div class="navjs-metric-value">${nav.metric_value}</div> `
           }
           var comparisonData = navjs.data[0][nav.comparison_dimension]
           if (comparisonData !== undefined) {
-            nav.comparison_value = comparisonData.rendered || navjs.blankRendered
+            nav.comparison_value = comparisonData.rendered || metricData.value || navjs.blankRendered
             var comparison_class = `navjs-comparison-${nav.comparison_style}`
             if (nav.comparison_style === "show_as_value") {
               nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">${nav.comparison_value}${nav.comparison_label}</span></div> `
             }
-            else if (comparisonData.rendered !== undefined && nav.comparison_style === "show_as_change" ||  nav.comparison_style === "show_as_change_reversed") {
+            else if (comparisonData.rendered !== undefined && comparisonData.value !== undefined && nav.comparison_style === "show_as_change" ||  nav.comparison_style === "show_as_change_reversed") {
               comparison_class += comparisonData.value > 0 ? "-positive" : "-negative"
               nav.metric_html += ` <div class="navjs-comparison"><span class="${comparison_class}">▲</span> ${nav.comparison_value} ${nav.comparison_label}</div> `
             }
