@@ -188,6 +188,14 @@ looker.plugins.visualizations.add({
     //var $container = $(`<div class="container-fluid"></div>`).appendTo($navbar)
 
     // header
+    if (config.header_dimension !== '') {
+      if (navjs.data && navjs.data[0]) {
+        var headerData = navjs.data[0][config.header_dimension]
+        if (headerData !== undefined) {
+          config.header = headerData.rendered || headerData.value || config.header
+        }
+      }
+    }
     if (config.header_style === "active_tab" && navjs.active_tab !== null) {
       config.header = navjs.active_tab.label || config.header
     }
@@ -276,9 +284,19 @@ function buildOptions (navCount, config) {
     label: "Header Text",
     placeholder: config.header_style === "active_tab" ? "displayed if no active tab" : ""
   }
-  options.widget = {
+  options.header_dimension = {
     section: "Main",
     order: 2,
+    hidden: config.header_style === "",
+    type: "string",
+    label: "Header Dimension",
+    values: navjs.fields.measures,
+    display: "select",
+    default: ""
+  }
+  options.widget = {
+    section: "Main",
+    order: 3,
     type: "string",
     label: "Navbar",
     values: [
@@ -299,7 +317,7 @@ function buildOptions (navCount, config) {
   }
   options.theme = {
     section: "Main",
-    order: 3,
+    order: 4,
     type: "string",
     label: "Theme",
     values: [
@@ -313,7 +331,7 @@ function buildOptions (navCount, config) {
   }
   options.size = {
     section: "Main",
-    order: 4,
+    order: 5,
     type: "string",
     label: "Size",
     values: [
@@ -327,7 +345,7 @@ function buildOptions (navCount, config) {
   }
   options.align = {
     section: "Main",
-    order: 5,
+    order: 6,
     type: "string",
     label: "Align",
     values: [
@@ -343,7 +361,7 @@ function buildOptions (navCount, config) {
   }
   /*options.form = {
     section: "Main",
-    order: 6,
+    order: 7,
     type: "string",
     label: "Form",
     values: [
@@ -355,7 +373,7 @@ function buildOptions (navCount, config) {
   }*/
   options.listClass = {
     section: "Main",
-    order: 7,
+    order: 8,
     type: "string",
     label: "Custom List Class",
     display_size: "half",
@@ -364,7 +382,7 @@ function buildOptions (navCount, config) {
   }
   options.listItemClass = { 
     section: "Main",
-    order: 8,
+    order: 9,
     type: "string",
     label: "Custom Item Class",
     hidden: true,
