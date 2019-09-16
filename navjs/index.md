@@ -1,7 +1,7 @@
 ## Nav.js
 ### Navigation Visualization for Looker
 
-Nav.js is a custom Looker Visualization containing a Bootstrap Navbar. Some of the key features are below.
+Nav.js is a custom Looker Visualization for adding navigation bars to your dashboards.
 
 ## Feature Overview
 **Usage** - Use Nav.js like other visualizations, simply add it to your dashboard and configure it via the settings panel. You will need to create dimensions and measures in order to get the most out of the features.
@@ -13,6 +13,8 @@ Nav.js is a custom Looker Visualization containing a Bootstrap Navbar. Some of t
 **Navbar Styles** - There are five custom navbar styles: Top Navbar, Metrics Bar, Side Navbar, Middle Navbar, and Bottom Navbar. Standard Bootstrap navbar styles are also supported, such as Nav Pills.
 
 **Metrics** - The “Metrics bar” navbar style allows the same options as a Looker “Single Value” visualization, which are a metric, comparison metric, and related settings.
+
+**Bootstrap Navbar** - Nav.js uses Jquery and Bootstrap Navbar.
 
 ## Setup
 1. Login to the Looker instance
