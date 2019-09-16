@@ -1,5 +1,5 @@
 ## Nav.js
-### Custom Navigation Visualization
+### Navigation Visualization for Looker
 
 Nav.js is a custom Looker Visualization containing a Bootstrap Navbar. Some of the key features are below.
 
