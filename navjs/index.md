@@ -1,11 +1,8 @@
-## Nav.js
+# Nav.js
 ### Navigation Visualization for Looker
-
 Nav.js is a custom Looker Visualization for adding navigation bars to your dashboards.
 
 ## Feature Overview
-**Usage** - Use Nav.js like other visualizations, simply add it to your dashboard and configure it via the settings panel. You will need to create dimensions and measures in order to get the most out of the features.
-
 **Nav Tabs (Links)** - The admin can configure navigation “tabs” to link to other Looker dashboards. 
 
 **Dynamic Filters** - Nav links can be given dynamic filter parameters using dimensions, so that the current dashboard filters such as timeframe or campaign id will carry forward.
@@ -15,6 +12,11 @@ Nav.js is a custom Looker Visualization for adding navigation bars to your dashb
 **Metrics** - The “Metrics bar” navbar style allows the same options as a Looker “Single Value” visualization, which are a metric, comparison metric, and related settings.
 
 **Bootstrap Navbar** - Nav.js uses Jquery and Bootstrap Navbar.
+
+
+##Usage
+Use Nav.js like other visualizations, simply add it to your dashboard and configure it via the settings panel. You will need to create dimensions and measures in order to get the most out of the features.
+
 
 ## Setup
 1. Login to the Looker instance
