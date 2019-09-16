@@ -14,7 +14,7 @@ Nav.js is a custom Looker Visualization for adding navigation bars to your dashb
 **Bootstrap Navbar** - Nav.js uses Jquery and Bootstrap Navbar.
 
 
-##Usage
+## Usage
 Use Nav.js like other visualizations, simply add it to your dashboard and configure it via the settings panel. You will need to create dimensions and measures in order to get the most out of the features.
 
 
