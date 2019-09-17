@@ -166,3 +166,10 @@ body.navjs {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent
 }
+
+
+@media print {
+  .navjs nav.navbar.d-print {
+    display: block
+  }
+}
