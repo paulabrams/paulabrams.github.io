@@ -172,10 +172,10 @@ body.navjs {
   .navjs nav.navbar.d-print {
     display: block;
   }
-  *,
-  *:before,
-  *:after {
-    color:inherit !important;
+  #vis .navjs *,
+  #vis .navjs *:before,
+  #vis .navjs *:after {
+    color: rgba(57, 66, 66, 0.8) !important;
     text-shadow: inherit !important;
     background: inherit !important;
     box-shadow: inherit !important;
