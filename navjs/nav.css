@@ -170,6 +170,14 @@ body.navjs {
 
 @media print {
   .navjs nav.navbar.d-print {
-    display: block
+    display: block;
+  }
+  *,
+  *:before,
+  *:after {
+    color:inherit !important;
+    text-shadow: inherit !important;
+    background: inherit !important;
+    box-shadow: inherit !important;
   }
 }
