@@ -49,7 +49,7 @@ looker.plugins.visualizations.add({
     var $el = $(element).addClass("navjs container").hide()
     if (!navjs.init) {
       navjs.css.forEach(function(css) {
-      $el.parent().after(`<link rel="stylesheet" href="${css}" crossorigin="anonymous">`)
+        $el.parent().after(`<link rel="stylesheet" href="${css}" crossorigin="anonymous">`)
       })
       navjs.init = 1
     }
@@ -236,6 +236,7 @@ looker.plugins.visualizations.add({
     }
 
     $el.html($navbar).fadeIn()
+    clearStyleSheetRules("@media print", navjs.css.length+1)
     doneRendering()
   }
 });
@@ -547,6 +548,29 @@ function buildOptions (navCount, config) {
   }
 
   return options
+}
+
+//
+// Clear any @media print rules
+//
+function clearStyleSheetRules (styleSheetRule, minSheets) {
+  var rule = styleSheetRule || "@media print"
+  console.log("clearStyleSheetRules()", rule, minSheets)
+  if (document.styleSheets.length >= minSheets) {
+    console.log("clearing rules matching:", rule)
+    for (var i=0; i<document.styleSheets.length; i++) {
+      for (var j=0; j<document.styleSheets[i].rules.length; j++) {
+        if (document.styleSheets[i].rules[j].cssText.indexOf(rule) !=-1) {
+          console.log("clearing rule", document.styleSheets[i].rules[j].cssText)
+          document.styleSheets[i].deleteRule(j)
+        }
+      }
+    }
+  }
+  else {
+    console.log("waiting for stylesheets to load", document.styleSheets.length)
+    window.setTimeout(function () { clearStyleSheetRules(rule, minSheets) }, 100)
+  }
 }
 
 //
