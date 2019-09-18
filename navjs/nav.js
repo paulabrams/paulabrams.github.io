@@ -16,9 +16,10 @@
  */
 var navjs = {
   navCount: 9,
-  css: [ "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
-         "https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto+Condensed|Roboto+Condensed:300|&display=swap",
-         "https://paulabrams.github.io/navjs/nav.css" ],
+  stylesheets: [
+    "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
+    "https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto+Condensed|Roboto+Condensed:300|&display=swap",
+    "https://paulabrams.github.io/navjs/nav.css" ],
   fields: {},
   blankRendered: '--',
   init: 0
@@ -27,7 +28,7 @@ var navjs = {
 looker.plugins.visualizations.add({
   options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log("navjs v0.4.0")
+    console.log("navjs v0.7")
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     navjs.vis = this
@@ -48,9 +49,11 @@ looker.plugins.visualizations.add({
 
     var $el = $(element).addClass("navjs container").hide()
     if (!navjs.init) {
-      navjs.css.forEach(function(css) {
-        $el.parent().after(`<link rel="stylesheet" href="${css}" crossorigin="anonymous">`)
+      navjs.stylesheets.forEach(function(href) {
+        $el.parent().after(`<link rel="stylesheet" href="${href}" crossorigin="anonymous">`)
+        clearStylesheetRules(href, "@media print")
       })
+
       navjs.init = 1
     }
 
@@ -236,7 +239,6 @@ looker.plugins.visualizations.add({
     }
 
     $el.html($navbar).fadeIn()
-    clearStyleSheetRules("@media print", navjs.css.length+1)
     doneRendering()
   }
 });
@@ -553,23 +555,27 @@ function buildOptions (navCount, config) {
 //
 // Clear any @media print rules
 //
-function clearStyleSheetRules (styleSheetRule, minSheets) {
-  var rule = styleSheetRule || "@media print"
-  console.log("clearStyleSheetRules()", rule, minSheets)
-  if (document.styleSheets.length >= minSheets) {
-    console.log("clearing rules matching:", rule)
-    for (var i=0; i<document.styleSheets.length; i++) {
-      for (var j=0; j<document.styleSheets[i].rules.length; j++) {
-        if (document.styleSheets[i].rules[j].cssText.indexOf(rule) !=-1) {
-          console.log("clearing rule", document.styleSheets[i].rules[j].cssText)
-          document.styleSheets[i].deleteRule(j)
+function clearStylesheetRules (href, rule) {
+  rule = rule || "@media print"
+  //console.log("clearStylesheetRules()", href, rule)
+  var stylesheets = document.styleSheets,
+      loaded = 0
+  for (var i=0; i<stylesheets.length; i++) {
+    if (stylesheets[i].href === href) {
+      loaded = 1
+      //console.log("loaded stylesheet rules", href, rule)
+      for (var j=0; j<stylesheets[i].rules.length; j++) {
+        if (stylesheets[i].rules[j].cssText.indexOf(rule) !=-1) {
+          //console.log("clearing rule", stylesheets[i].rules[j].cssText)
+          stylesheets[i].deleteRule(j)
         }
       }
     }
   }
-  else {
-    console.log("waiting for stylesheets to load", document.styleSheets.length)
-    window.setTimeout(function () { clearStyleSheetRules(rule, minSheets) }, 100)
+
+  if (!loaded) {
+    //console.log("waiting for stylesheet to load", href, rule)
+    window.setTimeout(function () { clearStylesheetRules(href, rule) }, 100)
   }
 }
 
