@@ -245,7 +245,7 @@ looker.plugins.visualizations.add({
       }
     }
 
-    $el.show(0)
+    $el.show(10)
     doneRendering()
     this.clearErrors()
   }
