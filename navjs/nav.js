@@ -41,15 +41,6 @@ looker.plugins.visualizations.add({
       }
     })
   },
-  updateAsync_debug: function(data, element, config, queryResponse, details, doneRendering){
-    var html = ""
-    for(var row of data) {
-      var cell = row[queryResponse.fields.dimensions[0].name]
-      html += LookerCharts.Utils.htmlForCell(cell)
-    }
-    element.innerHTML = html
-    doneRendering()
-  },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     navjs.metrics.updateAsync++
     //console.log(navjs.name, "updateAsync",navjs.metrics.updateAsync)
@@ -242,22 +233,18 @@ looker.plugins.visualizations.add({
       if (!$nav.length) {
         $nav = $('<ul>').appendTo($navbar)
       }
-      $nav.addClass(`nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}`).empty()
+      $nav.addClass(`nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}`).hide(10).empty()
 
       navjs.navs.forEach(function(nav) {
-        $navItem = $nav.find(`nav-item-${nav.id}`)
-        if (!$navItem.length) {
-          $navItem = $('<li>').appendTo($nav)
-        }
-        nav.$link = $(`<a class="nav-link" href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
-        $navItem.addClass(`nav-item-${nav.id} nav-item navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}`).empty().append(nav.$link)
+        var $link = $(`<a class="nav-link" href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
+        $navItem = $('<li>').addClass(`nav-item navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}`).append($link).appendTo($nav)
       })
 
       if (config.align === "navbar-right") {
         $('<li class="navjs-end-spacer">&nbsp;</li>').appendTo($nav)
       }
     }
-
+    $nav.show(10)
     doneRendering()
   }
 });
@@ -653,7 +640,7 @@ function addNavActions () {
   }
 
   navjs.actions.exportConfig = function () {
-    navjs.$configInput.show(1)
+    navjs.$configInput.show()
     navjs.$configInput.val(JSON.stringify(navjs.config))
     navjs.$configInput.select(); 
     navjs.$configInput.setSelectionRange(0, 99999); /*For mobile devices*/
