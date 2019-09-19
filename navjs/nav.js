@@ -15,7 +15,7 @@
  *  css: https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css
  */
 var navjs = {
-  version: "1.0",
+  version: "1.1",
   name: "navjs-"+Math.random().toString(36).substring(7),
   navCount: 9,
   stylesheets: [
@@ -25,7 +25,11 @@ var navjs = {
   fields: {},
   rendered: false,
   emptyValueDashes: '--',
-  metrics: { updateAsync: 0 }
+  updateCount: 0,
+  optimize: true,
+  fieldJson: '',
+  dataJson: '',
+  configJson: ''
 }
 
 looker.plugins.visualizations.add({
@@ -42,11 +46,37 @@ looker.plugins.visualizations.add({
     })
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-    navjs.metrics.updateAsync++
-    //console.log(navjs.name, "updateAsync",navjs.metrics.updateAsync)
+    var updateCount = ++navjs.updateCount
+    console.log(navjs.name, "updateAsync", updateCount)
+
+    // Looker seems to send a lot of spurious calls to render the visualization.
+    // In some cases up to four updateAsync calls were made with the same data during initial page rendering.
+    // So this code checks to see if we need to actually do anything.
+    if (updateCount > 1) {
+      var fieldJson = JSON.stringify(queryResponse.fields),
+          dataJson = JSON.stringify(data[0]),
+          configJson = JSON.stringify(config)
+      if (fieldJson !== navjs.fieldJson) {
+        console.log(navjs.name, "fields changed")
+      }
+      else if (dataJson === navjs.dataJson) {
+        console.log(navjs.name, "data changed")
+      }
+      else if (configJson === navjs.configJson) {
+        console.log(navjs.name, "config changed")
+      }
+      else { 
+        console.log(navjs.name, "nothing changed")
+        doneRendering()
+        return    
+      }
+    }
+    navjs.fieldJson = fieldJson
+    navjs.dataJson = dataJson
+    navjs.configJson = configJson
 
     navjs.vis = this
-    var $el = $(element)
+    var $el = $(element).hide()
     navjs.data = data
     navjs.config = config
     navjs.queryResponse = queryResponse
@@ -233,7 +263,7 @@ looker.plugins.visualizations.add({
       if (!$nav.length) {
         $nav = $('<ul>').appendTo($navbar)
       }
-      $nav.addClass(`nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}`).hide(10).empty()
+      $nav.addClass(`nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}`).empty()
 
       navjs.navs.forEach(function(nav) {
         var $link = $(`<a class="nav-link" href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
@@ -244,7 +274,7 @@ looker.plugins.visualizations.add({
         $('<li class="navjs-end-spacer">&nbsp;</li>').appendTo($nav)
       }
     }
-    $nav.show(10)
+    $el.show()
     doneRendering()
   }
 });
@@ -667,4 +697,6 @@ function addNavActions () {
 
 }
 addNavActions ()
+
+
 
