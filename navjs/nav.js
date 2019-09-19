@@ -15,8 +15,8 @@
  *  css: https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css
  */
 var navjs = {
-  version: "0.9.5",
-  name: "navjs frame:"+Math.random().toString(36).substring(7),
+  version: "0.9",
+  name: "navjs-"+Math.random().toString(36).substring(7),
   navCount: 9,
   stylesheets: [
     "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
@@ -25,13 +25,14 @@ var navjs = {
   fields: {},
   rendered: false,
   emptyValueDashes: '--',
-  metrics: { updateAsync: 0, updateOptions: 0 }
+  metrics: { updateAsync: 0 }
 }
 
 looker.plugins.visualizations.add({
   options: buildOptions(navjs.navCount, {}),
   create: function(element, config){
     console.log(navjs.name, navjs.version)
+    $("body").addClass('navjs')
     var $el = $(element)
     navjs.stylesheets.forEach(function(href) {
       $el.parent().after(`<link rel="stylesheet" href="${href}" crossorigin="anonymous">`)
@@ -51,7 +52,7 @@ looker.plugins.visualizations.add({
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     navjs.metrics.updateAsync++
-    console.log(navjs.name, "updateAsync",navjs.metrics.updateAsync, queryResponse)
+    //console.log(navjs.name, "updateAsync",navjs.metrics.updateAsync)
 
     navjs.vis = this
     var $el = $(element)
@@ -59,7 +60,7 @@ looker.plugins.visualizations.add({
     navjs.config = config
     navjs.queryResponse = queryResponse
     navjs.details = details
-
+    this.clearErrors()
     navjs.rendered = $el.hasClass("navjs")
     $el.addClass("navjs container")
 
@@ -176,9 +177,6 @@ looker.plugins.visualizations.add({
 
     config.align = config.align || ''
 
-    // apply theme to iframe
-    $("body").removeClass().addClass("navjs navjs-theme-"+config.theme)
-
     var themes = {
       normal: { navbar: "" },
       light: { navbar: "navbar-light bg-light" },
@@ -194,9 +192,11 @@ looker.plugins.visualizations.add({
     navjs.size = sizes[config.size] || sizes.normal
 
     // navbar
-    var $navbar = $(`<nav class="navbar navbar-expand d-print ${navjs.theme.navbar} navjs-size-${config.size}"
-                          style="margin-bottom: 0px"></nav>`)
-    $el.hide().empty().append($navbar)
+    var $navbar = $el.find(".navbar")
+    if (!$navbar.length) {
+      $navbar = $('<nav style="margin-bottom: 0px"></nav>').appendTo($el)
+    }
+    $navbar.removeClass().addClass(`navbar navbar-expand d-print ${navjs.theme.navbar} navjs-size-${config.size}`)
 
     // header
     if (config.header_dimension !== '') {
@@ -211,12 +211,17 @@ looker.plugins.visualizations.add({
       config.header = navjs.active_tab.label || config.header
     }
     if (config.header_style !== "hidden" && config.header && !config.showTools) {
-      $navbar.append(`<div class="navbar-header">
-                        <div class="navjs-header">${config.header}</div>
-                      </div>`)
+      var $header = $navbar.find(".navjs-header")
+      if (!$header.length) {
+        $navbar.empty()
+        $navbar.append('<div class="navbar-header"><div class="navjs-header"></div></div>')
+        $header = $navbar.find(".navjs-header")
+      }
+      $header.html(config.header)
     }
 
     if (config.showTools) {
+      $navbar.empty()
       var $form = $(`<form onsubmit="return false;">`).submit(function() { return false }).appendTo($navbar)
       $(`<h3 style="">Advanced Tools</h1>`).appendTo($form)
       var $formGroup = $(`<div class="form-group">`).appendTo($form)
@@ -233,21 +238,27 @@ looker.plugins.visualizations.add({
     }
 
     if (!config.showTools) {
-      var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`).appendTo($navbar)
+      var $nav = $navbar.find(".nav")
+      if (!$nav.length) {
+        $nav = $('<ul>').appendTo($navbar)
+      }
+      $nav.addClass(`nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}`).empty()
 
       navjs.navs.forEach(function(nav) {
-        nav.$link = $(`<a classs="nav-link" href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
-        $(`<li class="nav-item navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}"></li>`).append(nav.$link).appendTo($ul)
+        $navItem = $nav.find(`nav-item-${nav.id}`)
+        if (!$navItem.length) {
+          $navItem = $('<li>').appendTo($nav)
+        }
+        nav.$link = $(`<a class="nav-link" href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
+        $navItem.addClass(`nav-item-${nav.id} nav-item navjs-widget-${nav.widget} ${nav.style} ${navjs.size.item}`).empty().append(nav.$link)
       })
 
       if (config.align === "navbar-right") {
-        $(`<li class="navjs-end-spacer">&nbsp;</li>`).appendTo($ul)
+        $('<li class="navjs-end-spacer">&nbsp;</li>').appendTo($nav)
       }
     }
 
-    $el.show(10)
     doneRendering()
-    this.clearErrors()
   }
 });
 
@@ -555,9 +566,6 @@ function updateOptions (navCount, config) {
   options = navjs.options
   navCount = navCount || 0
   config = config || {}
-
-  navjs.metrics.updateOptions++
-  console.log(navjs.name,"updateOptions "+navjs.metrics.updateOptions, options)
 
   // Build the lists of measures and dimensions
   navjs.fields.measures = [ {"None": ""} ]
