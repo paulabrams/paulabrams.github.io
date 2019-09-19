@@ -15,7 +15,7 @@
  *  css: https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css
  */
 var navjs = {
-  version: "0.9",
+  version: "1.0",
   name: "navjs-"+Math.random().toString(36).substring(7),
   navCount: 9,
   stylesheets: [
