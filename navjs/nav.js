@@ -76,7 +76,7 @@ looker.plugins.visualizations.add({
     navjs.configJson = configJson
 
     navjs.vis = this
-    var $el = $(element).hide()
+    var $el = $(element)
     navjs.data = data
     navjs.config = config
     navjs.queryResponse = queryResponse
@@ -217,7 +217,7 @@ looker.plugins.visualizations.add({
     if (!$navbar.length) {
       $navbar = $('<nav style="margin-bottom: 0px"></nav>').appendTo($el)
     }
-    $navbar.removeClass().addClass(`navbar navbar-expand d-print ${navjs.theme.navbar} navjs-size-${config.size}`)
+    $navbar.removeClass().addClass(`navbar navbar-expand d-print ${navjs.theme.navbar} navjs-size-${config.size}`).hide()
 
     // header
     if (config.header_dimension !== '') {
@@ -274,7 +274,7 @@ looker.plugins.visualizations.add({
         $('<li class="navjs-end-spacer">&nbsp;</li>').appendTo($nav)
       }
     }
-    $el.show()
+    $navbar.show()
     doneRendering()
   }
 });
