@@ -76,7 +76,7 @@ looker.plugins.visualizations.add({
     navjs.configJson = configJson
 
     navjs.vis = this
-    var $el = $(element).hide()
+    var $el = $(element)
     navjs.data = data
     navjs.config = config
     navjs.queryResponse = queryResponse
@@ -274,7 +274,7 @@ looker.plugins.visualizations.add({
         $('<li class="navjs-end-spacer">&nbsp;</li>').appendTo($nav)
       }
     }
-    $el.fadeIn(350)
+    $el.fadeIn(300)
     doneRendering()
   }
 });
