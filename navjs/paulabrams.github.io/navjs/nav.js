@@ -1,3 +1,5 @@
+var version = "0.8"
+alert(version)
 /**
  *  nav.js
  *
@@ -15,8 +17,6 @@
  *  css: https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css
  */
 var navjs = {
-  version: "0.9",
-  name: "navjs-"+Math.random().toString(36).substring(7),
   navCount: 9,
   stylesheets: [
     "https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css",
@@ -25,45 +25,37 @@ var navjs = {
   fields: {},
   rendered: false,
   emptyValueDashes: '--',
-  metrics: { updateAsync: 0, updateOptions: 0 }
+  init: 0
 }
 
 looker.plugins.visualizations.add({
-  options: buildOptions(navjs.navCount, {}),
+  options: buildOptions (navjs.navCount, {}),
   create: function(element, config){
-    console.log(navjs.name, navjs.version)
-    var $el = $(element)
-    navjs.stylesheets.forEach(function(href) {
-      $el.parent().after(`<link rel="stylesheet" href="${href}" crossorigin="anonymous">`)
-      if (href.indexOf("bootstrap") !== -1) {
-        clearStylesheetRules(href, "@media print")
-      }
-    })
-  },
-  updateAsync_debug: function(data, element, config, queryResponse, details, doneRendering){
-    var html = ""
-    for(var row of data) {
-      var cell = row[queryResponse.fields.dimensions[0].name]
-      html += LookerCharts.Utils.htmlForCell(cell)
-    }
-    element.innerHTML = html
-    doneRendering()
+    console.log("navjs "+version)
   },
   updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-    navjs.metrics.updateAsync++
-    console.log(navjs.name, "updateAsync",navjs.metrics.updateAsync, queryResponse)
-
     navjs.vis = this
-    var $el = $(element)
+    this.clearErrors()
     navjs.data = data
+    navjs.element = element
     navjs.config = config
     navjs.queryResponse = queryResponse
     navjs.details = details
 
+    var $el = $(element)
     navjs.rendered = $el.hasClass("navjs")
-    $el.addClass("navjs container")
+    $el.addClass("navjs container").hide()
+    if (!navjs.init) {
+      navjs.stylesheets.forEach(function(href) {
+        $el.parent().after(`<link rel="stylesheet" href="${href}" crossorigin="anonymous">`)
+        clearStylesheetRules(href, "@media print")
+      })
+      navjs.init = 1
+    }
 
-    this.trigger('registerOptions', updateOptions(navjs.navCount, config))
+    if (navjs.rendered) {
+      this.trigger('registerOptions', buildOptions(navjs.navCount, config))
+    }
 
     // Build nav items from config
     navjs.active_tab = null
@@ -166,7 +158,7 @@ looker.plugins.visualizations.add({
         navjs.navs.push(nav)
       }
     }
-    //console.log(navjs.name,"navjs.navs=", navjs.navs)
+    //console.log("navjs.navs=", navjs.navs)
 
     // Navbar Widget and class
     navjs.navbarClass = config.widget || 'navjs-top'
@@ -193,10 +185,13 @@ looker.plugins.visualizations.add({
     }
     navjs.size = sizes[config.size] || sizes.normal
 
-    // navbar
-    var $navbar = $(`<nav class="navbar navbar-expand d-print ${navjs.theme.navbar} navjs-size-${config.size}"
-                          style="margin-bottom: 0px"></nav>`)
-    $el.hide().empty().append($navbar)
+    // build the navbar
+    //$el.empty()
+    var $navbar = $(`<nav class="navbar navbar-expand d-print ${navjs.theme.navbar} navjs-size-${config.size}" style="margin-bottom: 0px"></nav>`)
+    $el.empty().hide(0)
+    $el.append($navbar)
+    var $container = $navbar
+    //var $container = $(`<div class="container-fluid"></div>`).appendTo($navbar)
 
     // header
     if (config.header_dimension !== '') {
@@ -211,13 +206,14 @@ looker.plugins.visualizations.add({
       config.header = navjs.active_tab.label || config.header
     }
     if (config.header_style !== "hidden" && config.header && !config.showTools) {
-      $navbar.append(`<div class="navbar-header">
-                        <div class="navjs-header">${config.header}</div>
-                      </div>`)
+      $container.append(`
+        <div class="navbar-header">
+          <div class="navjs-header">${config.header}</div>
+        </div>`)
     }
 
     if (config.showTools) {
-      var $form = $(`<form onsubmit="return false;">`).submit(function() { return false }).appendTo($navbar)
+      var $form = $(`<form onsubmit="return false;">`).submit(function() { return false }).appendTo($container)
       $(`<h3 style="">Advanced Tools</h1>`).appendTo($form)
       var $formGroup = $(`<div class="form-group">`).appendTo($form)
       $(`<label for="inputConfigJson">Config JSON</label>`).appendTo($formGroup)
@@ -233,7 +229,7 @@ looker.plugins.visualizations.add({
     }
 
     if (!config.showTools) {
-      var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`).appendTo($navbar)
+      var $ul = $(`<ul class="nav navbar-nav ${navjs.navbarClass} ${navjs.size.list} ${config.align}">`).appendTo($container)
 
       navjs.navs.forEach(function(nav) {
         nav.$link = $(`<a classs="nav-link" href="${nav.href}">${nav.label_html} ${nav.metric_html}</a>`).click(navjs.actions.clickLink)
@@ -245,9 +241,8 @@ looker.plugins.visualizations.add({
       }
     }
 
-    $el.show(0)
+    $el.show(200)
     doneRendering()
-    this.clearErrors()
   }
 });
 
@@ -265,9 +260,22 @@ function buildFields (fieldGroup, fieldOptionArray) {
 
 // Build or rebuild the admin config options
 function buildOptions (navCount, config) {
-  var options = navjs.options = {}
-  navCount = navCount || 0
-  config = config || {}
+  console.log("navjs buildOptions")
+
+  // Build the lists of measures and dimensions
+  navjs.fields.measures = [ {"None": ""} ]
+  buildFields("measures", navjs.fields.measures)
+  navjs.fields.dimensions = [ {"None": ""} ]
+  buildFields("dimensions", navjs.fields.dimensions)
+  //buildFields("table_calculations", navjs.fields.measures)
+
+  var options = {}
+  var orderValues = [ { "Hidden": "hidden" } ]
+  for (var i=0; i<navjs.navCount; i++) {
+    var choice = {}
+    choice[`${i+1}`] = ''+(i+1)
+    orderValues.push(choice)
+  }
 
   // Style Section
   options.header_style = {
@@ -286,16 +294,19 @@ function buildOptions (navCount, config) {
   options.header = {
     section: "Main",
     order: 1,
+    hidden: config.header_style === "",
     type: "string",
-    label: "Header Text"
+    label: "Header Text",
+    placeholder: config.header_style === "active_tab" ? "displayed if no active tab" : ""
   }
   options.header_dimension = {
     section: "Main",
     order: 2,
+    hidden: config.header_style === "",
     type: "string",
     label: "Header Dimension",
+    values: navjs.fields.measures,
     display: "select",
-    values: [],
     default: ""
   }
   options.widget = {
@@ -430,7 +441,7 @@ function buildOptions (navCount, config) {
     } 
     options[`${navId}_label`] = {
       order: 2,
-      //hidden: navWidget === "spacer" || navWidget === "hidden",
+      hidden: navWidget === "spacer" || navWidget === "hidden",
       section: navSection,
       label: "Label",
       type: "string",
@@ -438,7 +449,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_dashboard_id`] = {
       order: 3,
-      //hidden: navWidget !== "dash" && navWidget !== "metric_dash",
+      hidden: navWidget !== "dash" && navWidget !== "metric_dash",
       section: navSection,
       label: "Dashboard ID",
       type: "string",
@@ -446,17 +457,17 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_filterset`] = {
       order: 4,
-      //hidden: navWidget !== "dash" && navWidget !== "metric_dash",
+      hidden: navWidget !== "dash" && navWidget !== "metric_dash",
       section: navSection,
       label: "Filter Dimension",
       type: "string",
-      //values: navjs.fields.dimensions,
+      values: navjs.fields.dimensions,
       display: "select",
       default: ""
     }
     options[`${navId}_style`] = {
       order: 5,
-      //hidden: navWidget === "hidden",
+      hidden: navWidget === "hidden",
       section: navSection,
       label: "Style",
       display: "select",
@@ -470,17 +481,17 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_active_param`] = {
       order: 6,
-      //hidden: (navWidget !== "dash" && navWidget !== "metric_dash") || navStyle !== "active_param",
+      hidden: (navWidget !== "dash" && navWidget !== "metric_dash") || navStyle !== "active_param",
       section: navSection,
       label: "Active Param",
       type: "string",
-      //values: navjs.fields.dimensions,
+      values: navjs.fields.dimensions,
       display: "select",
       default: ""
     }
     options[`${navId}_active_param_value`] = {
       order: 7,
-      //hidden: (navWidget !== "dash" && navWidget !== "metric_dash") || navStyle !== "active_param",
+      hidden: (navWidget !== "dash" && navWidget !== "metric_dash") || navStyle !== "active_param",
       section: navSection,
       label: "Active Param Value",
       type: "string",
@@ -490,7 +501,7 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_url`] = {
       order: 8,
-      //hidden: navWidget !== "link",
+      hidden: navWidget !== "link",
       section: navSection,
       label: "Link URL",
       type: "string",
@@ -499,16 +510,16 @@ function buildOptions (navCount, config) {
     // Metric w/ comparison
     options[`${navId}_metric_dimension`] = {
       order: 9,
-      //hidden: navWidget !== "metric" && navWidget !== "metric_dash",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Metric Dimension",
       type: "string",
-      //values: navjs.fields.measures,
+      values: navjs.fields.measures,
       display: "select"
     }
     options[`${navId}_metric_title`] = {
       order: 10,
-      //hidden: navWidget !== "metric" && navWidget !== "metric_dash",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Metric Title",
       type: "string",
@@ -517,16 +528,16 @@ function buildOptions (navCount, config) {
     // Comparison
     options[`${navId}_comparison_dimension`] = {
       order: 11,
-      //hidden: navWidget !== "metric" && navWidget !== "metric_dash",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Dimension",
       type: "string",
-      //values: navjs.fields.measures,
+      values: navjs.fields.measures,
       display: "select"
     }
     options[`${navId}_comparison_style`] = {
       order: 12,
-      //hidden: navWidget !== "metric" && navWidget !== "metric_dash",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Style",
       type: "string",
@@ -541,61 +552,12 @@ function buildOptions (navCount, config) {
     }
     options[`${navId}_comparison_label`] = {
       order: 13,
-      //hidden: navWidget !== "metric" && navWidget !== "metric_dash",
+      hidden: navWidget !== "metric" && navWidget !== "metric_dash",
       section: navSection,
       label: "Comparison Label",
       type: "string",
       placeholder: "optional"
     }
-
-  }
-  return options
-}
-function updateOptions (navCount, config) {
-  options = navjs.options
-  navCount = navCount || 0
-  config = config || {}
-
-  navjs.metrics.updateOptions++
-  console.log(navjs.name,"updateOptions "+navjs.metrics.updateOptions, options)
-
-  // Build the lists of measures and dimensions
-  navjs.fields.measures = [ {"None": ""} ]
-  buildFields("measures", navjs.fields.measures)
-  navjs.fields.dimensions = [ {"None": ""} ]
-  buildFields("dimensions", navjs.fields.dimensions)
-  //buildFields("table_calculations", navjs.fields.measures)
-
-  // Style Section
-  options.header.hidden = config.header_style === ""
-  options.header.placeholder = config.header_style === "active_tab" ? "displayed if no active tab" : ""
-  options.header_dimension.hidden = config.header_style === ""
-  options.header_dimension.values = navjs.fields.measures
-
-  // Nav Links Sections
-  // Dependent options are marked as hidden=false/true
-  for (var i=0; i<navCount; i++) {
-    var navSection = `n${i+1}`,
-        navId = `nav_${i+1}`,
-        navWidget = config[`${navId}_widget`] || 'hidden',
-        navStyle = config[`${navId}_style`] || ''
-
-    options[`${navId}_label`].hidden = navWidget === "spacer" || navWidget === "hidden"
-    options[`${navId}_dashboard_id`].hidden = navWidget !== "dash" && navWidget !== "metric_dash"
-    options[`${navId}_filterset`].hidden = navWidget !== "dash" && navWidget !== "metric_dash"
-    options[`${navId}_filterset`].values = navjs.fields.dimensions
-    options[`${navId}_style`].hidden = navWidget === "hidden"
-    options[`${navId}_active_param`].hidden = (navWidget !== "dash" && navWidget !== "metric_dash") || navStyle !== "active_param"
-    options[`${navId}_active_param`].values = navjs.fields.dimensions
-    options[`${navId}_active_param_value`].hidden = (navWidget !== "dash" && navWidget !== "metric_dash") || navStyle !== "active_param"
-    options[`${navId}_url`].hidden = navWidget !== "link"
-    options[`${navId}_metric_dimension`].hidden = navWidget !== "metric" && navWidget !== "metric_dash"
-    options[`${navId}_metric_dimension`].values = navjs.fields.measures
-    options[`${navId}_metric_title`].hidden = navWidget !== "metric" && navWidget !== "metric_dash"
-    options[`${navId}_comparison_dimension`].hidden = navWidget !== "metric" && navWidget !== "metric_dash"
-    options[`${navId}_comparison_dimension`].values = navjs.fields.measures
-    options[`${navId}_comparison_style`].hidden = navWidget !== "metric" && navWidget !== "metric_dash"
-    options[`${navId}_comparison_label`].hidden = navWidget !== "metric" && navWidget !== "metric_dash"
 
   }
 
