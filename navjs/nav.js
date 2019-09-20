@@ -15,7 +15,7 @@
  *  css: https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css
  */
 var navjs = {
-  version: "1.3",
+  version: "1.0.3",
   name: "navjs-"+Math.random().toString(36).substring(7),
   navCount: 9,
   stylesheets: [
@@ -272,7 +272,7 @@ looker.plugins.visualizations.add({
         $('<li class="navjs-end-spacer">&nbsp;</li>').appendTo($nav)
       }
     }
-    $el.fadeIn(300)
+    $el.fadeIn(350)
     doneRendering()
   }
 });
