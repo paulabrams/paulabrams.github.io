@@ -23,7 +23,6 @@ var navjs = {
     "https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto+Condensed|Roboto+Condensed:300|&display=swap",
     "https://paulabrams.github.io/navjs/nav.css" ],
   fields: {},
-  rendered: false,
   emptyValueDashes: '--',
   updateCount: 0,
   optimize: true,
@@ -38,6 +37,7 @@ looker.plugins.visualizations.add({
     console.log(navjs.name, navjs.version)
     $("body").addClass('navjs')
     var $el = $(element)
+    $el.addClass("navjs container").hide()
     navjs.stylesheets.forEach(function(href) {
       $el.parent().after(`<link rel="stylesheet" href="${href}" crossorigin="anonymous">`)
       if (href.indexOf("bootstrap") !== -1) {
@@ -81,10 +81,8 @@ looker.plugins.visualizations.add({
     navjs.config = config
     navjs.queryResponse = queryResponse
     navjs.details = details
-    this.clearErrors()
-    navjs.rendered = $el.hasClass("navjs")
-    $el.addClass("navjs container")
 
+    //this.clearErrors()
     this.trigger('registerOptions', updateOptions(navjs.navCount, config))
 
     // Build nav items from config
@@ -697,6 +695,8 @@ function addNavActions () {
 
 }
 addNavActions ()
+
+
 
 
 
