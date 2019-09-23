@@ -587,7 +587,7 @@ function updateOptions (navCount, config) {
   buildFields("measures", navjs.fields.measures)
   navjs.fields.dimensions = [ {"None": ""} ]
   buildFields("dimensions", navjs.fields.dimensions)
-  //buildFields("table_calculations", navjs.fields.measures)
+  buildFields("table_calculations", navjs.fields.measures)
 
   // Style Section
   options.header.hidden = config.header_style === ""
