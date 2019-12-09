@@ -7,5 +7,6 @@ Spot.js is a web tracker tag
 
 ## Usage
 Install Spot on your page manually or via your tag manager.
+<script src="https://paulabrams.github.io/spot/spot.js">
 
-## Setup
+
