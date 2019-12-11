@@ -14,4 +14,4 @@ var spotjs = {
 
 console.log (spotjs.name, "says hello")
 
-console.log(document.cookie)
+console.log("cookies =", document.cookie)
