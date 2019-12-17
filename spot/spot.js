@@ -12,6 +12,16 @@ var spotjs = {
   configJson: ''
 }
 
-console.log (spotjs.name, "says hello")
 
-console.log("spotData =", spotData)
+
+spotjs.main = function () {
+  // process data layer queue
+  console.log("spotjs.main spotData =", spotData)
+  while(spotData.length) {
+    var evt = spotData.pop();
+    console.log("evt =", evt)
+  }
+}
+
+console.log (spotjs.name, "loaded", spotjs)
+window.setInterval(spotjs.main, 1000)
