@@ -49,11 +49,11 @@ spotjs.processEvent = function (data) {
   data.meta = {};
   if (!data.client) { data.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
   if (!data.event) { data.event = "event": { "type": "bounce", "iso_time": "2019-12-05T00:00:00.000Z" } }
-  spotjs.submitEvent(data)
+  spotjs.sendBeacon(data)
 }
 
-spotjs.submitEvent (data) {
-  console.log("spotjs.submitEvent data =", data)
+spotjs.sendBeacon (data) {
+  console.log("spotjs.sendBeacon data =", data)
   if (navigator.sendBeacon) {
     navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, data);
   }
