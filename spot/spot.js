@@ -19,64 +19,70 @@ var spotConfig = {
 //
 // Implementation
 //
-var spotjs = {
-  name: "spot-0.0.3-"+Math.random().toString(36).substring(7),
-  config: spotConfig,
-  dataLayer: null
-}
-
-spotjs.onDataLayerPush = function (arr) {
-  console.log("spotjs.onDataLayerPush", arr);
-  spotjs.processDataLayer(arr);
-}
-
-spotjs.processDataLayer = function () {
-  if (spotjs.onDataLayerPush) {
-    do while (spotjs.dataLayer.length) {
-      let item = spotjs.dataLayer.pop();
-      spotjs.processEvent(item);
-    }
-  }
-}
-
-spotjs.processEvent = function (data) {
-  // process data layer queue
-  if (typeof data !== "object") {
-    console.log("spotjs.main spotData skipping non-object", data)
+function initSpotjs () {
+  if (window.spotjs) {
     return;
   }
-  console.log("spotjs.processEvent data =", data)
-  data.meta = {};
-  if (!data.client) { data.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
-  if (!data.event) { data.event = "event": { "type": "bounce", "iso_time": "2019-12-05T00:00:00.000Z" } }
-  spotjs.sendBeacon(data)
-}
 
-spotjs.sendBeacon (data) {
-  console.log("spotjs.sendBeacon data =", data)
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, data);
+  var spotjs = {
+    name: "spot-0.0.3-"+Math.random().toString(36).substring(7),
+    config: spotConfig,
+    dataLayer: null
   }
-  else {
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", spotConfig.apiHost+spotConfig.apiEndpoint, true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.setRequestHeader("Authorization", spotConfig.apiAuthorization);
-    xhr.send(data);
-  }
-}
 
-// Init Data Layer
-if (!spotjs.dataLayer) {
-  if (typeof window.spotDataLayer === 'undefined') {
-    window.spotDataLayer = [];
+  spotjs.onDataLayerPush = function (arr) {
+    console.log("spotjs.onDataLayerPush", arr);
+    spotjs.processDataLayer(arr);
   }
-  spotjs.dataLayer = window.spotDataLayer;
-  spotjs.dataLayer.push = function(e) {
-    Array.prototype.push.call(arr, e);
-    spotjs.onDataLayerPush(arr);
-  };
-  spotjs.processDataLayer(arr);
-}
 
-console.log (spotjs.name, "loaded")
+  spotjs.processDataLayer = function () {
+    if (spotjs.onDataLayerPush) {
+      do while (spotjs.dataLayer.length) {
+        let item = spotjs.dataLayer.pop();
+        spotjs.processEvent(item);
+      }
+    }
+  }
+
+  spotjs.processEvent = function (data) {
+    // process data layer queue
+    if (typeof data !== "object") {
+      console.log("spotjs.main spotData skipping non-object", data)
+      return;
+    }
+    console.log("spotjs.processEvent data =", data)
+    data.meta = {};
+    if (!data.client) { data.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
+    if (!data.event) { data.event = "event": { "type": "bounce", "iso_time": "2019-12-05T00:00:00.000Z" } }
+    spotjs.sendBeacon(data)
+  }
+
+  spotjs.sendBeacon (data) {
+    console.log("spotjs.sendBeacon data =", data)
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, data);
+    }
+    else {
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", spotConfig.apiHost+spotConfig.apiEndpoint, true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader("Authorization", spotConfig.apiAuthorization);
+      xhr.send(data);
+    }
+  }
+
+  // Init Data Layer
+  if (!spotjs.dataLayer) {
+    if (typeof window.spotDataLayer === 'undefined') {
+      window.spotDataLayer = [];
+    }
+    spotjs.dataLayer = window.spotDataLayer;
+    spotjs.dataLayer.push = function(e) {
+      Array.prototype.push.call(arr, e);
+      spotjs.onDataLayerPush(arr);
+    };
+    spotjs.processDataLayer(arr);
+  }
+
+  console.log (spotjs.name, "loaded")
+}();
