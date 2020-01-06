@@ -54,17 +54,16 @@ spotjs.processEvent = function (data) {
 
 spotjs.submitEvent (data) {
   console.log("spotjs.submitEvent data =", data)
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", spotConfig.apiHost+spotConfig.apiEndpoint, true);
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.setRequestHeader("Authorization", spotConfig.apiAuthorization);
-  xhr.onreadystatechange = function() {
-    console.log("spotjs.submitEvent XHR finished", this);
-    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-      console.log("spotjs.submitEvent XHR finished", this);
-    }
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, data);
   }
-  xhr.send(data);
+  else {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", spotConfig.apiHost+spotConfig.apiEndpoint, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Authorization", spotConfig.apiAuthorization);
+    xhr.send(data);
+  }
 }
 
 // Init Data Layer
