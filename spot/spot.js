@@ -66,7 +66,7 @@ var initSpotjs = function () {
 
   spotjs.sendBeacon = function (data) {
     console.log("spotjs.sendBeacon data =", data)
-    let dataPayload = '?data-raw='+JSON.stringify(data);
+    let dataPayload = JSON.stringify(data);
     if (navigator.sendBeacon) {
       navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, dataPayload);
     }
