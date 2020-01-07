@@ -39,31 +39,35 @@ var initSpotjs = function () {
     console.log("spotjs.processDataLayer dataLayer =", spotjs.dataLayer)
     if (spotjs.onDataLayerPush) {
       while (spotjs.dataLayer.length) {
-        let data = spotjs.dataLayer.pop();
-        spotjs.processEvent(data);
+        let evt = spotjs.dataLayer.pop();
+        spotjs.processEvent(evt);
       }
     }
   }
 
-  spotjs.processEvent = function (data) {
-    data = data || {}
+  spotjs.processEvent = function (evt) {
+    evt = evt || {}
     if (typeof data !== "object") {
-      console.log("spotjs.main spotData skipping non-object", data)
+      console.log("spotjs.main spotData skipping non-object", evt)
       return;
     }
-    console.log("spotjs.processEvent data =", data)
-    if (!data.event) {
-      data.event = {};
+    console.log("spotjs.processEvent evt =", evt)
+    let data = {};
+    data.event = evt.event || {};
+    if (!data.event.type) {
       data.event.type = "bounce";
     }
     if (!data.event.isodate) {
       let dateobj = new Date();
       data.event.iso_time = dateobj.toISOString();
     }
-    if (!data.event.client) { data.event.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
-    if (!data.event.campaign) { data.event.campaign = {  "ext_parent_id": "1", "camp_id": "1", "camp_version": "1"} }
-    if (!data.event.environment) { data.event.environment = { "environment_id": "1"} }
-    spotjs.sendBeacon(data.event)
+    data.client = evt.client;
+    data.campaign = evt.campaign;
+    data.environment = evt.environment;
+    if (!data.client) { data.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
+    if (!data.campaign) { data.campaign = {  "ext_parent_id": "1", "camp_id": "1", "camp_version": "1"} }
+    if (!data.environment) { data.environment = { "environment_id": "1"} }
+    spotjs.sendBeacon(data)
   }
 
   spotjs.sendBeacon = function (data) {
