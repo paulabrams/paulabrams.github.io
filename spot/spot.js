@@ -39,20 +39,19 @@ var initSpotjs = function () {
     console.log("spotjs.processDataLayer dataLayer =", spotjs.dataLayer)
     if (spotjs.onDataLayerPush) {
       while (spotjs.dataLayer.length) {
-        let item = spotjs.dataLayer.pop();
-        spotjs.processEvent(item);
+        let evt = spotjs.dataLayer.pop();
+        spotjs.processEvent(evt);
       }
     }
   }
 
   spotjs.processEvent = function (data) {
-    // process data layer queue
+    data = data || {}
     if (typeof data !== "object") {
       console.log("spotjs.main spotData skipping non-object", data)
       return;
     }
     console.log("spotjs.processEvent data =", data)
-    data.meta = {};
     if (!data.event) {
       data.event = {};
       data.event.type = "none";
@@ -61,8 +60,8 @@ var initSpotjs = function () {
       let dateobj = new Date();
       data.event.iso_time = dateobj.toISOString();
     }
-    if (!data.client) { data.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
-    spotjs.sendBeacon(data)
+    if (!data.event.client) { data.event.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
+    spotjs.sendBeacon(data.event)
   }
 
   spotjs.sendBeacon = function (data) {
