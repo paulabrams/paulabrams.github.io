@@ -47,7 +47,7 @@ var initSpotjs = function () {
 
   spotjs.processEvent = function (evt) {
     evt = evt || {}
-    if (typeof data !== "object") {
+    if (typeof evt !== "object") {
       console.log("spotjs.main spotData skipping non-object", evt)
       return;
     }
