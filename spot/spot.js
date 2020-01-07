@@ -19,7 +19,7 @@ var spotConfig = {
 //
 // Implementation
 //
-function initSpotjs () {
+var initSpotjs = function () {
   if (window.spotjs) {
     return;
   }
@@ -32,7 +32,7 @@ function initSpotjs () {
 
   spotjs.onDataLayerPush = function (arr) {
     console.log("spotjs.onDataLayerPush", arr);
-    spotjs.processDataLayer(arr);
+    spotjs.processDataLayer();
   }
 
   spotjs.processDataLayer = function () {
@@ -64,7 +64,7 @@ function initSpotjs () {
     spotjs.sendBeacon(data)
   }
 
-  spotjs.sendBeacon (data) {
+  spotjs.sendBeacon = function (data) {
     console.log("spotjs.sendBeacon data =", data)
     if (navigator.sendBeacon) {
       navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, data);
@@ -88,7 +88,7 @@ function initSpotjs () {
       Array.prototype.push.call(arr, e);
       spotjs.onDataLayerPush(arr);
     };
-    spotjs.processDataLayer(arr);
+    spotjs.processDataLayer();
   }
 
   console.log (spotjs.name, "loaded")
