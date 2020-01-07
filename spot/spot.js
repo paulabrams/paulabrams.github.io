@@ -53,7 +53,7 @@ function initSpotjs () {
     console.log("spotjs.processEvent data =", data)
     data.meta = {};
     if (!data.client) { data.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
-    if (!data.event) { data.event = "event": { "type": "bounce", "iso_time": "2019-12-05T00:00:00.000Z" } }
+    if (!data.event) { data.event = { "type": "bounce", "iso_time": "2019-12-05T00:00:00.000Z" } }
     spotjs.sendBeacon(data)
   }
 
