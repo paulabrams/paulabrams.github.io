@@ -66,15 +66,16 @@ var initSpotjs = function () {
 
   spotjs.sendBeacon = function (data) {
     console.log("spotjs.sendBeacon data =", data)
+    let dataPayload = '?data-raw='+JSON.stringify(data);
     if (navigator.sendBeacon) {
-      navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, data);
+      navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, dataPayload);
     }
     else {
       let xhr = new XMLHttpRequest();
       xhr.open("POST", spotConfig.apiHost+spotConfig.apiEndpoint, true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.setRequestHeader("Authorization", spotConfig.apiAuthorization);
-      xhr.send(data);
+      xhr.send(dataPayload);
     }
   }
 
