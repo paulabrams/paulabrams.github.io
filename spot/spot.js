@@ -74,7 +74,8 @@ var initSpotjs = function () {
     console.log("spotjs.sendBeacon data =", data);
     if (false && navigator.sendBeacon) {
       let headers = { "Content-Type": "application/x-www-form-urlencoded",
-                      "Authorization": spotConfig.apiAuthorization };
+                      "Authorization": spotConfig.apiAuthorization,
+                      "Access-Control-Allow-Origin": "*" };
       let blob = new Blob([JSON.stringify(data)], headers);
       navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, blob);
     }
