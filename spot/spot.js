@@ -82,7 +82,7 @@ var initSpotjs = function () {
     }
     else {
       let xhr = new XMLHttpRequest();
-      xhr.open("POST", spotConfig.apiHost+spotConfig.apiEndpoint, true);
+      xhr.open("POST", spotConfig.apiHost+spotConfig.apiEndpoint);
       xhr.setRequestHeader("Content-Type", spotConfig.contentType || "application/x-www-form-urlencoded");
       xhr.setRequestHeader("Authorization", spotConfig.apiAuthorization);
       xhr.setRequestHeader("Access-Control-Allow-Origin", spotConfig.apiOrigin || "*");
