@@ -62,6 +62,7 @@ var initSpotjs = function () {
     }
     if (!data.event.client) { data.event.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
     if (!data.event.campaign) { data.event.campaign = {  "ext_parent_id": "1", "camp_id": "1", "camp_version": "1"} }
+    if (!data.event.environment) { data.event.environment = { "environment_id": "1"} }
     spotjs.sendBeacon(data.event)
   }
 
