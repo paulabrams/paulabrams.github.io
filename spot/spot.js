@@ -36,6 +36,7 @@ var initSpotjs = function () {
   }
 
   spotjs.processDataLayer = function () {
+    console.log("spotjs.processDataLayer dataLayer =", spotjs.dataLayer)
     if (spotjs.onDataLayerPush) {
       while (spotjs.dataLayer.length) {
         let item = spotjs.dataLayer.pop();
