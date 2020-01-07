@@ -54,7 +54,7 @@ var initSpotjs = function () {
     console.log("spotjs.processEvent data =", data)
     if (!data.event) {
       data.event = {};
-      data.event.type = "none";
+      data.event.type = "bounce";
     }
     if (!data.event.isodate) {
       let dateobj = new Date();
