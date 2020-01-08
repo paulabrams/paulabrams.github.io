@@ -31,11 +31,7 @@ var spotConfig = spotConfigs.dev;
 // Implementation
 //
 function SpotJs () {
-  if (window.spotjs) {
-    return;
-  }
-
-  spotjs = {
+  let spotjs = {
     name: "spot-0.0.3-"+Math.random().toString(36).substring(7),
     config: spotConfig,
     dataLayer: null
@@ -88,7 +84,7 @@ function SpotJs () {
       client: {
         "identifier": {
           "id": data.dt, 
-          "id_field": spot.config.idField || "integration_id"
+          "id_field": spotjs.config.idField || "integration_id"
         }
       }
     };
@@ -129,4 +125,6 @@ function SpotJs () {
   return spotjs;
 }
 
-window.spotjs = SpotJs();
+if (!window.spotjs) {
+  window.spotjs = SpotJs();
+}
