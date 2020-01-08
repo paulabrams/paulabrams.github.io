@@ -81,7 +81,7 @@ var initSpotjs = function () {
   spotjs.sendBeacon = function (data) {
     console.log("spotjs.sendBeacon data =", data);
     if (false && navigator.sendBeacon) {
-      let headers = { "Content-Type": "application/x-www-form-urlencoded",
+      let headers = { "Content-Type": "application/json",
                       "Authorization": spotjs.config.apiAuthorization,
                       "Access-Control-Allow-Origin": spotjs.config.apiCrossOrigin || "*" };
       let blob = new Blob([JSON.stringify(data)], headers);
@@ -90,10 +90,11 @@ var initSpotjs = function () {
     else {
       let xhr = new XMLHttpRequest();
       xhr.open("POST", spotjs.config.apiHost+spotjs.config.apiEndpoint, true);
-      //xhr.setRequestHeader("Content-Type", spotjs.config.contentType || "application/x-www-form-urlencoded");
-      //xhr.setRequestHeader("Authorization", spotjs.config.apiAuthorization);
-      //xhr.setRequestHeader("Access-Control-Allow-Origin", spotjs.config.apiCrossOrigin || "*");
-      xhr.send(JSON.stringify({}));
+      xhr.setRequestHeader("Content-Type", spotjs.config.contentType || "application/json");
+      xhr.setRequestHeader("Authorization", spotjs.config.apiAuthorization);
+      xhr.setRequestHeader("Access-Control-Allow-Origin", spotjs.config.apiCrossOrigin || "*");
+      data = {}
+      xhr.send(JSON.stringify(data));
     }
   }
 
