@@ -22,8 +22,7 @@ var spotConfigs = {
     apiCrossOrigin: "https://paulabrams.github.io",
     apiAuthorization: "Bearer 7ed9828b0021035c22f1b142db14704bc4eb95b11f93d973bd9c9b698cf736e4:3e1824ff3ec2d7e2e20c13fa00d60d4dbc4a965d5fd48a1f4887338759c1d8e7" }
 };
-
-var spotConfig = spotConfig.dev;
+var spotConfig = spotConfigs.dev;
 
 //
 // Implementation
@@ -83,17 +82,17 @@ var initSpotjs = function () {
     console.log("spotjs.sendBeacon data =", data);
     if (false && navigator.sendBeacon) {
       let headers = { "Content-Type": "application/x-www-form-urlencoded",
-                      "Authorization": spotConfig.apiAuthorization,
-                      "Access-Control-Allow-Origin": spotConfig.apiCrossOrigin || "*" };
+                      "Authorization": spotjs.config.apiAuthorization,
+                      "Access-Control-Allow-Origin": spotjs.config.apiCrossOrigin || "*" };
       let blob = new Blob([JSON.stringify(data)], headers);
-      navigator.sendBeacon(spotConfig.apiHost+spotConfig.apiEndpoint, blob);
+      navigator.sendBeacon(spotjs.config.apiHost+spotjs.config.apiEndpoint, blob);
     }
     else {
       let xhr = new XMLHttpRequest();
-      xhr.open("POST", spotConfig.apiHost+spotConfig.apiEndpoint, true);
-      xhr.setRequestHeader("Content-Type", spotConfig.contentType || "application/x-www-form-urlencoded");
-      xhr.setRequestHeader("Authorization", spotConfig.apiAuthorization);
-      xhr.setRequestHeader("Access-Control-Allow-Origin", spotConfig.apiCrossOrigin || "*");
+      xhr.open("POST", spotjs.config.apiHost+spotjs.config.apiEndpoint, true);
+      xhr.setRequestHeader("Content-Type", spotjs.config.contentType || "application/x-www-form-urlencoded");
+      xhr.setRequestHeader("Authorization", spotjs.config.apiAuthorization);
+      xhr.setRequestHeader("Access-Control-Allow-Origin", spotjs.config.apiCrossOrigin || "*");
       xhr.send(JSON.stringify(data));
     }
   }
