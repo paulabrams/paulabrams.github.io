@@ -14,7 +14,7 @@ var spotConfigs = {
   "qa": {
     apiHost: "https://qa-master.demostellar.com",
     apiEndpoint: "/edp/api/event",
-    apiCrossOrigin: "https://paulabrams.github.io",
+    apiCrossOrigin: "paulabrams.github.io",
     apiAuthorization: "Bearer 51c22975c02f9aa17cc2a3afc9834c52ae5fb2b320c9815a72f2641763199f3e:0f9201e41766d68f55097ef365b444806396952355f6c35b19df1fe27470570e" },
   "dev": {
     apiHost: "https://growingtree.demostellar.com",
