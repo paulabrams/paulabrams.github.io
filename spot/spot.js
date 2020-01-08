@@ -56,7 +56,7 @@ function SpotJs () {
           return;
         }
         if (data && data.type) {
-          if data.type === "config") {
+          if (data.type === "config") {
             spotjs.processConfig(data);
           }
           else {
