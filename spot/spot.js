@@ -34,7 +34,7 @@ var initSpotjs = function () {
     return;
   }
 
-  var spotjs = {
+  spotjs = {
     name: "spot-0.0.3-"+Math.random().toString(36).substring(7),
     config: spotConfig,
     dataLayer: null
@@ -110,6 +110,7 @@ var initSpotjs = function () {
     spotjs.processDataLayer();
   }
 
-  window.spotLoaded = true;
-  console.log (spotjs.name, "loaded")
-}();
+  console.log (spotjs.name, "loaded");
+  return spotjs;
+}
+window.spotjs = initSpotJs();
