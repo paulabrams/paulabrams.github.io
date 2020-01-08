@@ -34,7 +34,8 @@ function SpotJs () {
   let spotjs = {
     name: "spotjs 0.0.3 "+Math.random().toString(36).substring(7),
     config: spotConfig,
-    dataLayer: null
+    dataLayer: null,
+    sent: []
   }
 
   spotjs.onDataLayerPush = function () {
@@ -93,10 +94,13 @@ function SpotJs () {
   }
 
   spotjs.sendEvent = function (evt) {
+    let evtId = spotjs.sent.length+1;
     console.log("spotjs.sendEvent evt =", evt);
+    sent[evtId] = { "status": "sent", "evt": evt };
     if (spotjs.config.useNavigatorBeacon && navigator.sendBeacon) {
       let blob = new Blob([JSON.stringify(evt)], { "type": "application/json" });
       navigator.sendBeacon(spotjs.config.apiHost+spotjs.config.apiEndpoint, blob);
+      sent[evtId].status = "done";
     }
     else {
       let xhr = new XMLHttpRequest();
@@ -104,6 +108,8 @@ function SpotJs () {
       xhr.setRequestHeader("Content-Type", spotjs.config.contentType || "application/json");
       xhr.setRequestHeader("Authorization", spotjs.config.apiAuthorization);
       xhr.setRequestHeader("Access-Control-Allow-Origin", spotjs.config.apiCrossOrigin || "*");
+      // TODO - update sent status in async callbacks
+      //sent[evtId].status = "done";
       xhr.send(JSON.stringify(evt));
     }
   }
