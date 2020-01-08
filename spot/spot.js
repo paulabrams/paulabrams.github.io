@@ -50,41 +50,56 @@ function SpotJs () {
     console.log("spotjs.processDataLayer dataLayer =", spotjs.dataLayer)
     if (spotjs.onDataLayerPush) {
       while (spotjs.dataLayer.length) {
-        let evt = spotjs.dataLayer.pop();
-        spotjs.processEvent(evt);
+        let data = spotjs.dataLayer.pop();
+        if (typeof data !== "object") {
+          console.log("spotjs.processDataLayer skipping non-object item", data)
+          return;
+        }
+        if (data && data.type) {
+          if data.type === "config") {
+            spotjs.processConfig(data);
+          }
+          else {
+            spotjs.processEvent(data);
+          }
+        }
       }
     }
   }
 
-  spotjs.processEvent = function (evt) {
-    evt = evt || {}
-    if (typeof evt !== "object") {
-      console.log("spotjs.main spotData skipping non-object", evt)
-      return;
-    }
-    console.log("spotjs.processEvent evt =", evt)
-    let data = {};
-    data.event = evt.event || {};
-    if (!data.event.type) {
-      data.event.type = "bounce";
-    }
-    if (!data.event.isodate) {
-      let dateobj = new Date();
-      data.event.iso_time = dateobj.toISOString();
-    }
-    data.client = evt.client;
-    data.campaign = evt.campaign;
-    data.environment = evt.environment;
-    if (!data.client) { data.client = { "identifier": { "id": "rasilang@gmail.com", "id_field": "email" } } }
-    if (!data.campaign) { data.campaign = {  "ext_parent_id": "1", "camp_id": "1", "camp_version": "1"} }
-    if (!data.environment) { data.environment = { "environment_id": "1"} }
-    spotjs.sendBeacon(data)
+  // Allow the tag to provide config, such as API details.
+  spotjs.processConfig = function (data) {
+    console.log("spotjs.processConfig data=", data);
+    console.log("spotjs.processConfig", "NOT YET IMPLEMENTED");
   }
 
-  spotjs.sendBeacon = function (data) {
-    console.log("spotjs.sendBeacon data =", data);
+  // Process a business event, such as a page visit, add to cart, etc.
+  spotjs.processEvent = function (data) {
+    console.log("spotjs.processEvent data =", data);
+    if (!data.iso_time) {
+      let dateobj = new Date();
+      data.iso_time = dateobj.toISOString();
+    }
+    var evt = {
+      event: {
+        "type": data.type || spotConfig.eventType || "web",
+        "iso_time": data.iso_time
+      },
+      client: {
+        "identifier": {
+          "id": data.dt, 
+          "id_field": spot.config.idField || "integration_id"
+        }
+      }
+    };
+    console.log("spotjs.processEvent evt =", evt);
+    spotjs.sendEvent(evt);
+  }
+
+  spotjs.sendEvent = function (evt) {
+    console.log("spotjs.sendEvent evt =", evt);
     if (spotjs.config.useNavigatorBeacon && navigator.sendBeacon) {
-      let blob = new Blob([JSON.stringify(data)], { "type": "application/json" });
+      let blob = new Blob([JSON.stringify(evt)], { "type": "application/json" });
       navigator.sendBeacon(spotjs.config.apiHost+spotjs.config.apiEndpoint, blob);
     }
     else {
@@ -93,8 +108,7 @@ function SpotJs () {
       xhr.setRequestHeader("Content-Type", spotjs.config.contentType || "application/json");
       xhr.setRequestHeader("Authorization", spotjs.config.apiAuthorization);
       xhr.setRequestHeader("Access-Control-Allow-Origin", spotjs.config.apiCrossOrigin || "*");
-      data = {}
-      xhr.send(JSON.stringify(data));
+      xhr.send(JSON.stringify(evt));
     }
   }
 
