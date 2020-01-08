@@ -11,7 +11,7 @@
 // Default Config
 //
 var spotConfig = {
-  apiHost: "https://growingtree.demostellar.com",
+  apiHost: "https://growingtree.github.io",
   apiEndpoint: "/edp/api/event",
   apiOrigin: "https://paulabrams.github.io",
   apiAuthorization: "Bearer 7ed9828b0021035c22f1b142db14704bc4eb95b11f93d973bd9c9b698cf736e4:3e1824ff3ec2d7e2e20c13fa00d60d4dbc4a965d5fd48a1f4887338759c1d8e7"
