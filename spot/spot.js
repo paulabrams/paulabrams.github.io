@@ -32,13 +32,13 @@ var spotConfig = spotConfigs.dev;
 //
 function SpotJs () {
   let spotjs = {
-    name: "spot-0.0.3-"+Math.random().toString(36).substring(7),
+    name: "spotjs 0.0.3 "+Math.random().toString(36).substring(7),
     config: spotConfig,
     dataLayer: null
   }
 
-  spotjs.onDataLayerPush = function (arr) {
-    console.log("spotjs.onDataLayerPush", arr);
+  spotjs.onDataLayerPush = function () {
+    console.log("spotjs.onDataLayerPush");
     spotjs.processDataLayer();
   }
 
@@ -115,8 +115,8 @@ function SpotJs () {
     }
     spotjs.dataLayer = window.spotDataLayer;
     spotjs.dataLayer.push = function(e) {
-      Array.prototype.push.call(arr, e);
-      spotjs.onDataLayerPush(arr);
+      Array.prototype.push.call(spotjs.dataLayer, e);
+      spotjs.onDataLayerPush();
     };
     spotjs.processDataLayer();
   }
