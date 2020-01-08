@@ -110,5 +110,6 @@ var initSpotjs = function () {
     spotjs.processDataLayer();
   }
 
+  window.spotLoaded = true;
   console.log (spotjs.name, "loaded")
 }();
