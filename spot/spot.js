@@ -26,10 +26,11 @@ var spotConfigs = {
 };
 var spotConfig = spotConfigs.dev;
 
+
 //
 // Implementation
 //
-var initSpotjs = function () {
+function SpotJs () {
   if (window.spotjs) {
     return;
   }
@@ -113,4 +114,5 @@ var initSpotjs = function () {
   console.log (spotjs.name, "loaded");
   return spotjs;
 }
-window.spotjs = initSpotJs();
+
+window.spotjs = SpotJs();
