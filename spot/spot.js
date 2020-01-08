@@ -11,11 +11,18 @@
 // Default Config
 //
 var spotConfig = {
-  apiHost: "https://growingtree.demostellar.com",
+  apiHost: "https://qa-master.demostellar.com",
   apiEndpoint: "/edp/api/event",
   apiCrossOrigin: "https://paulabrams.github.io",
-  apiAuthorization: "Bearer 7ed9828b0021035c22f1b142db14704bc4eb95b11f93d973bd9c9b698cf736e4:3e1824ff3ec2d7e2e20c13fa00d60d4dbc4a965d5fd48a1f4887338759c1d8e7"
+  apiAuthorization: "Bearer 51c22975c02f9aa17cc2a3afc9834c52ae5fb2b320c9815a72f2641763199f3e:0f9201e41766d68f55097ef365b444806396952355f6c35b19df1fe27470570e"
 };
+
+//var spotConfig = {
+  //apiHost: "https://growingtree.demostellar.com",
+  //apiEndpoint: "/edp/api/event",
+  //apiCrossOrigin: "https://paulabrams.github.io",
+  //apiAuthorization: "Bearer 7ed9828b0021035c22f1b142db14704bc4eb95b11f93d973bd9c9b698cf736e4:3e1824ff3ec2d7e2e20c13fa00d60d4dbc4a965d5fd48a1f4887338759c1d8e7"
+//};
 
 //
 // Implementation
