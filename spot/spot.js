@@ -15,12 +15,14 @@ var spotConfigs = {
     apiHost: "https://qa-master.demostellar.com",
     apiEndpoint: "/edp/api/event",
     apiCrossOrigin: "paulabrams.github.io",
-    apiAuthorization: "Bearer 51c22975c02f9aa17cc2a3afc9834c52ae5fb2b320c9815a72f2641763199f3e:0f9201e41766d68f55097ef365b444806396952355f6c35b19df1fe27470570e" },
+    apiAuthorization: "Bearer 51c22975c02f9aa17cc2a3afc9834c52ae5fb2b320c9815a72f2641763199f3e:0f9201e41766d68f55097ef365b444806396952355f6c35b19df1fe27470570e",
+    useNavigatorBeacon: false },
   "dev": {
     apiHost: "https://growingtree.demostellar.com",
     apiEndpoint: "/edp/api/event",
     apiCrossOrigin: "https://paulabrams.github.io",
-    apiAuthorization: "Bearer 7ed9828b0021035c22f1b142db14704bc4eb95b11f93d973bd9c9b698cf736e4:3e1824ff3ec2d7e2e20c13fa00d60d4dbc4a965d5fd48a1f4887338759c1d8e7" }
+    apiAuthorization: "Bearer 7ed9828b0021035c22f1b142db14704bc4eb95b11f93d973bd9c9b698cf736e4:3e1824ff3ec2d7e2e20c13fa00d60d4dbc4a965d5fd48a1f4887338759c1d8e7",
+    useNavigatorBeacon: false }
 };
 var spotConfig = spotConfigs.dev;
 
@@ -80,11 +82,8 @@ var initSpotjs = function () {
 
   spotjs.sendBeacon = function (data) {
     console.log("spotjs.sendBeacon data =", data);
-    if (false && navigator.sendBeacon) {
-      let headers = { "Content-Type": "application/json",
-                      "Authorization": spotjs.config.apiAuthorization,
-                      "Access-Control-Allow-Origin": spotjs.config.apiCrossOrigin || "*" };
-      let blob = new Blob([JSON.stringify(data)], headers);
+    if (spotjs.config.useNavigatorBeacon && navigator.sendBeacon) {
+      let blob = new Blob([JSON.stringify(data)], { "type": "application/json" });
       navigator.sendBeacon(spotjs.config.apiHost+spotjs.config.apiEndpoint, blob);
     }
     else {
