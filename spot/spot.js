@@ -111,7 +111,7 @@ function SpotJs () {
     }
     else {
       let xhr = new XMLHttpRequest();
-      // xhr.withCredentials = true;
+      xhr.withCredentials = true;
       xhr.addEventListener("readystatechange", function() {
         if(this.readyState === 4) {
           console.log(this.responseText, this);
@@ -121,7 +121,7 @@ function SpotJs () {
       xhr.open("POST", spotjs.config.apiHost+spotjs.config.apiEndpoint, true);
       xhr.setRequestHeader("Content-Type", spotjs.config.contentType || "application/json");
       xhr.setRequestHeader("Authorization", spotjs.config.apiAuthorization);
-      xhr.setRequestHeader("Access-Control-Allow-Origin", spotjs.config.apiCrossOrigin || "*");
+      //xhr.setRequestHeader("Access-Control-Allow-Origin", spotjs.config.apiCrossOrigin || "*");
       // TODO - update sent status in async callbacks
       //spotjs.sent[evtId].status = "done";
       xhr.send(data);
