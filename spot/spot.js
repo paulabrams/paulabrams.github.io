@@ -48,7 +48,7 @@ function SpotJs () {
     console.log("spotjs.processDataLayer dataLayer =", spotjs.dataLayer)
     if (spotjs.onDataLayerPush) {
       while (spotjs.dataLayer.length) {
-        let data = spotjs.dataLayer.pop();
+        let data = spotjs.dataLayer.shift();
         if (typeof data !== "object") {
           console.log("spotjs.processDataLayer skipping non-object item", data)
           return;
@@ -61,7 +61,12 @@ function SpotJs () {
             spotjs.processEventConfig(data);
           }
           else {
-            spotjs.processEvent(data);
+            if (!spotjs.apiConfig.apiHost) {
+              spotjs.dataLayer.unshift(data);
+            }
+            else {
+              spotjs.processEvent(data);
+            }
           }
         }
       }
@@ -71,7 +76,7 @@ function SpotJs () {
   // Allow the tag to provide API config, such as API details.
   spotjs.processApiConfig = function (data) {
     console.log("spotjs.processApiConfig data =", data);
-    if (data.apiHost && data.apiEndpoint && data.apiAuthorization) {
+    if (data.apiHost) {
       spotjs.apiConfig = data;
     }
   }
