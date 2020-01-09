@@ -54,7 +54,7 @@ function SpotJs () {
           return;
         }
         if (data && data.type) {
-          if (data.type === "apiConfig") {
+          if (data.type === "api") {
             spotjs.processApiConfig(data);
           }
           else {
@@ -67,6 +67,7 @@ function SpotJs () {
 
   // Allow the tag to provide API config, such as API details.
   spotjs.processApiConfig = function (data) {
+    console.log("spotjs.processApiConfig data =", data);
     if (data.apiHost && data.apiEndpoint && data.apiAuthorization) {
       spotjs.apiConfig.apiHost = data.apiHost;
       spotjs.apiConfig.apiEndpoint = data.apiEndpoint;
