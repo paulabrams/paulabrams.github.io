@@ -54,7 +54,7 @@ function SpotJs () {
           return;
         }
         if (data && data.type) {
-          if (data.type === "api") {
+          if (data.type === "apiconfig") {
             spotjs.processApiConfig(data);
           }
           else {
