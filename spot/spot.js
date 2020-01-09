@@ -57,6 +57,9 @@ function SpotJs () {
           if (data.type === "apiconfig") {
             spotjs.processApiConfig(data);
           }
+          else if (data.type === "eventconfig") {
+            spotjs.processEventConfig(data);
+          }
           else {
             spotjs.processEvent(data);
           }
@@ -69,10 +72,13 @@ function SpotJs () {
   spotjs.processApiConfig = function (data) {
     console.log("spotjs.processApiConfig data =", data);
     if (data.apiHost && data.apiEndpoint && data.apiAuthorization) {
-      spotjs.apiConfig.apiHost = data.apiHost;
-      spotjs.apiConfig.apiEndpoint = data.apiEndpoint;
-      spotjs.apiConfig.apiAuthorization = data.apiAuthorization;
+      spotjs.apiConfig = data;
     }
+  }
+
+  spotjs.processEventConfig = function (data) {
+    console.log("spotjs.processEventConfig data =", data);
+    spot.js.eventConfig = data;
   }
 
   // Process a business event, such as a page visit, add to cart, etc.
