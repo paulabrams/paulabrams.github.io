@@ -78,7 +78,7 @@ function SpotJs () {
 
   spotjs.processEventConfig = function (data) {
     console.log("spotjs.processEventConfig data =", data);
-    spot.js.eventConfig = data;
+    spotjs.eventConfig = data;
   }
 
   // Process a business event, such as a page visit, add to cart, etc.
