@@ -7,9 +7,7 @@
  *
  */
 
-//
-// Config
-//
+/*
 var spotConfigs = {
   "cust100": {
     apiHost: "https://api-cust100.demostellar.com",
@@ -27,8 +25,7 @@ var spotConfigs = {
     apiAuthorization: "Bearer 7ed9828b0021035c22f1b142db14704bc4eb95b11f93d973bd9c9b698cf736e4:3e1824ff3ec2d7e2e20c13fa00d60d4dbc4a965d5fd48a1f4887338759c1d8e7",
     useNavigatorBeacon: false }
 };
-var spotConfig = spotConfigs.cust100;
-
+*/
 
 //
 // Implementation
@@ -36,7 +33,8 @@ var spotConfig = spotConfigs.cust100;
 function SpotJs () {
   let spotjs = {
     name: "spotjs 0.0.3 "+Math.random().toString(36).substring(7),
-    config: spotConfig,
+    apiConfig: {},
+    eventConfig: {},
     dataLayer: null,
     sent: []
   }
@@ -56,8 +54,8 @@ function SpotJs () {
           return;
         }
         if (data && data.type) {
-          if (data.type === "config") {
-            spotjs.processConfig(data);
+          if (data.type === "apiConfig") {
+            spotjs.processApiConfig(data);
           }
           else {
             spotjs.processEvent(data);
@@ -67,10 +65,13 @@ function SpotJs () {
     }
   }
 
-  // Allow the tag to provide config, such as API details.
-  spotjs.processConfig = function (data) {
-    console.log("spotjs.processConfig data=", data);
-    console.log("spotjs.processConfig", "NOT YET IMPLEMENTED");
+  // Allow the tag to provide API config, such as API details.
+  spotjs.processApiConfig = function (data) {
+    if (data.apiHost && data.apiEndpoint && data.apiAuthorization) {
+      spotjs.apiConfig.apiHost = data.apiHost;
+      spotjs.apiConfig.apiEndpoint = data.apiEndpoint;
+      spotjs.apiConfig.apiAuthorization = data.apiAuthorization;
+    }
   }
 
   // Process a business event, such as a page visit, add to cart, etc.
@@ -81,15 +82,19 @@ function SpotJs () {
       data.iso_time = dateobj.toISOString();
     }
     var evt = {
-      event: {
-        "type": data.type || spotConfig.eventType || "web",
+      "event": {
+        "type": data.type || spotjs.eventConfig.eventType || "web",
         "iso_time": data.iso_time
       },
-      client: {
+      "client": {
         "identifier": {
           "id": data.dt, 
-          "id_field": spotjs.config.idField || "integration_id"
+          "id_field": spotjs.eventConfig.idField || "integration_id"
         }
+      },
+      "campaign": {
+        "ext_parent_id": "1",
+        "camp_id": "1"
       }
     };
     console.log("spotjs.processEvent evt =", evt);
@@ -101,9 +106,9 @@ function SpotJs () {
     let data = JSON.stringify(evt);
     console.log("spotjs.sendEvent evt =", evt);
     spotjs.sent[evtId] = { "status": "sent", "evt": evt };
-    if (spotjs.config.useNavigatorBeacon && navigator.sendBeacon) {
+    if (spotjs.apiConfig.useNavigatorBeacon && navigator.sendBeacon) {
       let blob = new Blob(data, { "type": "application/json" });
-      navigator.sendBeacon(spotjs.config.apiHost+spotjs.config.apiEndpoint, blob);
+      navigator.sendBeacon(spotjs.apiConfig.apiHost + spotjs.apiConfig.apiEndpoint, blob);
       spotjs.sent[evtId].status = "done";
     }
     else {
@@ -115,9 +120,9 @@ function SpotJs () {
           //this.status = 204;
         }
       });
-      xhr.open("POST", spotjs.config.apiHost+spotjs.config.apiEndpoint, true);
-      xhr.setRequestHeader("Content-Type", spotjs.config.contentType || "application/json");
-      xhr.setRequestHeader("Authorization", spotjs.config.apiAuthorization);
+      xhr.open("POST", spotjs.apiConfig.apiHost+spotjs.apiConfig.apiEndpoint, true);
+      xhr.setRequestHeader("Content-Type", spotjs.apiConfig.contentType || "application/json");
+      xhr.setRequestHeader("Authorization", spotjs.apiConfig.apiAuthorization);
       // TODO - update sent status in async callbacks
       //spotjs.sent[evtId].status = "done";
       xhr.send(data);
