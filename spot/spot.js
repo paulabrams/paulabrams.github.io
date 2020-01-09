@@ -11,20 +11,26 @@
 // Config
 //
 var spotConfigs = {
-  "qa": {
+  "cust100": {
+    apiHost: "https://api-cust100-master.demostellar.com",
+    apiEndpoint: "/edp/api/event",
+    apiCrossOrigin: "paulabrams.github.io",
+    apiAuthorization: "Bearer 9d93dd6d82531de07978181313a29978bab3c4c0a3112cbe527e10cd1c3add8d:27ceca09315271167c9c88859fe02965716d7f8d844055eb354dff659cc569d9",
+    useNavigatorBeacon: false },
+  "qa-master": {
     apiHost: "https://qa-master.demostellar.com",
     apiEndpoint: "/edp/api/event",
     apiCrossOrigin: "paulabrams.github.io",
     apiAuthorization: "Bearer 51c22975c02f9aa17cc2a3afc9834c52ae5fb2b320c9815a72f2641763199f3e:0f9201e41766d68f55097ef365b444806396952355f6c35b19df1fe27470570e",
     useNavigatorBeacon: false },
-  "dev": {
+  "growingtree": {
     apiHost: "https://growingtree.demostellar.com",
     apiEndpoint: "/edp/api/event",
     apiCrossOrigin: "https://paulabrams.github.io",
     apiAuthorization: "Bearer 7ed9828b0021035c22f1b142db14704bc4eb95b11f93d973bd9c9b698cf736e4:3e1824ff3ec2d7e2e20c13fa00d60d4dbc4a965d5fd48a1f4887338759c1d8e7",
     useNavigatorBeacon: false }
 };
-var spotConfig = spotConfigs.dev;
+var spotConfig = spotConfigs.cust100;
 
 
 //
