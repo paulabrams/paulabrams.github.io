@@ -115,7 +115,7 @@ function SpotJs () {
       xhr.addEventListener("readystatechange", function() {
         if(this.readyState === 4) {
           console.log(this.responseText, this);
-          this.status = 204;
+          //this.status = 204;
         }
       });
       xhr.open("POST", spotjs.config.apiHost+spotjs.config.apiEndpoint, true);
