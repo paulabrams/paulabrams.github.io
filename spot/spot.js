@@ -95,22 +95,30 @@ function SpotJs () {
 
   spotjs.sendEvent = function (evt) {
     let evtId = spotjs.sent.length+1;
+    let data = JSON.stringify(evt);
     console.log("spotjs.sendEvent evt =", evt);
-    sent[evtId] = { "status": "sent", "evt": evt };
+    spotjs.sent[evtId] = { "status": "sent", "evt": evt };
     if (spotjs.config.useNavigatorBeacon && navigator.sendBeacon) {
-      let blob = new Blob([JSON.stringify(evt)], { "type": "application/json" });
+      let blob = new Blob(data, { "type": "application/json" });
       navigator.sendBeacon(spotjs.config.apiHost+spotjs.config.apiEndpoint, blob);
-      sent[evtId].status = "done";
+      spotjs.sent[evtId].status = "done";
     }
     else {
       let xhr = new XMLHttpRequest();
+      // xhr.withCredentials = true;
+      xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+          console.log(this.responseText, this);
+          this.status = 204;
+        }
+      });
       xhr.open("POST", spotjs.config.apiHost+spotjs.config.apiEndpoint, true);
       xhr.setRequestHeader("Content-Type", spotjs.config.contentType || "application/json");
       xhr.setRequestHeader("Authorization", spotjs.config.apiAuthorization);
       xhr.setRequestHeader("Access-Control-Allow-Origin", spotjs.config.apiCrossOrigin || "*");
       // TODO - update sent status in async callbacks
-      //sent[evtId].status = "done";
-      xhr.send(JSON.stringify(evt));
+      //spotjs.sent[evtId].status = "done";
+      xhr.send(data);
     }
   }
 
